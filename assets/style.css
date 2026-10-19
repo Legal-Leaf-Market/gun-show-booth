@@ -52,8 +52,10 @@ p { margin: 0; }
 [hidden] { display: none !important; }
 
 /* ---------- Header / footer ---------- */
+/* Paint the status-bar band when the site runs full-screen from a home-screen icon. */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 600; background: var(--concrete); }
 .top {
-  position: sticky; top: 0; z-index: 500;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 500;
   background: var(--concrete);
   border-bottom: 2px solid var(--ink);
 }

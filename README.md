@@ -20,8 +20,8 @@ Admission is spelled out everywhere an event appears: **$6 at the door, paid to 
 
 The Netlify project is `booth-bandits` on the Legal-Leaf-Market team, at https://booth-bandits.netlify.app.
 
-1. Push this folder to the GitHub repo `Legal-Leaf-Market/booth-bandits`.
-2. In Netlify, open the `booth-bandits` project, go to **Project configuration → Build & deploy → Link repository**, and pick that repo. Leave the build command empty; `netlify.toml` already says to serve the repo root.
+1. Push this folder to the GitHub repo `Legal-Leaf-Market/gun-show-booth`.
+2. In Netlify, open the `booth-bandits` project, go to **Project configuration → Build & deploy → Link repository**, and pick `gun-show-booth`. Leave the build command empty; `netlify.toml` already says to serve the repo root.
 3. Every push to `main` (including saves from the phone admin) redeploys the site in about a minute.
 4. Optional: add a domain like `boothbandits.shop` under **Domain management**.
 

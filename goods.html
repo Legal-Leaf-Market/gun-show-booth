@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Goods</title>
+  <meta name="description" content="Everything we bring to the shows, with prices.">
+  <meta name="theme-color" content="#4B5235">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header id="top"></header>
+  <main>
+    <div class="wrap">
+      <div class="page-head">
+        <h1>Goods</h1>
+        <p>What we bring to the shows. Tap anything for photos and details. Stock moves fast at shows, so text us if you want something held.</p>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+      <div class="goods" id="goods"></div>
+    </div>
+  </main>
+  <footer id="foot"></footer>
+
+  <script src="assets/booth.js"></script>
+  <script src="assets/goods.js"></script>
+  <script>
+  (async () => {
+    const B = Booth;
+    const { site, items } = await B.load();
+    document.title = `Goods: ${site.name}`;
+    B.chrome(site, "goods");
+    const vis = B.visibleGoods(items);
+    const cats = [...new Set([...(site.categories || []), ...vis.map((i) => i.category)].filter((c) => c && vis.some((i) => i.category === c)))];
+    const params = new URLSearchParams(location.search);
+    let current = cats.includes(params.get("c")) ? params.get("c") : "";
+
+    const filters = document.getElementById("filters");
+    const grid = document.getElementById("goods");
+    function render() {
+      filters.innerHTML = ["", ...cats].map((c) => `<button type="button" data-c="${B.esc(c)}" aria-pressed="${c === current}">${c ? B.esc(c) : "Everything"}</button>`).join("");
+      const list = current ? vis.filter((i) => i.category === current) : vis;
+      grid.innerHTML = list.length ? list.map(B.goodCard).join("") : `<p class="empty" style="grid-column:1/-1">Nothing listed here yet. Check back after the next show.</p>`;
+    }
+    filters.hidden = cats.length < 2;
+    filters.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      current = b.dataset.c;
+      history.replaceState(null, "", current ? `?c=${encodeURIComponent(current)}` : location.pathname);
+      render();
+    });
+    render();
+    B.bindGoods(grid, items, site);
+  })().catch((e) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<p class="wrap empty">The page didn't load: ${Booth.esc(e.message)}. Refresh to try again.</p>`); });
+  </script>
+</body>
+</html>

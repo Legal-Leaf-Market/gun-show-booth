@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gun show and market vendor</title>
+  <meta name="description" content="Where we'll be next, what it costs to get in, and what's on our table.">
+  <meta name="theme-color" content="#4B5235">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header id="top"></header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <h1 id="name"></h1>
+        <p id="tagline"></p>
+      </div>
+    </section>
+
+    <section class="next" aria-labelledby="next-h">
+      <div class="wrap">
+        <h2 id="next-h" class="sr-only">Where we'll be next</h2>
+        <div id="next"></div>
+        <div class="row" id="next-actions" style="margin-top:14px"></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="goods-h">
+      <div class="wrap">
+        <h2 id="goods-h">On the table</h2>
+        <p class="lede">A few things we're bringing. Prices are what you pay at the table.</p>
+        <div class="goods" id="goods"></div>
+        <a class="more" href="goods.html">See everything we sell</a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="soon-h" id="soon-section">
+      <div class="wrap">
+        <h2 id="soon-h">Coming up</h2>
+        <div class="ticket-list" id="soon"></div>
+        <a class="more" href="events.html">Full calendar and map</a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="know-h">
+      <div class="wrap">
+        <h2 id="know-h">Good to know</h2>
+        <div id="door"></div>
+        <div class="know">
+          <div class="note" id="dealer" hidden><h3>Goods, not guns</h3><p></p></div>
+          <div class="note" id="pay" hidden><h3>How you can pay</h3><ul class="chips"></ul></div>
+          <div class="note" id="about" hidden><h3>Who we are</h3><p></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="contact-h" id="contact">
+      <div class="wrap">
+        <h2 id="contact-h">Get in touch</h2>
+        <p class="lede">Want something set aside, or a custom order picked up at the next show? Reach out.</p>
+        <div class="contact" id="contact-btns"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="foot"></footer>
+
+  <script src="assets/booth.js"></script>
+  <script src="assets/goods.js"></script>
+  <script>
+  (async () => {
+    const B = Booth;
+    const { site, items, events } = await B.load();
+    document.title = `${site.name}: where we'll be next`;
+    B.chrome(site, "home");
+    document.getElementById("name").textContent = site.name;
+    document.getElementById("tagline").textContent = site.tagline || "";
+
+    const up = B.upcoming(events);
+    const next = document.getElementById("next");
+    if (up.length) {
+      next.innerHTML = B.ticket(up[0], site, { big: true });
+      const dir = B.directions(up[0].ev);
+      document.getElementById("next-actions").innerHTML =
+        `<a class="btn btn--dark" href="${B.esc(dir.google)}" rel="noopener">Get directions</a>` +
+        `<a class="btn" href="${B.esc(B.eventURL(up[0].ev))}">Show details</a>`;
+    } else {
+      next.innerHTML = `<div class="empty" style="background:var(--paper)">Nothing on the calendar right now. Check back soon, or text us to ask where we'll be.</div>`;
+    }
+
+    const soon = up.slice(1, 5);
+    if (soon.length) document.getElementById("soon").innerHTML = soon.map((o) => B.ticket(o, site)).join("");
+    else document.getElementById("soon-section").hidden = true;
+
+    const goodsEl = document.getElementById("goods");
+    const vis = B.visibleGoods(items);
+    const picks = [...vis.filter((i) => i.featured), ...vis.filter((i) => !i.featured)].slice(0, 6);
+    goodsEl.innerHTML = picks.length ? picks.map(B.goodCard).join("") : `<p class="empty" style="grid-column:1/-1">New stuff coming soon.</p>`;
+    B.bindGoods(goodsEl, items, site);
+
+    document.getElementById("door").innerHTML = B.doorBox(site);
+    if (site.dealerNote) { const d = document.getElementById("dealer"); d.hidden = false; d.querySelector("p").textContent = site.dealerNote; }
+    if ((site.payments || []).length) { const p = document.getElementById("pay"); p.hidden = false; p.querySelector("ul").innerHTML = site.payments.map((x) => `<li>${B.esc(x)}</li>`).join(""); }
+    if (site.about) { const a = document.getElementById("about"); a.hidden = false; a.querySelector("p").textContent = site.about; }
+    document.getElementById("contact-btns").innerHTML = B.contactButtons(site);
+  })().catch((e) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<p class="wrap empty">The page didn't load: ${Booth.esc(e.message)}. Refresh to try again.</p>`); });
+  </script>
+</body>
+</html>

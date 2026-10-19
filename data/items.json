@@ -1,0 +1,74 @@
+[
+  {
+    "id": "walnut-coasters-set-of-4",
+    "title": "Walnut coasters, set of 4",
+    "price": 20,
+    "category": "Coasters",
+    "description": "Sealed hardwood with cork backs. Wipe clean.",
+    "photos": ["images/items/sample-walnut-coasters.svg"],
+    "status": "available",
+    "featured": true,
+    "added": "2026-10-18",
+    "sample": true
+  },
+  {
+    "id": "slate-coasters-set-of-4",
+    "title": "Slate coasters, set of 4",
+    "price": 25,
+    "category": "Coasters",
+    "description": "Natural slate with felt feet. Heavy enough to stay put.",
+    "photos": ["images/items/sample-slate-coasters.svg"],
+    "status": "available",
+    "featured": true,
+    "added": "2026-10-18",
+    "sample": true
+  },
+  {
+    "id": "chocolate-chip-cookies",
+    "title": "Chocolate chip cookies, half dozen",
+    "price": 8,
+    "category": "Baked goods",
+    "description": "Baked the night before the show. Bagged and labeled.",
+    "photos": ["images/items/sample-cookies.svg"],
+    "status": "available",
+    "featured": true,
+    "added": "2026-10-18",
+    "sample": true
+  },
+  {
+    "id": "banana-bread-loaf",
+    "title": "Banana bread loaf",
+    "price": 10,
+    "category": "Baked goods",
+    "description": "Full loaf, wrapped. Goes fast on Saturday mornings.",
+    "photos": ["images/items/sample-banana-bread.svg"],
+    "status": "available",
+    "featured": false,
+    "added": "2026-10-18",
+    "sample": true
+  },
+  {
+    "id": "embroidered-patch",
+    "title": "Embroidered patch",
+    "price": 6,
+    "category": "Merch",
+    "description": "3 inch, iron-on or sew-on.",
+    "photos": ["images/items/sample-patch.svg"],
+    "status": "available",
+    "featured": true,
+    "added": "2026-10-18",
+    "sample": true
+  },
+  {
+    "id": "trucker-hat",
+    "title": "Trucker hat",
+    "price": 25,
+    "category": "Merch",
+    "description": "Snapback, one size.",
+    "photos": ["images/items/sample-hat.svg"],
+    "status": "sold",
+    "featured": true,
+    "added": "2026-10-18",
+    "sample": true
+  }
+]

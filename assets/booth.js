@@ -1,0 +1,313 @@
+/* Shared helpers for every page. No build step, no framework. */
+(function () {
+  const B = {};
+  window.Booth = B;
+
+  // Pages one folder down (admin/) set data-base="../" on <html>.
+  B.base = document.documentElement.dataset.base || "";
+
+  B.esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  /* ---------------- Data ---------------- */
+  B.load = async function () {
+    const get = (f) =>
+      fetch(B.base + "data/" + f + "?v=" + Date.now(), { cache: "no-store" }).then((r) => {
+        if (!r.ok) throw new Error("Couldn't load " + f);
+        return r.json();
+      });
+    const [site, items, events] = await Promise.all([get("site.json"), get("items.json"), get("events.json")]);
+    return { site, items, events };
+  };
+
+  /* ---------------- Dates ---------------- */
+  const pad = (n) => String(n).padStart(2, "0");
+  const DAY = 864e5;
+  B.DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  B.DOW_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  B.MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  B.MON_LONG = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  B.iso = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  B.parse = (s) => {
+    if (!s || typeof s !== "string") return null;
+    const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+  };
+  B.addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  B.today = () => {
+    const t = new Date();
+    return new Date(t.getFullYear(), t.getMonth(), t.getDate());
+  };
+  const daysBetween = (a, b) => Math.round((b - a) / DAY);
+
+  function nthWeekday(y, m, wd, nth) {
+    if (nth > 0) {
+      const first = new Date(y, m, 1);
+      const day = 1 + ((wd - first.getDay() + 7) % 7) + (nth - 1) * 7;
+      const d = new Date(y, m, day);
+      return d.getMonth() === m ? d : null;
+    }
+    const last = new Date(y, m + 1, 0);
+    return new Date(y, m, last.getDate() - ((last.getDay() - wd + 7) % 7));
+  }
+
+  // Every showing of an event that overlaps [from, to]. Each is { ev, start, end }.
+  B.occurrences = function (ev, from, to) {
+    const out = [];
+    const skip = new Set(ev.skip || []);
+    const push = (s, e) => {
+      if (!s) return;
+      if (!e || e < s) e = s;
+      if (e >= from && s <= to) out.push({ ev, start: s, end: e, cancelled: skip.has(B.iso(s)) });
+    };
+    (ev.dates || []).forEach((d) => push(B.parse(d.start || d), B.parse(d.end)));
+
+    const r = ev.repeat;
+    if (r && r.every) {
+      const len = Math.max(1, +r.days || 1);
+      const anchor = B.parse(r.start) || new Date(2000, 0, 1);
+      const until = B.parse(r.until);
+      const last = until && until < to ? until : to;
+      const wd = +r.weekday || 0;
+      if (r.every === "week") {
+        const step = 7 * Math.max(1, +r.interval || 1);
+        let d = B.addDays(anchor, (wd - anchor.getDay() + 7) % 7);
+        const target = B.addDays(from, -(len - 1));
+        if (d < target) d = B.addDays(d, Math.floor(daysBetween(d, target) / step) * step);
+        for (let guard = 0; d <= last && guard < 600; d = B.addDays(d, step), guard++) push(d, B.addDays(d, len - 1));
+      } else if (r.every === "month") {
+        const nth = +r.nth || 1;
+        const startAt = new Date(Math.max(anchor, B.addDays(from, -40)));
+        let cur = new Date(startAt.getFullYear(), startAt.getMonth(), 1);
+        for (let guard = 0; cur <= last && guard < 240; cur = new Date(cur.getFullYear(), cur.getMonth() + 1, 1), guard++) {
+          const d = nthWeekday(cur.getFullYear(), cur.getMonth(), wd, nth);
+          if (d && d >= anchor && d <= last) push(d, B.addDays(d, len - 1));
+        }
+      }
+    }
+    return out.sort((a, b) => a.start - b.start);
+  };
+
+  // All upcoming showings across events (includes one happening today).
+  B.upcoming = function (events, { from = B.today(), days = 400, includeCancelled = false } = {}) {
+    const to = B.addDays(from, days);
+    return events
+      .flatMap((ev) => B.occurrences(ev, from, to))
+      .filter((o) => includeCancelled || !o.cancelled)
+      .sort((a, b) => a.start - b.start || a.ev.title.localeCompare(b.ev.title));
+  };
+
+  B.range = function (s, e, long) {
+    const D = long ? B.DOW_LONG : B.DOW;
+    if (!e || +e === +s) return `${D[s.getDay()]}, ${B.MON[s.getMonth()]} ${s.getDate()}`;
+    if (s.getMonth() === e.getMonth()) return `${D[s.getDay()]} to ${D[e.getDay()]}, ${B.MON[s.getMonth()]} ${s.getDate()} to ${e.getDate()}`;
+    return `${D[s.getDay()]}, ${B.MON[s.getMonth()]} ${s.getDate()} to ${D[e.getDay()]}, ${B.MON[e.getMonth()]} ${e.getDate()}`;
+  };
+
+  const ORD = { 1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th", "-1": "last" };
+  B.repeatText = function (ev) {
+    const r = ev.repeat;
+    if (!r || !r.every) return ev.kind === "popup" ? "Pop-up" : "";
+    const len = Math.max(1, +r.days || 1);
+    const wd = +r.weekday || 0;
+    const days = len === 1 ? B.DOW_LONG[wd] : `${B.DOW[wd]} to ${B.DOW[(wd + len - 1) % 7]}`;
+    if (r.every === "week") return (+r.interval === 2 ? "Every other " : "Every ") + days;
+    if (+r.nth === -1) return `Last ${days} of every month`;
+    return `Every ${ORD[r.nth] || "1st"} ${days} of the month`;
+  };
+
+  /* ---------------- Admission ---------------- */
+  B.money = (v) => {
+    if (v === "" || v === null || v === undefined) return "";
+    const n = Number(v);
+    if (Number.isNaN(n)) return String(v);
+    return "$" + (n % 1 ? n.toFixed(2) : n);
+  };
+  B.admission = function (ev, site) {
+    const def = site.admission || {};
+    const a = ev.admission || { mode: "standard" };
+    if (a.mode === "free") return { free: true, headline: "Free entry", who: "", note: a.note || "", where: "" };
+    const custom = a.mode === "custom";
+    const price = custom && a.price !== "" && a.price != null ? a.price : def.price;
+    return {
+      free: false,
+      price,
+      headline: price ? `${B.money(price)} at the door` : "Admission at the door",
+      who: custom && a.freeFor ? a.freeFor : def.freeFor || "",
+      note: (custom && a.note) || def.note || "",
+      where: def.where || "",
+    };
+  };
+
+  const sentence = (t) => { t = String(t || "").trim(); return t && !/[.!?]$/.test(t) ? t + "." : t; };
+
+  // The "what does it cost to get in" box. Pass an event for its own price, or nothing for the usual.
+  B.doorBox = function (site, ev) {
+    const adm = B.admission(ev || { admission: { mode: "standard" } }, site);
+    if (adm.free) {
+      return `<div class="door"><p class="price">Free entry</p><p>No admission charge for this one. Just walk up.</p>${adm.note ? `<p>${B.esc(adm.note)}</p>` : ""}</div>`;
+    }
+    const lines = [adm.where, adm.who, adm.note].map(sentence).filter(Boolean);
+    return `<div class="door">
+      <p class="price">${adm.price ? B.esc(B.money(adm.price)) : "Paid"}<small>${adm.price ? "per person at the door" : "at the door"}</small></p>
+      ${lines.length ? `<ul>${lines.map((l) => `<li>${B.esc(l)}</li>`).join("")}</ul>` : ""}
+    </div>`;
+  };
+
+  B.city = (address) => {
+    const parts = String(address || "").split(",").map((s) => s.trim()).filter(Boolean);
+    if (parts.length >= 3) return parts[parts.length - 2];
+    if (parts.length === 2) return parts[0];
+    return "";
+  };
+
+  B.eventURL = (ev) => B.base + "event.html?e=" + encodeURIComponent(ev.id);
+
+  /* ---------------- Ticket ---------------- */
+  B.ticket = function (occ, site, { big = false, link = true, heading = "h3" } = {}) {
+    const ev = occ.ev, s = occ.start, e = occ.end;
+    const multi = +e !== +s;
+    const sameMonth = s.getMonth() === e.getMonth();
+    const dow = multi ? `${B.DOW[s.getDay()]}–${B.DOW[e.getDay()]}` : B.DOW[s.getDay()];
+    const day = multi ? `${s.getDate()}–${e.getDate()}` : s.getDate();
+    const mon = multi && !sameMonth ? `${B.MON[s.getMonth()]}–${B.MON[e.getMonth()]}` : B.MON[s.getMonth()];
+    const adm = B.admission(ev, site);
+    const city = B.city(ev.address);
+    const where = [ev.venue, city && city !== ev.venue ? city : ""].filter(Boolean).join(", ");
+    const kind = B.repeatText(ev);
+    const tag = link ? "a" : "div";
+    const href = link ? ` href="${B.esc(B.eventURL(ev))}"` : "";
+    return `<div class="ticket-shadow"><${tag} class="ticket${big ? " ticket--big" : ""}"${href}>
+      <div class="ticket__stub" aria-hidden="true"><span class="dow">${dow}</span><span class="day${multi ? " span" : ""}">${day}</span><span class="mon">${mon}</span></div>
+      <div class="ticket__body">
+        ${kind ? `<span class="kind">${B.esc(kind)}</span>` : ""}
+        <span class="sr-only">${B.esc(B.range(s, e, true))}.</span>
+        <${heading} class="ticket__title">${B.esc(ev.title)}</${heading}>
+        ${where ? `<p class="ticket__where">${B.esc(where)}</p>` : ""}
+        ${big && ev.hours ? `<p class="ticket__when">${B.esc(ev.hours)}</p>` : ""}
+        <p class="ticket__adm"><b>${B.esc(adm.headline)}</b>${adm.who ? `<span class="ticket__free">${B.esc(adm.who)}</span>` : ""}</p>
+      </div>
+    </${tag}></div>`;
+  };
+
+  /* ---------------- Page chrome ---------------- */
+  B.chrome = function (site, active) {
+    const top = document.getElementById("top");
+    if (top) {
+      const nav = [
+        ["goods", "goods.html", "Goods"],
+        ["events", "events.html", "Events"],
+        ["contact", "index.html#contact", "Contact"],
+      ];
+      top.className = "top";
+      top.innerHTML = `<div class="wrap"><a class="mark" href="${B.base}index.html">${B.esc(site.name)}</a>
+        <nav class="nav" aria-label="Main">${nav
+          .map(([k, h, t]) => `<a href="${B.base}${h}"${k === active ? ' aria-current="page"' : ""}>${t}</a>`)
+          .join("")}</nav></div>`;
+    }
+    const foot = document.getElementById("foot");
+    if (foot) {
+      foot.className = "foot";
+      foot.innerHTML = `<div class="wrap">
+        <strong>${B.esc(site.name)}</strong>
+        ${site.dealerNote ? `<p>${B.esc(site.dealerNote)}</p>` : ""}
+        <p class="small">© ${new Date().getFullYear()} ${B.esc(site.name)}</p>
+        <p class="small"><a href="${B.base}admin/">Manage site</a></p>
+      </div>`;
+    }
+  };
+
+  B.contactButtons = function (site) {
+    const tel = String(site.phone || "").replace(/[^\d+]/g, "");
+    const out = [];
+    if (tel) out.push(`<a class="btn btn--go" href="tel:${tel}">Call</a>`, `<a class="btn btn--go" href="sms:${tel}">Text</a>`);
+    if (site.email) out.push(`<a class="btn" href="mailto:${B.esc(site.email)}">Email</a>`);
+    if (site.facebook) out.push(`<a class="btn" href="${B.esc(site.facebook)}" rel="noopener">Facebook</a>`);
+    if (site.instagram) out.push(`<a class="btn" href="${B.esc(site.instagram)}" rel="noopener">Instagram</a>`);
+    if (site.tiktok) out.push(`<a class="btn" href="${B.esc(site.tiktok)}" rel="noopener">TikTok</a>`);
+    return out.join("");
+  };
+
+  B.smsAbout = function (site, text) {
+    const tel = String(site.phone || "").replace(/[^\d+]/g, "");
+    return tel ? `sms:${tel}?&body=${encodeURIComponent(text)}` : "";
+  };
+
+  B.img = (path) => (/^(https?:|data:|blob:)/.test(path) ? path : B.base + path);
+
+  B.toast = function (msg, ms = 3200) {
+    let t = document.querySelector(".toast");
+    if (!t) {
+      t = document.createElement("div");
+      t.className = "toast";
+      t.setAttribute("role", "status");
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(B._tt);
+    B._tt = setTimeout(() => (t.hidden = true), ms);
+  };
+
+  /* ---------------- Map ---------------- */
+  B.map = function (el, points, { zoom = 13 } = {}) {
+    if (!window.L || !el) return null;
+    const pts = points.filter((p) => Number.isFinite(+p.lat) && Number.isFinite(+p.lng) && p.lat !== "" && p.lng !== "");
+    if (!pts.length) return null;
+    const map = L.map(el, { scrollWheelZoom: false, tap: true });
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+    const icon = L.divIcon({
+      className: "",
+      html: '<svg width="30" height="40" viewBox="0 0 30 40" aria-hidden="true"><path d="M15 39C15 39 2 23 2 14a13 13 0 0 1 26 0c0 9-13 25-13 25z" fill="#E8501A" stroke="#1F241E" stroke-width="2"/><circle cx="15" cy="14" r="5" fill="#1F241E"/></svg>',
+      iconSize: [30, 40],
+      iconAnchor: [15, 39],
+      popupAnchor: [0, -34],
+    });
+    const markers = pts.map((p) => {
+      const m = L.marker([+p.lat, +p.lng], { icon }).addTo(map);
+      if (p.popup) m.bindPopup(p.popup);
+      return m;
+    });
+    if (pts.length === 1) map.setView([+pts[0].lat, +pts[0].lng], zoom);
+    else map.fitBounds(L.featureGroup(markers).getBounds().pad(0.25));
+    return map;
+  };
+
+  B.directions = (ev) => {
+    const q = [ev.venue, ev.address].filter(Boolean).join(", ");
+    const dest = Number.isFinite(+ev.lat) && ev.lat !== "" && ev.lat != null ? `${ev.lat},${ev.lng}` : q;
+    return {
+      google: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(dest),
+      apple: "https://maps.apple.com/?daddr=" + encodeURIComponent(dest) + "&q=" + encodeURIComponent(ev.venue || q),
+    };
+  };
+
+  /* ---------------- Calendar file ---------------- */
+  B.ics = function (ev, occs, site) {
+    const esc = (s) => String(s || "").replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/([,;])/g, "\\$1");
+    const d = (x) => B.iso(x).replace(/-/g, "");
+    const adm = B.admission(ev, site);
+    const desc = [ev.hours, adm.headline + (adm.who ? ". " + adm.who : ""), ev.booth, ev.notes, location.origin + location.pathname.replace(/[^/]*$/, "") + "event.html?e=" + ev.id]
+      .filter(Boolean)
+      .join("\n");
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//" + esc(site.name) + "//Events//EN", "CALSCALE:GREGORIAN"];
+    occs.forEach((o) => {
+      lines.push(
+        "BEGIN:VEVENT",
+        `UID:${ev.id}-${d(o.start)}@booth`,
+        `DTSTAMP:${stamp}`,
+        `DTSTART;VALUE=DATE:${d(o.start)}`,
+        `DTEND;VALUE=DATE:${d(B.addDays(o.end, 1))}`,
+        `SUMMARY:${esc(ev.title + " (" + site.name + ")")}`,
+        `LOCATION:${esc([ev.venue, ev.address].filter(Boolean).join(", "))}`,
+        `DESCRIPTION:${esc(desc)}`,
+        "END:VEVENT"
+      );
+    });
+    lines.push("END:VCALENDAR");
+    return lines.join("\r\n");
+  };
+})();

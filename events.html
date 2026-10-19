@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Events</title>
+  <meta name="description" content="Gun shows and markets where you can find our table, with dates, admission and a map.">
+  <meta name="theme-color" content="#4B5235">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header id="top"></header>
+  <main>
+    <div class="wrap">
+      <div class="page-head">
+        <h1>Events</h1>
+        <p>Every show and market where you'll find our table. Tap a show for the address, hours and directions.</p>
+      </div>
+      <div id="door"></div>
+
+      <section class="section" aria-labelledby="cal-h" style="margin-top:28px">
+        <h2 id="cal-h" class="sr-only">Calendar</h2>
+        <div class="cal" id="cal"></div>
+        <div class="cal__picked" id="picked" aria-live="polite"></div>
+      </section>
+
+      <section class="section" aria-labelledby="map-h" id="map-section">
+        <h2 id="map-h">Map</h2>
+        <div class="map" id="map" role="region" aria-label="Map of upcoming shows"></div>
+      </section>
+
+      <section class="section" aria-labelledby="list-h">
+        <h2 id="list-h">Shows we work</h2>
+        <p class="lede">Each show with its next date. Regular shows list every date on their own page.</p>
+        <div class="ticket-list" id="list"></div>
+      </section>
+    </div>
+  </main>
+  <footer id="foot"></footer>
+
+  <script src="assets/vendor/leaflet/leaflet.js"></script>
+  <script src="assets/booth.js"></script>
+  <script>
+  (async () => {
+    const B = Booth;
+    const { site, events } = await B.load();
+    document.title = `Events: ${site.name}`;
+    B.chrome(site, "events");
+    document.getElementById("door").innerHTML = B.doorBox(site);
+
+    const today = B.today();
+    const up = B.upcoming(events);
+
+    /* ----- Calendar ----- */
+    const calEl = document.getElementById("cal");
+    const pickedEl = document.getElementById("picked");
+    const minMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const firstShow = up[0] ? new Date(up[0].start.getFullYear(), up[0].start.getMonth(), 1) : minMonth;
+    let view = firstShow;
+    let picked = "";
+
+    function renderCal() {
+      const y = view.getFullYear(), m = view.getMonth();
+      const first = new Date(y, m, 1);
+      const daysIn = new Date(y, m + 1, 0).getDate();
+      const gridStart = B.addDays(first, -first.getDay());
+      const cells = Math.ceil((first.getDay() + daysIn) / 7) * 7;
+      const gridEnd = B.addDays(gridStart, cells - 1);
+      const byDay = new Map();
+      events.flatMap((ev) => B.occurrences(ev, gridStart, gridEnd)).filter((o) => !o.cancelled).forEach((o) => {
+        for (let d = o.start; d <= o.end; d = B.addDays(d, 1)) {
+          const k = B.iso(d);
+          if (!byDay.has(k)) byDay.set(k, []);
+          byDay.get(k).push(o);
+        }
+      });
+      let html = `<div class="cal__head">
+        <button class="cal__nav" type="button" data-step="-1" aria-label="Previous month" ${+view <= +minMonth ? "disabled" : ""}>‹</button>
+        <h2 aria-live="polite">${B.MON_LONG[m]} ${y}</h2>
+        <button class="cal__nav" type="button" data-step="1" aria-label="Next month">›</button>
+      </div><div class="cal__grid" role="grid">`;
+      html += B.DOW.map((d) => `<div class="cal__dow" aria-hidden="true">${d}</div>`).join("");
+      for (let i = 0; i < cells; i++) {
+        const d = B.addDays(gridStart, i);
+        const k = B.iso(d);
+        const list = byDay.get(k) || [];
+        const cls = ["cal__day", d.getMonth() !== m ? "out" : "", list.length ? "has" : "", +d === +today ? "today" : ""].filter(Boolean).join(" ");
+        const label = `${B.DOW_LONG[d.getDay()]}, ${B.MON_LONG[d.getMonth()]} ${d.getDate()}${list.length ? ": " + list.map((o) => o.ev.title).join(", ") : ""}`;
+        html += `<button type="button" class="${cls}" data-day="${k}" aria-label="${B.esc(label)}" aria-pressed="${k === picked}" ${list.length ? "" : "disabled"}>${d.getDate()}</button>`;
+      }
+      calEl.innerHTML = html + "</div>";
+      calEl._byDay = byDay;
+      renderPicked();
+    }
+    function renderPicked() {
+      const list = (calEl._byDay && calEl._byDay.get(picked)) || [];
+      if (!picked || !list.length) {
+        pickedEl.innerHTML = `<p class="lede">Orange days have a show. Tap one to see it.</p>`;
+        return;
+      }
+      const d = B.parse(picked);
+      pickedEl.innerHTML = `<h3 style="font-size:1.4rem">${B.DOW_LONG[d.getDay()]}, ${B.MON_LONG[d.getMonth()]} ${d.getDate()}</h3>
+        <div class="ticket-list">${list.map((o) => B.ticket(o, site)).join("")}</div>`;
+    }
+    calEl.addEventListener("click", (e) => {
+      const nav = e.target.closest("[data-step]");
+      if (nav) {
+        view = new Date(view.getFullYear(), view.getMonth() + +nav.dataset.step, 1);
+        if (view < minMonth) view = minMonth;
+        renderCal();
+        return;
+      }
+      const day = e.target.closest("[data-day]");
+      if (day && !day.disabled) {
+        picked = picked === day.dataset.day ? "" : day.dataset.day;
+        calEl.querySelectorAll("[data-day]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.day === picked));
+        renderPicked();
+      }
+    });
+    renderCal();
+
+    /* ----- Map ----- */
+    const seen = new Set();
+    const points = up.filter((o) => !seen.has(o.ev.id) && seen.add(o.ev.id)).map((o) => ({
+      lat: o.ev.lat, lng: o.ev.lng,
+      popup: `<b>${B.esc(o.ev.title)}</b><br>Next: ${B.esc(B.range(o.start, o.end))}<br><a href="${B.esc(B.eventURL(o.ev))}">Details and directions</a>`,
+    }));
+    if (!B.map(document.getElementById("map"), points)) document.getElementById("map-section").hidden = true;
+
+    /* ----- List ----- */
+    const once = new Set();
+    const perEvent = up.filter((o) => !once.has(o.ev.id) && once.add(o.ev.id));
+    document.getElementById("list").innerHTML = perEvent.length
+      ? perEvent.map((o) => B.ticket(o, site)).join("")
+      : `<p class="empty">Nothing on the calendar right now. Check back soon.</p>`;
+  })().catch((e) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<p class="wrap empty">The page didn't load: ${Booth.esc(e.message)}. Refresh to try again.</p>`); });
+  </script>
+</body>
+</html>

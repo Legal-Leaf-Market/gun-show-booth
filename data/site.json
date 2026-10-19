@@ -1,0 +1,24 @@
+{
+  "name": "Hot Creek Trading Co.",
+  "tagline": "Handmade coasters, fresh baked goods and brand-new merch at Indiana gun shows and markets.",
+  "about": "We're a small vendor table you'll find at gun shows and pop-up markets around Indiana. Everything we bring is new or made by us. Stop by, say hi, and grab something for the house.",
+  "phone": "(317) 555-0142",
+  "email": "hello@example.com",
+  "instagram": "",
+  "facebook": "",
+  "tiktok": "",
+  "payments": ["Cash", "Card"],
+  "categories": ["Coasters", "Baked goods", "Merch", "Gifts"],
+  "admission": {
+    "price": 6,
+    "freeFor": "Seniors, police and first responders get in free",
+    "where": "You pay the show at the front door, not us. Once you're in, walking the tables is free.",
+    "note": "Most shows we work are $6. The show organizer sets the price and who gets in free, so bring an ID."
+  },
+  "dealerNote": "We sell goods, not guns. We're a vendor at these shows, not a licensed firearms dealer, and we don't buy, sell or transfer firearms.",
+  "repo": {
+    "owner": "Legal-Leaf-Market",
+    "name": "gun-show-booth",
+    "branch": "main"
+  }
+}

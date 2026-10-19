@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" data-base="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Manage site</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#4B5235">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Manage">
+  <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="../assets/admin.css">
+</head>
+<body class="admin">
+  <header class="top">
+    <div class="wrap">
+      <a class="mark" id="mark" href="../index.html">Manage</a>
+      <a class="btn btn--small" href="../index.html">View site</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="banner" id="banner" hidden></div>
+
+    <div class="tabs" role="tablist" aria-label="What to manage">
+      <button type="button" role="tab" id="tab-goods" aria-controls="panel-goods" aria-selected="true">Goods</button>
+      <button type="button" role="tab" id="tab-events" aria-controls="panel-events" aria-selected="false">Events</button>
+      <button type="button" role="tab" id="tab-info" aria-controls="panel-info" aria-selected="false">Business</button>
+      <button type="button" role="tab" id="tab-connect" aria-controls="panel-connect" aria-selected="false">Connect</button>
+    </div>
+
+    <!-- Goods -->
+    <section role="tabpanel" id="panel-goods" aria-labelledby="tab-goods">
+      <button class="btn btn--go wide" type="button" id="add-item">Add an item</button>
+      <p class="hint" id="samples-hint" hidden>The listings marked Sample are placeholders. <button class="linkish" type="button" data-clear-samples>Remove all samples</button></p>
+      <ul class="alist" id="item-list"></ul>
+    </section>
+
+    <!-- Events -->
+    <section role="tabpanel" id="panel-events" aria-labelledby="tab-events" hidden>
+      <button class="btn btn--go wide" type="button" id="add-event">Add an event</button>
+      <p class="hint" id="samples-hint-ev" hidden>Events marked Sample are placeholders. <button class="linkish" type="button" data-clear-samples>Remove all samples</button></p>
+      <ul class="alist" id="event-list"></ul>
+    </section>
+
+    <!-- Business info -->
+    <section role="tabpanel" id="panel-info" aria-labelledby="tab-info" hidden>
+      <form class="form" id="info-form">
+        <label>Business name <input name="name" required maxlength="60"></label>
+        <label>One-line description <span class="help">Shows under your name on the home page.</span><textarea name="tagline" rows="2" maxlength="160"></textarea></label>
+        <label>About you <textarea name="about" rows="3" maxlength="500"></textarea></label>
+        <div class="two">
+          <label>Phone <input name="phone" type="tel" autocomplete="tel"></label>
+          <label>Email <input name="email" type="email" autocomplete="email"></label>
+        </div>
+        <label>Facebook link <input name="facebook" type="url" placeholder="https://facebook.com/…"></label>
+        <label>Instagram link <input name="instagram" type="url" placeholder="https://instagram.com/…"></label>
+        <label>TikTok link <input name="tiktok" type="url" placeholder="https://tiktok.com/@…"></label>
+        <label>Ways to pay <span class="help">Separate with commas, like: Cash, Card, Cash App</span><input name="payments"></label>
+        <label>Categories <span class="help">Separate with commas. These become the filters on the Goods page.</span><input name="categories"></label>
+        <div class="box">
+          <label>Usual admission <span class="help">Dollars per person, paid at the door. Events can override this.</span><input name="adm_price" inputmode="decimal"></label>
+          <label>Who gets in free <input name="adm_freeFor"></label>
+          <label>How paying works <textarea name="adm_where" rows="2"></textarea></label>
+          <label>Extra note <textarea name="adm_note" rows="2"></textarea></label>
+        </div>
+        <label>Not-a-dealer note <span class="help">Shows in the footer and on the home page.</span><textarea name="dealerNote" rows="3"></textarea></label>
+        <button class="btn btn--go" type="submit">Save business info</button>
+      </form>
+    </section>
+
+    <!-- Connect -->
+    <section role="tabpanel" id="panel-connect" aria-labelledby="tab-connect" hidden>
+      <p class="lede">Saving writes your changes straight to the site's GitHub repo, and the site updates about a minute later. Connect once per phone.</p>
+      <form class="form" id="connect-form" style="margin-top:14px">
+        <div class="two">
+          <label>GitHub owner <input name="owner" required autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+          <label>Repo <input name="repo" required autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+        </div>
+        <label>Branch <input name="branch" required value="main" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+        <label>Access token <span class="help">Stays on this phone only. Never paste it anywhere else.</span><input name="token" type="password" required autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…"></label>
+        <button class="btn btn--go" type="submit">Connect and test</button>
+        <button class="btn" type="button" id="disconnect" hidden>Disconnect this phone</button>
+      </form>
+      <details class="help-box">
+        <summary>How to get an access token</summary>
+        <ol class="steps">
+          <li>On GitHub, open Settings, then Developer settings, then Personal access tokens, then Fine-grained tokens.</li>
+          <li>Tap Generate new token. Set Resource owner to the account that owns this site's repo.</li>
+          <li>Under Repository access, pick Only select repositories and choose this site's repo.</li>
+          <li>Under Permissions, set Contents to Read and write. Leave everything else alone.</li>
+          <li>Generate it, copy it, and paste it above. Set an expiry you'll remember, and make a new one when it runs out.</li>
+        </ol>
+      </details>
+    </section>
+  </main>
+
+  <!-- Item sheet -->
+  <dialog class="sheet form-sheet" id="item-dlg" aria-labelledby="item-h">
+    <div class="sheet__bar"><h2 id="item-h">Add an item</h2><button type="button" class="sheet__close" data-close aria-label="Close">×</button></div>
+    <form class="form" id="item-form" novalidate>
+      <div>
+        <div class="thumbs" id="item-thumbs"></div>
+        <label class="btn btn--dark wide file-btn" style="margin-top:10px">
+          <span id="photo-btn-text">Add photos</span>
+          <input type="file" accept="image/*" multiple id="item-photos" class="sr-only">
+        </label>
+        <p class="help" style="margin-top:6px">The first photo is the one people see in the grid.</p>
+      </div>
+      <label>Name <input name="title" required maxlength="80" placeholder="Walnut coasters, set of 4"></label>
+      <div class="two">
+        <label>Price <input name="price" inputmode="decimal" placeholder="Blank shows Ask"></label>
+        <label>Category <select name="category"></select></label>
+      </div>
+      <label>Details <textarea name="description" rows="3" maxlength="400" placeholder="Size, colors, what it's made of"></textarea></label>
+      <fieldset class="seg">
+        <legend>Status</legend>
+        <label><input type="radio" name="status" value="available" checked><span>For sale</span></label>
+        <label><input type="radio" name="status" value="sold"><span>Sold</span></label>
+        <label><input type="radio" name="status" value="hidden"><span>Hidden</span></label>
+      </fieldset>
+      <label class="check"><input type="checkbox" name="featured"> Show on the home page</label>
+      <div class="form__actions">
+        <button class="btn btn--go" type="submit">Save item</button>
+        <button class="btn danger" type="button" id="item-delete" hidden>Delete item</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Event sheet -->
+  <dialog class="sheet form-sheet" id="event-dlg" aria-labelledby="event-h">
+    <div class="sheet__bar"><h2 id="event-h">Add an event</h2><button type="button" class="sheet__close" data-close aria-label="Close">×</button></div>
+    <form class="form" id="event-form" novalidate>
+      <label>Event name <input name="title" required maxlength="80" placeholder="Indy Gun & Knife Show"></label>
+      <fieldset class="seg">
+        <legend>Type</legend>
+        <label><input type="radio" name="kind" value="regular" checked><span>Regular show</span></label>
+        <label><input type="radio" name="kind" value="popup"><span>Pop-up</span></label>
+      </fieldset>
+
+      <div class="box">
+        <label>When does it happen?
+          <select name="schedule">
+            <option value="dates">On specific dates</option>
+            <option value="month">Same weekend every month</option>
+            <option value="week">Every week</option>
+            <option value="week2">Every other week</option>
+          </select>
+        </label>
+        <div data-show="dates">
+          <div class="date-rows" id="date-rows"></div>
+          <button class="btn btn--small" type="button" id="add-date" style="margin-top:8px">Add another date</button>
+        </div>
+        <div data-show="repeat" hidden>
+          <div class="three">
+            <label data-show="month">Which <select name="nth"><option value="1">1st</option><option value="2">2nd</option><option value="3">3rd</option><option value="4">4th</option><option value="-1">Last</option></select></label>
+            <label>Day <select name="weekday"></select></label>
+            <label>Lasts <select name="days"><option value="1">1 day</option><option value="2">2 days</option><option value="3">3 days</option></select></label>
+          </div>
+          <div class="two" style="margin-top:10px">
+            <label>Starting <input type="date" name="start"></label>
+            <label>Ends (optional) <input type="date" name="until"></label>
+          </div>
+          <div style="margin-top:12px">
+            <label for="skip-input">Cancelled dates <span class="help">Pick the first day of any show that isn't happening.</span></label>
+            <div class="two" style="margin-top:6px"><input type="date" id="skip-input"><button class="btn btn--small" type="button" id="add-skip">Mark cancelled</button></div>
+            <ul class="skip-list" id="skip-list" style="margin-top:8px"></ul>
+          </div>
+        </div>
+      </div>
+
+      <label>Hours <input name="hours" placeholder="Sat 9am to 5pm, Sun 9am to 3pm"></label>
+      <label>Venue name <input name="venue" placeholder="Expo Hall"></label>
+      <label>Address <input name="address" autocomplete="street-address" placeholder="Street, City, IN"></label>
+      <div>
+        <button class="btn btn--small" type="button" id="geocode">Find on map</button>
+        <p class="pin" id="pin" style="margin-top:6px">Not on the map yet.</p>
+        <input type="hidden" name="lat"><input type="hidden" name="lng">
+      </div>
+      <label>Finding your table <span class="help">Optional. Booth number, which hall, what to look for.</span><input name="booth"></label>
+
+      <div class="box">
+        <label>Admission
+          <select name="adm_mode">
+            <option value="standard">Usual price</option>
+            <option value="free">Free entry</option>
+            <option value="custom">Different price</option>
+          </select>
+        </label>
+        <div data-show="custom" hidden class="form" style="gap:12px">
+          <label>Price at the door <input name="adm_price" inputmode="decimal" placeholder="8"></label>
+          <label>Who gets in free <input name="adm_freeFor" placeholder="Seniors, police and first responders get in free"></label>
+        </div>
+      </div>
+
+      <label>Notes for customers <textarea name="notes" rows="2" maxlength="400" placeholder="Parking is around back"></textarea></label>
+      <label>Show organizer's website <span class="help">Optional</span><input name="link" type="url" placeholder="https://…"></label>
+
+      <div class="form__actions">
+        <button class="btn btn--go" type="submit">Save event</button>
+        <button class="btn danger" type="button" id="event-delete" hidden>Delete event</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="../assets/booth.js"></script>
+  <script src="../assets/admin.js"></script>
+</body>
+</html>

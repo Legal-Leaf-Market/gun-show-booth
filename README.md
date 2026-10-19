@@ -16,12 +16,16 @@ No Shopify, no database, no build step. Plain HTML, CSS and JavaScript that runs
 
 Admission is spelled out everywhere an event appears: **$6 at the door, paid to the show (not to you), free for seniors, police and first responders.** Each event can switch to free entry or a different price. A "goods, not guns" note in the footer makes clear you're not a firearms dealer.
 
-## Put it online (GitHub Pages)
+## Put it online (Netlify)
 
-1. Create an empty repo, for example `Legal-Leaf-Market/gun-show-booth`, and push this folder to it.
-2. In the repo, go to **Settings → Pages**, set Source to **Deploy from a branch**, branch `main`, folder `/ (root)`, and save.
-3. After a minute it's live at `https://legal-leaf-market.github.io/gun-show-booth/`.
-4. Optional: to use a domain like `yourbrand.shop`, add it under Settings → Pages → Custom domain and point the domain's DNS at GitHub Pages.
+The Netlify project is `booth-bandits` on the Legal-Leaf-Market team, at https://booth-bandits.netlify.app.
+
+1. Push this folder to the GitHub repo `Legal-Leaf-Market/booth-bandits`.
+2. In Netlify, open the `booth-bandits` project, go to **Project configuration → Build & deploy → Link repository**, and pick that repo. Leave the build command empty; `netlify.toml` already says to serve the repo root.
+3. Every push to `main` (including saves from the phone admin) redeploys the site in about a minute.
+4. Optional: add a domain like `boothbandits.shop` under **Domain management**.
+
+GitHub Pages also works if you'd rather: Settings → Pages → deploy from `main`, root folder.
 
 ## Manage it from your phone
 

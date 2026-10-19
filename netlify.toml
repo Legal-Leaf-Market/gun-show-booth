@@ -1,0 +1,14 @@
+# Plain static site: no build step, serve the repo root.
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "no-cache"

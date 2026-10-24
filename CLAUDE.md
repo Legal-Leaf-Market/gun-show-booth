@@ -57,6 +57,8 @@ Columbus, Verda Studio). Where a rule came from one of them, it says so.
 | change the domain | og tags, robots.txt and sitemap.xml disagree | `npm test` checks they name one host |
 | give `event.html` a fixed `og:url` | every shared show unfurls as, and canonicalises to, one page | `npm test` |
 | edit the recurring-date math | a ticket shows the wrong Saturday, nothing errors | date cases in `test/run.mjs`, including a DST crossing and a 5th-Saturday month |
+| show a brand SVG on the site through `<img>` | an `<img>` cannot load web fonts, so live text falls back to a generic face and the wordmark clips | only copy `-outlined` twins into `assets/img/`; `npm test` fails on live `<text>` there |
+| edit a source SVG in `brand/` | its `-outlined` twin and its PNG are now stale, and the print shop gets the old one | re-run `tools/outline_svg.py brand` and re-render the rasters; `npm test` fails on an outlined twin with live text |
 | reorder `<script>` tags | `goods.js` loads before `booth.js` and `window.Booth` is undefined | manual: load every page |
 
 ## Layout
@@ -71,6 +73,9 @@ assets/booth.js      data, dates, tickets, admission, JSON-LD, map, .ics
 assets/goods.js      goods grid and item sheet
 assets/admin.js      admin and GitHub saving
 tools/branding.py    rebuilds og.png and the icons from site.json
+tools/outline_svg.py turns live text in brand/ SVGs into real outlines (-outlined twins)
+brand/               the full asset library (logos, icons, social, print, merch). Not served
+assets/img/          the few brand pieces the site itself shows. Outlined copies only
 test/run.mjs         zero-dependency checks (npm test)
 docs/                briefs for other AIs (asset library, market research). Not served
 ```

@@ -7,6 +7,7 @@
   <meta name="description" content="Everything we bring to the shows, with prices.">
   <meta name="theme-color" content="#4B5235">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Booth Bandits">
@@ -51,7 +52,7 @@
     function render() {
       filters.innerHTML = ["", ...cats].map((c) => `<button type="button" data-c="${B.esc(c)}" aria-pressed="${c === current}">${c ? B.esc(c) : "Everything"}</button>`).join("");
       const list = current ? vis.filter((i) => i.category === current) : vis;
-      grid.innerHTML = list.length ? list.map(B.goodCard).join("") : `<p class="empty" style="grid-column:1/-1">Nothing listed here yet. Check back after the next show.</p>`;
+      grid.innerHTML = list.length ? list.map(B.goodCard).join("") : B.emptyArt("goods", "Nothing listed here yet. Check back after the next show.", "grid-column:1/-1");
     }
     filters.hidden = cats.length < 2;
     filters.addEventListener("click", (e) => {

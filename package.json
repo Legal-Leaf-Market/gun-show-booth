@@ -1,0 +1,9 @@
+{
+  "name": "booth-bandits",
+  "private": true,
+  "description": "Static site for a gun show and market vendor table. No build step, no dependencies.",
+  "scripts": {
+    "test": "node test/run.mjs",
+    "branding": "python3 tools/branding.py"
+  }
+}

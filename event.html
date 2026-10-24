@@ -7,13 +7,22 @@
   <meta name="description" content="Dates, hours, admission and directions.">
   <meta name="theme-color" content="#4B5235">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Booth Bandits">
+  <meta property="og:title" content="A show we're working: Booth Bandits">
+  <meta property="og:description" content="Dates, hours, admission and directions.">
+  <meta property="og:image" content="https://booth-bandits.netlify.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
   <header id="top"></header>
   <main>
-    <div class="wrap" id="page" style="padding-top:24px"></div>
+    <div class="wrap" id="page" style="padding-top:24px"><p class="empty">Loading the show details...</p></div>
   </main>
   <footer id="foot"></footer>
 
@@ -72,6 +81,8 @@
 
       <div class="map map--event" id="map" role="region" aria-label="Map"></div>
       <p style="margin-top:22px"><a href="events.html">All events</a></p>`;
+
+    B.ld(B.eventLD(ev, occs, site));
 
     if (!B.map(document.getElementById("map"), [{ lat: ev.lat, lng: ev.lng, popup: `<b>${B.esc(ev.venue || ev.title)}</b>` }], { zoom: 15 }))
       document.getElementById("map").remove();

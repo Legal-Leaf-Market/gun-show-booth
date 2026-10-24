@@ -7,6 +7,16 @@
   <meta name="description" content="Where we'll be next, what it costs to get in, and what's on our table.">
   <meta name="theme-color" content="#4B5235">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Booth Bandits">
+  <meta property="og:title" content="Booth Bandits: where we'll be next">
+  <meta property="og:description" content="Where we'll be next, what it costs to get in, and what's on our table.">
+  <meta property="og:url" content="https://booth-bandits.netlify.app/">
+  <meta property="og:image" content="https://booth-bandits.netlify.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -15,6 +25,7 @@
   <main>
     <section class="hero">
       <div class="wrap">
+        <p class="live" id="live" hidden></p>
         <h1 id="name"></h1>
         <p id="tagline"></p>
       </div>
@@ -23,7 +34,7 @@
     <section class="next" aria-labelledby="next-h">
       <div class="wrap">
         <h2 id="next-h" class="sr-only">Where we'll be next</h2>
-        <div id="next"></div>
+        <div id="next"><div class="empty" style="background:var(--paper)">Checking the calendar...</div></div>
         <div class="row" id="next-actions" style="margin-top:14px"></div>
       </div>
     </section>
@@ -79,7 +90,15 @@
     document.getElementById("name").textContent = site.name;
     document.getElementById("tagline").textContent = site.tagline || "";
 
+    B.ld(B.orgLD(site));
     const up = B.upcoming(events);
+    // The one thing a shopper standing in a parking lot wants to know.
+    const now = up.find((o) => B.soon(o) === "We're there today");
+    if (now) {
+      const live = document.getElementById("live");
+      live.hidden = false;
+      live.textContent = `At ${now.ev.venue || now.ev.title} today${now.ev.hours ? ": " + now.ev.hours : ""}`;
+    }
     const next = document.getElementById("next");
     if (up.length) {
       next.innerHTML = B.ticket(up[0], site, { big: true });

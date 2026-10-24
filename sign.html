@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Table sign</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* One US Letter page, portrait, to tape to the front of the table or
+       slide into a sign holder. Built from the same data as the site, so the
+       dates on paper can never disagree with the dates online on the day it
+       was printed. Reprint after the calendar changes. */
+    @page { size: letter portrait; margin: 0.4in; }
+    body { background: var(--concrete-2); display: block; }
+    .bar { max-width: 8.5in; margin: 16px auto; padding: 0 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .bar p { color: var(--ink-2); font-size: .95rem; flex: 1 1 260px; }
+    .sheet-page {
+      width: 7.7in; min-height: 10.1in; margin: 0 auto 32px; background: var(--paper); color: var(--ink);
+      padding: 0.45in; display: flex; flex-direction: column; gap: 0.22in;
+      box-shadow: 0 2px 0 rgba(31,36,30,.18);
+    }
+    .s-name { font-family: var(--stencil); text-transform: uppercase; font-size: 1.15in; line-height: .86; }
+    .s-tag { font-size: 18pt; color: var(--ink-2); max-width: 30ch; }
+    .s-mid { display: grid; grid-template-columns: 2.6in 1fr; gap: 0.3in; align-items: start; }
+    .s-qr { border: 3px solid var(--ink); padding: 0.1in; background: #fff; }
+    .s-qr svg { display: block; width: 100%; height: auto; }
+    .s-qr p { text-align: center; font-family: var(--display); font-weight: 800; font-size: 15pt; margin-top: 6px; text-transform: uppercase; }
+    .s-h { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 22pt; border-bottom: 3px solid var(--blaze); padding-bottom: 2px; }
+    .s-dates { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 8px; }
+    .s-dates li { font-size: 14pt; line-height: 1.25; }
+    .s-dates b { display: block; font-family: var(--display); font-size: 17pt; }
+    .s-text { background: var(--blaze); padding: 0.16in 0.2in; border-radius: 6px; font-size: 18pt; font-weight: 700; }
+    .s-text span { display: block; font-family: var(--display); font-size: 30pt; font-weight: 900; }
+    .s-foot { margin-top: auto; display: flex; justify-content: space-between; gap: 16px; font-size: 13pt; color: var(--ink-2); border-top: 2px dashed var(--line); padding-top: 10px; }
+    /* On a phone the preview shrinks to fit; the printed page is untouched. */
+    @media screen and (max-width: 800px) { .sheet-page { zoom: calc((100vw - 16px) / 7.7in); } }
+    @media print {
+      body { background: #fff; }
+      .bar { display: none; }
+      .sheet-page { box-shadow: none; margin: 0; width: auto; min-height: 9.9in; padding: 0; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <p>Print this on letter paper for the front of the table. The QR code opens the site on a customer's phone. Reprint whenever the calendar changes.</p>
+    <button class="btn btn--go" type="button" onclick="print()">Print</button>
+    <a class="btn" href="index.html">Back to the site</a>
+  </div>
+  <div class="sheet-page" id="sheet"><p class="empty">Building the sign...</p></div>
+
+  <script src="assets/vendor/qrcode/qrcode.js"></script>
+  <script src="assets/booth.js"></script>
+  <script>
+  (async () => {
+    const B = Booth;
+    const { site, events } = await B.load();
+    document.title = `Table sign: ${site.name}`;
+    // Always the public home page, never this page's own address with a query
+    // on it, so a sign printed from a preview link still sends people home.
+    const home = location.origin + location.pathname.replace(/[^/]*$/, "");
+    const qr = qrcode(0, "M");
+    qr.addData(home);
+    qr.make();
+    const up = B.upcoming(events).slice(0, 4);
+    const tel = String(site.phone || "");
+    const pays = (site.payments || []).join(", ");
+    document.getElementById("sheet").innerHTML = `
+      <div>
+        <h1 class="s-name">${B.esc(site.name)}</h1>
+        ${site.tagline ? `<p class="s-tag" style="margin-top:10px">${B.esc(site.tagline)}</p>` : ""}
+      </div>
+      <div class="s-mid">
+        <div class="s-qr">${qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true, alt: "QR code for " + home })}<p>Scan for our next show</p></div>
+        <div>
+          <h2 class="s-h">Where we'll be next</h2>
+          ${up.length ? `<ul class="s-dates">${up.map((o) => `<li><b>${B.esc(B.range(o.start, o.end))}</b>${B.esc([o.ev.title, B.city(o.ev.address)].filter(Boolean).join(", "))}</li>`).join("")}</ul>`
+            : `<p style="margin-top:8px;font-size:14pt">New dates coming soon. Scan the code to see them first.</p>`}
+        </div>
+      </div>
+      ${tel ? `<div class="s-text">Want something held for the next show? Text us.<span>${B.esc(tel)}</span></div>` : ""}
+      <div class="s-foot"><span>${pays ? "We take " + B.esc(pays) : ""}</span><span>${site.dealerNote ? "Goods, not guns. We don't buy, sell or transfer firearms." : ""}</span></div>`;
+  })().catch((e) => { document.getElementById("sheet").innerHTML = `<p class="empty">The sign didn't build: ${Booth.esc(e.message)}. Refresh to try again.</p>`; });
+  </script>
+</body>
+</html>

@@ -13,6 +13,11 @@ No Shopify, no database, no build step. Plain HTML, CSS and JavaScript that runs
 | `events.html` | Month calendar, map of venues, every show with its next date |
 | `event.html?e=<id>` | One page per event to link and share: dates, hours, address, map, Google/Apple directions, add to calendar, admission |
 | `admin/` | Owner-only page for adding items, events and business info from a phone |
+| `sign.html` | Printable Letter-size table sign: your next four dates, "text us to hold it", and a QR code to the site. Linked from the admin Events tab |
+
+When you're at a show today, the home page says so at the top ("At Sample Expo Hall today") and the ticket gets a "We're there today" tag. "Tomorrow" and "This weekend" show the same way. Times are Indiana time whatever the phone is set to.
+
+Real (non-sample) events tell Google their dates, place and admission, so they can show up in event search. Sample data never does.
 
 Admission is spelled out everywhere an event appears: **$6 at the door, paid to the show (not to you), free for seniors, police and first responders.** Each event can switch to free entry or a different price. A "goods, not guns" note in the footer makes clear you're not a firearms dealer.
 
@@ -56,6 +61,12 @@ Everything lives in three files:
   - Weekdays: 0 Sunday through 6 Saturday. `skip` lists start dates of cancelled weekends.
 
 Event links use the event's `id`, which doesn't change when you rename the event, so shared links keep working.
+
+## Checks and brand files
+
+- `npm test` runs `test/run.mjs` (no install needed): recurring-date math, data sanity, no em dashes, nothing private served, share card present.
+- `npm run branding` (Python with Pillow) rebuilds the share card and icons from `data/site.json`. Run it after renaming the business.
+- `docs/` holds two briefs for other AIs: an asset list for ChatGPT and a market-research brief for Gemini. They are blocked from the live site.
 
 ## Under the hood
 

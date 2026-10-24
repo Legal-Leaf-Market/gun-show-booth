@@ -9,13 +9,19 @@
   B.esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   /* ---------------- Data ---------------- */
+  // One quiet retry: a failed first fetch on a phone at a show is usually the
+  // signal, not the site, and a dead page one second before it would have
+  // worked is the worse outcome.
   B.load = async function () {
     const get = (f) =>
       fetch(B.base + "data/" + f + "?v=" + Date.now(), { cache: "no-store" }).then((r) => {
         if (!r.ok) throw new Error("Couldn't load " + f);
         return r.json();
       });
-    const [site, items, events] = await Promise.all([get("site.json"), get("items.json"), get("events.json")]);
+    const all = () => Promise.all([get("site.json"), get("items.json"), get("events.json")]);
+    let got;
+    try { got = await all(); } catch (_) { await new Promise((r) => setTimeout(r, 1500)); got = await all(); }
+    const [site, items, events] = got;
     return { site, items, events };
   };
 
@@ -33,7 +39,16 @@
     return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
   };
   B.addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  // "Today" is Indiana's today, not the visitor's. Every show is in Indiana,
+  // so a phone still set to another time zone must not move a show to
+  // tomorrow or keep yesterday's on the front page.
+  B.TZ = "America/Indiana/Indianapolis";
   B.today = () => {
+    try {
+      const p = new Intl.DateTimeFormat("en-CA", { timeZone: B.TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+      const d = B.parse(p);
+      if (d) return d;
+    } catch (_) { /* old browser: fall through to the device clock */ }
     const t = new Date();
     return new Date(t.getFullYear(), t.getMonth(), t.getDate());
   };
@@ -115,6 +130,19 @@
     return `Every ${ORD[r.nth] || "1st"} ${days} of the month`;
   };
 
+  // How close a showing is, in words a shopper uses. "" when it is further out.
+  B.soon = function (occ, today = B.today()) {
+    if (!occ || occ.cancelled) return "";
+    if (occ.start <= today && today <= occ.end) return "We're there today";
+    const d = daysBetween(today, occ.start);
+    if (d === 1) return "Tomorrow";
+    const toSunday = (7 - today.getDay()) % 7;
+    const weekendDay = [5, 6, 0].includes(occ.start.getDay());
+    if (d > 1 && weekendDay && d <= toSunday) return "This weekend";
+    if (d > 1 && d <= 6) return `In ${d} days`;
+    return "";
+  };
+
   /* ---------------- Admission ---------------- */
   B.money = (v) => {
     if (v === "" || v === null || v === undefined) return "";
@@ -174,12 +202,13 @@
     const city = B.city(ev.address);
     const where = [ev.venue, city && city !== ev.venue ? city : ""].filter(Boolean).join(", ");
     const kind = B.repeatText(ev);
+    const soon = B.soon(occ);
     const tag = link ? "a" : "div";
     const href = link ? ` href="${B.esc(B.eventURL(ev))}"` : "";
     return `<div class="ticket-shadow"><${tag} class="ticket${big ? " ticket--big" : ""}"${href}>
       <div class="ticket__stub" aria-hidden="true"><span class="dow">${dow}</span><span class="day${multi ? " span" : ""}">${day}</span><span class="mon">${mon}</span></div>
       <div class="ticket__body">
-        ${kind ? `<span class="kind">${B.esc(kind)}</span>` : ""}
+        ${soon || kind ? `<span class="tags">${soon ? `<span class="kind kind--soon">${B.esc(soon)}</span>` : ""}${kind ? `<span class="kind">${B.esc(kind)}</span>` : ""}</span>` : ""}
         <span class="sr-only">${B.esc(B.range(s, e, true))}.</span>
         <${heading} class="ticket__title">${B.esc(ev.title)}</${heading}>
         ${where ? `<p class="ticket__where">${B.esc(where)}</p>` : ""}
@@ -187,6 +216,57 @@
         <p class="ticket__adm"><b>${B.esc(adm.headline)}</b>${adm.who ? `<span class="ticket__free">${B.esc(adm.who)}</span>` : ""}</p>
       </div>
     </${tag}></div>`;
+  };
+
+  /* ---------------- Structured data ---------------- */
+  // Markup is a claim, so every field here is one the page already shows.
+  // Never for sample data (a made-up show marked up as real is a fabricated
+  // record), never a rating or review (there are none), and never an
+  // organizer: the show runs the show, we only have a table at it.
+  B.eventLD = function (ev, occs, site) {
+    if (!ev || ev.sample) return null;
+    const adm = B.admission(ev, site);
+    const page = location.origin + location.pathname.replace(/[^/]*$/, "") + "event.html?e=" + encodeURIComponent(ev.id);
+    const place = { "@type": "Place", name: ev.venue || ev.title };
+    if (ev.address) place.address = ev.address;
+    if (Number.isFinite(+ev.lat) && ev.lat !== "" && ev.lat != null) place.geo = { "@type": "GeoCoordinates", latitude: +ev.lat, longitude: +ev.lng };
+    const list = occs.slice(0, 12).map((o) => {
+      const e = {
+        "@type": "Event",
+        name: ev.title,
+        startDate: B.iso(o.start),
+        endDate: B.iso(o.end),
+        eventStatus: o.cancelled ? "https://schema.org/EventCancelled" : "https://schema.org/EventScheduled",
+        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+        location: place,
+        url: page,
+        description: [ev.hours, adm.headline + (adm.who ? ". " + adm.who : "")].filter(Boolean).join(". "),
+      };
+      if (adm.free) e.isAccessibleForFree = true;
+      else if (adm.price) e.offers = { "@type": "Offer", price: String(adm.price), priceCurrency: "USD", url: page, availability: "https://schema.org/InStock" };
+      return e;
+    });
+    return list.length ? list : null;
+  };
+
+  B.orgLD = function (site) {
+    if (!site || !site.name) return null;
+    const o = { "@type": "Organization", name: site.name, url: location.origin + location.pathname.replace(/[^/]*$/, "") };
+    if (site.tagline) o.description = site.tagline;
+    const same = [site.facebook, site.instagram, site.tiktok].filter((u) => /^https?:/.test(u || ""));
+    if (same.length) o.sameAs = same;
+    // A 555 number is a placeholder and is not published as a contact point.
+    const tel = String(site.phone || "");
+    if (tel && !/555-01\d\d/.test(tel)) o.telephone = tel;
+    return o;
+  };
+
+  B.ld = function (data) {
+    if (!data) return;
+    const s = document.createElement("script");
+    s.type = "application/ld+json";
+    s.textContent = JSON.stringify(Array.isArray(data) ? { "@context": "https://schema.org", "@graph": data } : { "@context": "https://schema.org", ...data }).replace(/</g, "\\u003c");
+    document.head.appendChild(s);
   };
 
   /* ---------------- Page chrome ---------------- */

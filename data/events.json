@@ -1,56 +1,240 @@
 [
   {
-    "id": "sample-gun-and-knife-show",
-    "title": "Sample Gun & Knife Show",
-    "kind": "regular",
-    "venue": "Sample Expo Hall",
-    "address": "100 Sample St, Indianapolis, IN",
-    "lat": 39.7684,
-    "lng": -86.1581,
+    "id": "madison-arms-and-blade-show",
+    "title": "Madison Arms & Blade Show",
+    "kind": "popup",
+    "venue": "National Guard Armory",
+    "address": "1533 Clifty Dr, Madison, IN",
+    "lat": "",
+    "lng": "",
+    "hours": "Sat 9am to 5pm",
+    "booth": "",
+    "admission": {
+      "mode": "custom",
+      "price": 8,
+      "freeFor": "Kids under 12 get in free",
+      "note": ""
+    },
+    "repeat": null,
+    "dates": [
+      {
+        "start": "2026-10-31",
+        "end": ""
+      },
+      {
+        "start": "2026-12-19",
+        "end": ""
+      }
+    ],
+    "skip": [],
+    "notes": "",
+    "link": ""
+  },
+  {
+    "id": "indy-1500-gun-and-blade-show",
+    "title": "Indy 1500 Gun & Blade Show",
+    "kind": "popup",
+    "venue": "Indiana State Fairgrounds",
+    "address": "1202 E 38th St, Indianapolis, IN",
+    "lat": "",
+    "lng": "",
+    "hours": "Fri 2pm to 7pm, Sat 9am to 6pm, Sun 9am to 4pm",
+    "booth": "",
+    "admission": {
+      "mode": "custom",
+      "price": 15,
+      "freeFor": "Kids 12 and under are $5",
+      "note": "Parking at the fairgrounds is $10."
+    },
+    "repeat": null,
+    "dates": [
+      {
+        "start": "2026-11-06",
+        "end": "2026-11-08"
+      }
+    ],
+    "skip": [],
+    "notes": "",
+    "link": "https://www.indy1500.com"
+  },
+  {
+    "id": "orleans-arms-and-blade-show",
+    "title": "Orleans Arms & Blade Show",
+    "kind": "popup",
+    "venue": "Robinson's Auction House",
+    "address": "8620 N State Road 37, Orleans, IN",
+    "lat": "",
+    "lng": "",
+    "hours": "Sat 9am to 5pm",
+    "booth": "",
+    "admission": {
+      "mode": "custom",
+      "price": 8,
+      "freeFor": "Kids under 12 get in free",
+      "note": ""
+    },
+    "repeat": null,
+    "dates": [
+      {
+        "start": "2026-11-07",
+        "end": ""
+      }
+    ],
+    "skip": [],
+    "notes": "",
+    "link": ""
+  },
+  {
+    "id": "seymour-arms-and-blade-show",
+    "title": "Seymour Arms & Blade Show",
+    "kind": "popup",
+    "venue": "National Guard Armory",
+    "address": "1925 1st Ave, Seymour, IN",
+    "lat": "",
+    "lng": "",
+    "hours": "Sat 9am to 5pm",
+    "booth": "",
+    "admission": {
+      "mode": "custom",
+      "price": 6,
+      "freeFor": "Kids under 12 get in free",
+      "note": ""
+    },
+    "repeat": null,
+    "dates": [
+      {
+        "start": "2026-11-21",
+        "end": ""
+      }
+    ],
+    "skip": [],
+    "notes": "",
+    "link": ""
+  },
+  {
+    "id": "richmond-gun-and-knife-show",
+    "title": "Richmond Gun & Knife Show",
+    "kind": "popup",
+    "venue": "Wayne County Fairgrounds, Kuhlman Center",
+    "address": "861 Salisbury Rd, Richmond, IN",
+    "lat": "",
+    "lng": "",
     "hours": "Sat 9am to 5pm, Sun 9am to 3pm",
-    "booth": "Look for the orange banner near the front doors.",
-    "admission": { "mode": "standard" },
-    "repeat": { "every": "month", "nth": 4, "weekday": 6, "days": 2, "start": "2026-10-01", "until": "" },
+    "booth": "",
+    "admission": {
+      "mode": "standard"
+    },
+    "repeat": null,
+    "dates": [
+      {
+        "start": "2026-11-21",
+        "end": "2026-11-22"
+      }
+    ],
+    "skip": [],
+    "notes": "",
+    "link": "https://www.centralindianagunshows.com"
+  },
+  {
+    "id": "indianapolis-gun-and-knife-show-stout-field",
+    "title": "Indianapolis Gun & Knife Show",
+    "kind": "popup",
+    "venue": "Stout Field National Guard Armory",
+    "address": "3912 W Minnesota St, Indianapolis, IN",
+    "lat": "",
+    "lng": "",
+    "hours": "Sat 9am to 5pm, Sun 9am to 3pm",
+    "booth": "",
+    "admission": {
+      "mode": "standard"
+    },
+    "repeat": null,
+    "dates": [
+      {
+        "start": "2026-11-28",
+        "end": "2026-11-29"
+      }
+    ],
+    "skip": [],
+    "notes": "",
+    "link": "https://www.centralindianagunshows.com"
+  },
+  {
+    "id": "greensburg-gun-and-knife-show",
+    "title": "Greensburg Gun & Knife Show",
+    "kind": "popup",
+    "venue": "Decatur County Fairgrounds",
+    "address": "1635 W Park Rd, Greensburg, IN",
+    "lat": "",
+    "lng": "",
+    "hours": "Sat 9am to 5pm, Sun 9am to 3pm",
+    "booth": "",
+    "admission": {
+      "mode": "standard"
+    },
+    "repeat": null,
+    "dates": [
+      {
+        "start": "2026-12-05",
+        "end": "2026-12-06"
+      }
+    ],
+    "skip": [],
+    "notes": "",
+    "link": "https://www.centralindianagunshows.com"
+  },
+  {
+    "id": "tipton-gun-and-knife-show",
+    "title": "Tipton Gun & Knife Show",
+    "kind": "popup",
+    "venue": "Tipton County Fairgrounds",
+    "address": "1200 S Main St, Tipton, IN",
+    "lat": "",
+    "lng": "",
+    "hours": "Sat 9am to 5pm, Sun 9am to 3pm",
+    "booth": "",
+    "admission": {
+      "mode": "custom",
+      "price": 6,
+      "freeFor": "Kids get in free",
+      "note": ""
+    },
+    "repeat": null,
+    "dates": [
+      {
+        "start": "2026-12-05",
+        "end": "2026-12-06"
+      }
+    ],
+    "skip": [],
+    "notes": "",
+    "link": ""
+  },
+  {
+    "id": "broad-ripple-winter-farmers-market",
+    "title": "Broad Ripple Winter Farmers Market",
+    "kind": "regular",
+    "venue": "Broad Ripple Middle School",
+    "address": "1115 Broad Ripple Ave, Indianapolis, IN",
+    "lat": "",
+    "lng": "",
+    "hours": "Saturdays 9am to noon",
+    "booth": "",
+    "admission": {
+      "mode": "free",
+      "note": "Indoor market, free to walk in."
+    },
+    "repeat": {
+      "every": "week",
+      "interval": 1,
+      "weekday": 6,
+      "days": 1,
+      "start": "2026-11-07",
+      "until": "2027-04-24"
+    },
     "dates": [],
     "skip": [],
     "notes": "",
-    "link": "",
-    "sample": true
-  },
-  {
-    "id": "sample-fountain-square-pop-up",
-    "title": "Sample Pop-Up Market",
-    "kind": "popup",
-    "venue": "Fountain Square",
-    "address": "Fountain Square, Indianapolis, IN",
-    "lat": 39.7509,
-    "lng": -86.1407,
-    "hours": "11am to 4pm",
-    "booth": "",
-    "admission": { "mode": "free" },
-    "repeat": null,
-    "dates": [{ "start": "2026-11-01", "end": "" }],
-    "skip": [],
-    "notes": "Outdoor market. Free to walk around.",
-    "link": "",
-    "sample": true
-  },
-  {
-    "id": "sample-holiday-gun-show",
-    "title": "Sample Holiday Gun Show",
-    "kind": "popup",
-    "venue": "Sample Community Center",
-    "address": "200 Example Ave, Greenwood, IN",
-    "lat": 39.6137,
-    "lng": -86.1067,
-    "hours": "Sat 9am to 5pm, Sun 10am to 3pm",
-    "booth": "",
-    "admission": { "mode": "custom", "price": 8, "freeFor": "Kids 12 and under, seniors and first responders get in free", "note": "" },
-    "repeat": null,
-    "dates": [{ "start": "2026-12-05", "end": "2026-12-06" }],
-    "skip": [],
-    "notes": "",
-    "link": "",
-    "sample": true
+    "link": ""
   }
 ]

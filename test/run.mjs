@@ -59,8 +59,9 @@ eq(B.admission({ admission: { mode: "custom", price: "" } }, site).price, 6, "a 
 
 /* ---------- Structured data: a claim must be true ---------- */
 const evs = JSON.parse(read("data/events.json"));
-const real = { ...evs[0], sample: false, id: "real-show" };
-eq(B.eventLD(evs[0], B.occurrences(evs[0], d("2026-10-01"), d("2027-01-01")), site), null, "a sample event is never marked up");
+const fixture = { ...fourthSat, id: "fixture-show", title: "Fixture Show", venue: "Hall", address: "1 Main St, Columbus, IN", lat: 39.2, lng: -85.9, admission: { mode: "standard" } };
+const real = { ...fixture, sample: false, id: "real-show" };
+eq(B.eventLD({ ...fixture, sample: true }, B.occurrences(fixture, d("2026-10-01"), d("2027-01-01")), site), null, "a sample event is never marked up");
 const ld = B.eventLD({ ...real, skip: ["2026-11-28"] }, B.occurrences({ ...real, skip: ["2026-11-28"] }, d("2026-10-01"), d("2027-01-01")), site);
 ok(Array.isArray(ld) && ld.length > 1, "a real event produces one Event per date");
 ok(ld.every((e) => !("organizer" in e) && !("aggregateRating" in e) && !("review" in e)), "no organizer (the show runs it) and no ratings (there are none)");

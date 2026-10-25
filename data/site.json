@@ -11,9 +11,9 @@
   "categories": ["Coasters", "Baked goods", "Merch", "Gifts"],
   "admission": {
     "price": 6,
-    "freeFor": "Seniors, police and first responders get in free",
+    "freeFor": "Kids 12 and under get in free",
     "where": "You pay the show at the front door, not us. Once you're in, walking the tables is free.",
-    "note": "Most shows we work are $6. The show organizer sets the price and who gets in free, so bring an ID."
+    "note": "Most county shows are $6; the big expo shows cost more. The show organizer sets the price and who gets in free."
   },
   "dealerNote": "We sell goods, not guns. We're a vendor at these shows, not a licensed firearms dealer, and we don't buy, sell or transfer firearms.",
   "repo": {

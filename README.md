@@ -19,7 +19,7 @@ When you're at a show today, the home page says so at the top ("At Sample Expo H
 
 Real (non-sample) events tell Google their dates, place and admission, so they can show up in event search. Sample data never does.
 
-Admission is spelled out everywhere an event appears: **$6 at the door, paid to the show (not to you), free for seniors, police and first responders.** Each event can switch to free entry or a different price. A "goods, not guns" note in the footer makes clear you're not a firearms dealer.
+Admission is spelled out everywhere an event appears: **$6 at the door, paid to the show (not to you), kids 12 and under free.** That default matches what Central Indiana Gun Shows publishes; set a per-event price for shows like the Indy 1500. Each event can switch to free entry or a different price. A "goods, not guns" note in the footer makes clear you're not a firearms dealer.
 
 ## Put it online (Netlify)
 

@@ -59,9 +59,9 @@ on every item still missing something.
 3. **Vanilla Sprinkle net weight.** The Chocolate Oreo and Butterfinger table
    cards say 7 oz (198 g); no card for Vanilla Sprinkle was visible. Field:
    `netWt`.
-4. **Producer address.** `site.json` `producer.address` is "Columbus, IN",
-   which is what CJ's own label uses. IC 16-42-5.3-5 asks for the producer's
-   name and address; ask whether the owner wants a street address published.
+4. **Producer address.** Settled by the owner (Oct 25, 2026): labels say
+   "Columbus, IN", no street address. `site.json` `producer.address` stays
+   as it is.
 5. **Email.** `site.json` `email` is still the `hello@example.com`
    placeholder, so the site shows no Email button. Ask for the real one.
 6. **Current prices.** Every price above is 11 to 14 months old. Confirm

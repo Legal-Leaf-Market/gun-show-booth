@@ -7,6 +7,17 @@ of them were learned the hard way on the sister repos (Crossroads Wedding Co.,
 Legal-Leaf Market, Herbal Leaf, Nicotia, Kawaii Katz, Jill's Diner, Heart of
 Columbus, Verda Studio). Where a rule came from one of them, it says so.
 
+## Who the owner is
+
+Booth Bandits and CJ's Cakes are the same people under two names. Booth
+Bandits is the show table; CJ's Cakes (Columbus, IN) is the baking name, and
+the Facebook page linked in `data/site.json` is CJ's. So every baked good on
+the site is ours: copy says "we" and "our", the label's producer is CJ's
+Cakes, and (812) 561-0549 is the one phone for both. Product facts (prices,
+ingredients, net weights) come from the owner or from CJ's own posts and
+labels, never from a guess. `docs/CJS_CAKES_HANDOFF.md` lists what is still
+missing.
+
 ## Standing rules
 
 - **No em dashes anywhere a person reads.** Copy, titles, metadata, alt text,

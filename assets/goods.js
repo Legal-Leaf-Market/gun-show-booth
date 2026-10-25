@@ -53,6 +53,7 @@
           <p class="sheet__price">${sold ? "Sold" : price || "Ask at the table"}</p>
           ${item.description ? `<p>${B.esc(item.description)}</p>` : ""}
           ${item.category ? `<p class="good__cat">${B.esc(item.category)}</p>` : ""}
+          ${B.labelBox(item, site)}
           <div class="row" style="margin-top:8px">
             ${sms ? `<a class="btn btn--go" href="${B.esc(sms)}">${sold ? "Ask about restock" : "Text us about this"}</a>` : ""}
             <a class="btn" href="${B.base}events.html">Where to find us</a>

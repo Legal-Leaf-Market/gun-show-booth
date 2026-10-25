@@ -68,6 +68,21 @@ ok(ld.some((e) => /EventCancelled/.test(e.eventStatus)), "a skipped weekend is m
 eq(ld[0].offers?.price, "6", "offer price matches the admission shown on the page");
 eq(B.orgLD(site).telephone, undefined, "a 555-01xx placeholder phone is not published as a contact");
 
+/* ---------- Home-based vendor label (IC 16-42-5.3-5) ---------- */
+ok(/^This product is home produced and processed and the production area has not been inspected by the Indiana Department of Health\. NOT FOR RESALE\.$/.test(B.HBV_STATEMENT), "the statutory statement is word for word");
+const baked = { title: "Cookies", homeBaked: true, ingredients: "", netWt: "6 cookies" };
+eq(B.labelGaps(baked, { producer: {} }).length, 2, "missing ingredients and producer are both reported");
+eq(B.labelGaps({ ...baked, ingredients: "Flour, butter" }, { producer: { name: "A", address: "B" } }).length, 0, "a complete label has no gaps");
+eq(B.labelGaps({ title: "Coasters" }, {}).length, 0, "non-food items need no label");
+const box = B.labelBox(baked, { producer: {} });
+ok(box.includes("NOT FOR RESALE.") && box.includes("Ask at the table"), "the label shows the statement and says what is missing instead of dropping the line");
+eq(B.labelBox({ title: "Coasters" }, {}), "", "no label box on a non-food item");
+// The printed Indiana label must carry the same sentence as the site.
+const printed = [...read("brand/06-print/baked-goods-label-indiana.svg").matchAll(/<text[^>]*font-weight="600"[^>]*>([^<]*)<\/text>/g)].map((m) => m[1]).join(" ").replace(/\s+/g, " ");
+ok(printed.includes(B.HBV_STATEMENT), "the printed label's statement matches B.HBV_STATEMENT");
+const stmtSize = [...read("brand/06-print/baked-goods-label-indiana.svg").matchAll(/font-size="([\d.]+)"[^>]*>(?:This product|processed|has not|Department|RESALE)/g)].map((m) => +m[1]);
+ok(stmtSize.length && stmtSize.every((v) => v >= 13.9), "printed statement is at least 10 pt (13.9 units at 100 per inch)");
+
 /* ---------- Data files ---------- */
 const items = JSON.parse(read("data/items.json"));
 const ids = (list) => list.map((x) => x.id);

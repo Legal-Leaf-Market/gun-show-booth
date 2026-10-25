@@ -306,3 +306,14 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
 
 /* Pegboard behind the hero: low contrast on purpose, so white type still wins. */
 .hero { background-image: url("img/hero-pattern.svg"); background-size: 200px 200px; }
+
+/* ---------- Home-based vendor label (item sheet) ---------- */
+.label { margin-top: 12px; border: 2px solid var(--ink); border-radius: 6px; padding: 12px 14px; background: var(--paper); }
+.label h3 { font-size: 1.15rem; margin-bottom: 6px; }
+.label dl { margin: 0; display: grid; gap: 4px; }
+.label dl div { display: grid; grid-template-columns: 7.5em 1fr; gap: 8px; }
+.label dt { font-weight: 700; }
+.label dd { margin: 0; }
+.label__gap { color: var(--ink-2); font-style: italic; }
+/* At least 10 pt where it is printed; on screen it stays body size. */
+.label__statement { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--line); font-weight: 600; font-size: max(1rem, 10pt); }

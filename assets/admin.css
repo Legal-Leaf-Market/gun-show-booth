@@ -119,3 +119,4 @@ details.help-box[open] summary { margin-bottom: 10px; }
 
 body.is-busy { cursor: progress; }
 body.is-busy .form button[type="submit"] { opacity: .6; pointer-events: none; }
+.pill.warn { background: var(--manila); color: var(--ink); }

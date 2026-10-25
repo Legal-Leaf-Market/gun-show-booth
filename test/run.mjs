@@ -100,9 +100,17 @@ for (const f of human) {
 const toml = read("netlify.toml");
 const hidden = [...toml.matchAll(/from = "([^"]+)"[\s\S]*?status = 404[\s\S]*?force = true/g)].map((m) => m[1]);
 const covered = (f) => hidden.some((h) => (h.endsWith("/*") ? ("/" + f).startsWith(h.slice(0, -1)) : "/" + f === h));
-for (const f of files.filter((f) => f.endsWith(".md") || /^(docs|test|tools)\//.test(f) || f === "package.json"))
+for (const f of files.filter((f) => f.endsWith(".md") || /^(docs|test|tools|brand)\//.test(f) || f === "package.json"))
   ok(covered(f), `${f} would be served publicly. Add a 404 rule to netlify.toml`);
 ok(existsSync(join(ROOT, "404.html")), "404.html exists for those rules to point at");
+
+/* ---------- Images the site loads through <img> ---------- */
+// An <img> cannot load web fonts, so live <text> in one of these renders in a
+// fallback face. Copy the -outlined twin from brand/, never the source.
+for (const f of files.filter((f) => /^assets\/img\/.*\.svg$/.test(f)))
+  ok(!/<text\b/.test(read(f)), `${f} has live <text>; use the -outlined twin from brand/ (python3 tools/outline_svg.py brand)`);
+for (const f of files.filter((f) => /^brand\/.*-outlined\.svg$/.test(f)))
+  ok(!/<text\b/.test(read(f)), `${f} claims to be outlined but still has live text`);
 
 /* ---------- Share card and icons ---------- */
 const png = (p) => { const b = readFileSync(join(ROOT, p)); return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) }; };

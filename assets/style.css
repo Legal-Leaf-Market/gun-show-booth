@@ -299,3 +299,10 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
   padding: 6px 12px; border-radius: 4px;
 }
 .live::before { content: ""; flex: none; margin-top: .55em; width: 9px; height: 9px; border-radius: 50%; background: var(--ink); }
+
+/* ---------- Empty states with a drawing ---------- */
+.empty--art { display: grid; justify-items: center; text-align: center; gap: 8px; }
+.empty--art img { display: block; width: 100%; max-width: 240px; height: auto; border-radius: 6px; }
+
+/* Pegboard behind the hero: low contrast on purpose, so white type still wins. */
+.hero { background-image: url("img/hero-pattern.svg"); background-size: 200px 200px; }

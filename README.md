@@ -66,6 +66,7 @@ Event links use the event's `id`, which doesn't change when you rename the event
 
 - `npm test` runs `test/run.mjs` (no install needed): recurring-date math, data sanity, no em dashes, nothing private served, share card present.
 - `npm run branding` (Python with Pillow) rebuilds the share card and icons from `data/site.json`. Run it after renaming the business.
+- `brand/` is the full asset library (logos, icons, social templates, print pieces, merch art). Open the files in `brand/` for printing and posting. For print shops, send the `-outlined.svg` versions: their text is converted to shapes, so they print right without the fonts installed. After editing a source SVG, run `python3 tools/outline_svg.py brand` (needs `pip install fonttools`). `brand/` is blocked from the live site.
 - `docs/` holds two briefs for other AIs: an asset list for ChatGPT and a market-research brief for Gemini. They are blocked from the live site.
 
 ## Under the hood

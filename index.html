@@ -7,6 +7,7 @@
   <meta name="description" content="Where we'll be next, what it costs to get in, and what's on our table.">
   <meta name="theme-color" content="#4B5235">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Booth Bandits">
@@ -107,7 +108,7 @@
         `<a class="btn btn--dark" href="${B.esc(dir.google)}" rel="noopener">Get directions</a>` +
         `<a class="btn" href="${B.esc(B.eventURL(up[0].ev))}">Show details</a>`;
     } else {
-      next.innerHTML = `<div class="empty" style="background:var(--paper)">Nothing on the calendar right now. Check back soon, or text us to ask where we'll be.</div>`;
+      next.innerHTML = B.emptyArt("shows", "Nothing on the calendar right now. Check back soon, or text us to ask where we'll be.", "background:var(--paper)");
     }
 
     const soon = up.slice(1, 5);
@@ -117,7 +118,7 @@
     const goodsEl = document.getElementById("goods");
     const vis = B.visibleGoods(items);
     const picks = [...vis.filter((i) => i.featured), ...vis.filter((i) => !i.featured)].slice(0, 6);
-    goodsEl.innerHTML = picks.length ? picks.map(B.goodCard).join("") : `<p class="empty" style="grid-column:1/-1">New stuff coming soon.</p>`;
+    goodsEl.innerHTML = picks.length ? picks.map(B.goodCard).join("") : B.emptyArt("goods", "New stuff coming soon.", "grid-column:1/-1");
     B.bindGoods(goodsEl, items, site);
 
     document.getElementById("door").innerHTML = B.doorBox(site);

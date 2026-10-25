@@ -312,6 +312,12 @@
     return tel ? `sms:${tel}?&body=${encodeURIComponent(text)}` : "";
   };
 
+  // Honest empty state with a drawing: "nothing here" should look deliberate,
+  // not broken. The SVGs are outlined, so they render the same inside an <img>,
+  // which cannot load web fonts.
+  B.emptyArt = (kind, msg, style = "") =>
+    `<div class="empty empty--art"${style ? ` style="${style}"` : ""}><img src="${B.base}assets/img/empty-${kind}.svg" alt="" width="320" height="200"><p>${B.esc(msg)}</p></div>`;
+
   B.img = (path) => (/^(https?:|data:|blob:)/.test(path) ? path : B.base + path);
 
   B.toast = function (msg, ms = 3200) {

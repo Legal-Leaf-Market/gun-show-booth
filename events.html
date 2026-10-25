@@ -7,6 +7,7 @@
   <meta name="description" content="Gun shows and markets where you can find our table, with dates, admission and a map.">
   <meta name="theme-color" content="#4B5235">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Booth Bandits">
@@ -144,7 +145,7 @@
     const perEvent = up.filter((o) => !once.has(o.ev.id) && once.add(o.ev.id));
     document.getElementById("list").innerHTML = perEvent.length
       ? perEvent.map((o) => B.ticket(o, site)).join("")
-      : `<p class="empty">Nothing on the calendar right now. Check back soon.</p>`;
+      : B.emptyArt("shows", "Nothing on the calendar right now. Check back soon.");
   })().catch((e) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<p class="wrap empty">The page didn't load: ${Booth.esc(e.message)}. Refresh to try again.</p>`); });
   </script>
 </body>

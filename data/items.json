@@ -1,1 +1,153 @@
-[]
+[
+  {
+    "id": "chocolate-oreo-mini-cake",
+    "title": "Chocolate Oreo mini cake",
+    "price": 5,
+    "category": "Baked goods",
+    "description": "CJ's best seller. Chocolate Oreo cake topped with piped frosting and crushed Oreo cookies, in a single-serve tray. $5 each, or 3 for $10.",
+    "photos": [
+      "images/items/mini-cake-chocolate-oreo-2.jpg",
+      "images/items/mini-cake-chocolate-oreo-1.jpg",
+      "images/items/mini-cakes-market-table.jpg"
+    ],
+    "status": "available",
+    "featured": true,
+    "homeBaked": true,
+    "ingredients": "Flour (wheat), Sugar, Eggs, Butter (milk), Whole Milk, Baking Powder (sodium acid pyrophosphate, sodium bicarbonate, cornstarch, monocalcium phosphate), Vanilla Extract (water, alcohol, vanilla bean extractives), Vegetable Oil (canola or soybean), Salt, Cocoa Powder (for chocolate items), Confectioners Sugar, Peanut Butter, Peanut Butter Candy (for Butterfinger items). Contains: Wheat, Milk, Eggs, Soy, Peanuts.",
+    "netWt": "7 oz (198 g)",
+    "added": "2026-10-25"
+  },
+  {
+    "id": "butterfinger-mini-cake",
+    "title": "Butterfinger mini cake",
+    "price": 5,
+    "category": "Baked goods",
+    "description": "Cake topped with piped frosting and Butterfinger candy pieces, in a single-serve tray. $5 each, or 3 for $10.",
+    "photos": [
+      "images/items/mini-cake-butterfinger-1.jpg",
+      "images/items/mini-cakes-market-table.jpg"
+    ],
+    "status": "available",
+    "featured": false,
+    "homeBaked": true,
+    "ingredients": "Flour (wheat), Sugar, Eggs, Butter (milk), Whole Milk, Baking Powder (sodium acid pyrophosphate, sodium bicarbonate, cornstarch, monocalcium phosphate), Vanilla Extract (water, alcohol, vanilla bean extractives), Vegetable Oil (canola or soybean), Salt, Cocoa Powder (for chocolate items), Confectioners Sugar, Peanut Butter, Peanut Butter Candy (for Butterfinger items). Contains: Wheat, Milk, Eggs, Soy, Peanuts.",
+    "netWt": "7 oz (198 g)",
+    "added": "2026-10-25"
+  },
+  {
+    "id": "vanilla-sprinkle-mini-cake",
+    "title": "Vanilla Sprinkle mini cake",
+    "price": 5,
+    "category": "Baked goods",
+    "description": "Vanilla cake topped with piped frosting and rainbow sprinkles, in a single-serve tray. $5 each, or 3 for $10.",
+    "photos": [
+      "images/items/mini-cake-vanilla-sprinkle-1.jpg",
+      "images/items/mini-cakes-trio.jpg",
+      "images/items/mini-cakes-menu-sign.jpg"
+    ],
+    "status": "available",
+    "featured": false,
+    "homeBaked": true,
+    "ingredients": "Flour (wheat), Sugar, Eggs, Butter (milk), Whole Milk, Baking Powder (sodium acid pyrophosphate, sodium bicarbonate, cornstarch, monocalcium phosphate), Vanilla Extract (water, alcohol, vanilla bean extractives), Vegetable Oil (canola or soybean), Salt, Cocoa Powder (for chocolate items), Confectioners Sugar, Peanut Butter, Peanut Butter Candy (for Butterfinger items). Contains: Wheat, Milk, Eggs, Soy, Peanuts.",
+    "netWt": "",
+    "added": "2026-10-25"
+  },
+  {
+    "id": "jumbo-chocolate-chip-cookie",
+    "title": "Jumbo chocolate chip cookie",
+    "price": 3,
+    "category": "Baked goods",
+    "description": "A soft jumbo cookie, one to a bag. $3.",
+    "photos": [
+      "images/items/jumbo-cookies-table.jpg"
+    ],
+    "status": "available",
+    "featured": true,
+    "homeBaked": true,
+    "ingredients": "",
+    "netWt": "3 oz (85 g)",
+    "added": "2026-10-25"
+  },
+  {
+    "id": "jumbo-peanut-butter-cookie",
+    "title": "Jumbo peanut butter cookie",
+    "price": 3,
+    "category": "Baked goods",
+    "description": "A soft jumbo cookie, one to a bag. $3.",
+    "photos": [
+      "images/items/jumbo-cookies-table.jpg"
+    ],
+    "status": "available",
+    "featured": false,
+    "homeBaked": true,
+    "ingredients": "",
+    "netWt": "3 oz (85 g)",
+    "added": "2026-10-25"
+  },
+  {
+    "id": "jumbo-oatmeal-raisin-cookie",
+    "title": "Jumbo oatmeal raisin cookie",
+    "price": 3,
+    "category": "Baked goods",
+    "description": "A soft jumbo cookie, one to a bag. $3.",
+    "photos": [
+      "images/items/jumbo-cookies-table.jpg"
+    ],
+    "status": "available",
+    "featured": false,
+    "homeBaked": true,
+    "ingredients": "",
+    "netWt": "3 oz (85 g)",
+    "added": "2026-10-25"
+  },
+  {
+    "id": "cupcakes",
+    "title": "Cupcakes, by the half dozen",
+    "price": "6 for $8",
+    "category": "Baked goods",
+    "description": "Made to order by CJ's Cakes: 6 for $8, 12 for $15, 24 for $30. Vanilla, chocolate or marble cake (other flavors on request) with buttercream or whipped icing. The best seller is Chocolate Oreo: chocolate Oreo cake with creamy vanilla frosting. Text CJ's Cakes at (812) 561-0549 or message them on Facebook to order.",
+    "photos": [
+      "images/items/cupcakes-box.jpg",
+      "images/items/cupcakes-chocolate-oreo-pan.jpg"
+    ],
+    "status": "available",
+    "featured": true,
+    "homeBaked": true,
+    "ingredients": "",
+    "netWt": "6, 12 or 24 cupcakes",
+    "added": "2026-10-25"
+  },
+  {
+    "id": "custom-round-cake",
+    "title": "Custom round cake",
+    "price": "From $25",
+    "category": "Baked goods",
+    "description": "Made to order by CJ's Cakes and decorated for your occasion: birthdays, baby showers, weddings or just because. 6 inch $25, 8 inch $30, 10 inch $35. Vanilla, chocolate or marble cake (other flavors on request) with buttercream or whipped icing. Final price depends on size, flavor and design. Delivery or curbside pickup around Columbus. Text CJ's Cakes at (812) 561-0549 or message them on Facebook to order.",
+    "photos": [
+      "images/items/custom-round-cake-bee.jpg",
+      "images/items/custom-round-cake-blue-drip.jpg"
+    ],
+    "status": "available",
+    "featured": true,
+    "homeBaked": true,
+    "ingredients": "",
+    "netWt": "One 6, 8 or 10 inch cake",
+    "added": "2026-10-25"
+  },
+  {
+    "id": "custom-sheet-cake",
+    "title": "Custom sheet cake",
+    "price": "From $20",
+    "category": "Baked goods",
+    "description": "Made to order by CJ's Cakes and decorated for your occasion. 1/8 sheet $20, 1/4 sheet $40, 1/2 sheet $60, full sheet $80. Vanilla, chocolate or marble cake (other flavors on request) with buttercream or whipped icing. Final price depends on size, flavor and design. Delivery or curbside pickup around Columbus. Text CJ's Cakes at (812) 561-0549 or message them on Facebook to order.",
+    "photos": [
+      "images/items/custom-sheet-cake-race-track.jpg"
+    ],
+    "status": "available",
+    "featured": false,
+    "homeBaked": true,
+    "ingredients": "",
+    "netWt": "One 1/8, 1/4, 1/2 or full sheet cake",
+    "added": "2026-10-25"
+  }
+]

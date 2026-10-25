@@ -136,30 +136,6 @@
     "link": "https://www.centralindianagunshows.com"
   },
   {
-    "id": "indianapolis-gun-and-knife-show-stout-field",
-    "title": "Indianapolis Gun & Knife Show",
-    "kind": "popup",
-    "venue": "Stout Field National Guard Armory",
-    "address": "3912 W Minnesota St, Indianapolis, IN",
-    "lat": "",
-    "lng": "",
-    "hours": "Sat 9am to 5pm, Sun 9am to 3pm",
-    "booth": "",
-    "admission": {
-      "mode": "standard"
-    },
-    "repeat": null,
-    "dates": [
-      {
-        "start": "2026-11-28",
-        "end": "2026-11-29"
-      }
-    ],
-    "skip": [],
-    "notes": "",
-    "link": "https://www.centralindianagunshows.com"
-  },
-  {
     "id": "greensburg-gun-and-knife-show",
     "title": "Greensburg Gun & Knife Show",
     "kind": "popup",

@@ -318,6 +318,47 @@
   B.emptyArt = (kind, msg, style = "") =>
     `<div class="empty empty--art"${style ? ` style="${style}"` : ""}><img src="${B.base}assets/img/empty-${kind}.svg" alt="" width="320" height="200"><p>${B.esc(msg)}</p></div>`;
 
+  /* ---------------- Home-based vendor label ---------------- */
+  // IC 16-42-5.3-5: every home-baked product carries this statement in at
+  // least 10 pt type, and the vendor must post each product's label on its
+  // website. Wording from the 2023-2024 code text ("Indiana Department of
+  // Health"); confirm against the current code before relying on it, since
+  // a 2026 bill touched this chapter. One constant, so the site, the admin
+  // and the printed label cannot drift apart.
+  B.HBV_STATEMENT = "This product is home produced and processed and the production area has not been inspected by the Indiana Department of Health. NOT FOR RESALE.";
+
+  // What the label is missing, in plain words. Empty means complete.
+  B.labelGaps = function (item, site) {
+    if (!item || !item.homeBaked) return [];
+    const p = (site && site.producer) || {};
+    const gaps = [];
+    if (!String(item.ingredients || "").trim()) gaps.push("ingredients");
+    if (!String(item.netWt || "").trim()) gaps.push("net weight or count");
+    if (!String(p.name || "").trim() || !String(p.address || "").trim()) gaps.push("producer name and address (Business tab)");
+    return gaps;
+  };
+
+  // The label as the law lists it. A missing field says so rather than
+  // being left out, because a label that silently drops a line looks
+  // complete and is not.
+  B.labelBox = function (item, site) {
+    if (!item || !item.homeBaked) return "";
+    const p = (site && site.producer) || {};
+    const ask = '<span class="label__gap">Ask at the table</span>';
+    const row = (k, v) => `<div><dt>${k}</dt><dd>${v ? B.esc(v) : ask}</dd></div>`;
+    return `<section class="label" aria-label="Product label">
+      <h3>Label</h3>
+      <dl>
+        ${row("Product", item.title)}
+        ${row("Ingredients", item.ingredients)}
+        ${row("Net weight", item.netWt)}
+        ${row("Made by", [p.name, p.address].filter(Boolean).join(", "))}
+        <div><dt>Date made</dt><dd>Printed on each package</dd></div>
+      </dl>
+      <p class="label__statement">${B.esc(B.HBV_STATEMENT)}</p>
+    </section>`;
+  };
+
   B.img = (path) => (/^(https?:|data:|blob:)/.test(path) ? path : B.base + path);
 
   B.toast = function (msg, ms = 3200) {

@@ -40,6 +40,15 @@ Columbus, Verda Studio). Where a rule came from one of them, it says so.
   or an honest empty state, never a dead button or a plausible blank. Loading
   says loading; empty says empty. (Verda Studio: a visitor cannot tell slow
   from empty, and empty is the one that makes them leave.)
+- **Home-baked food carries its label on the site.** Indiana's home-based
+  vendor law (IC 16-42-5.3-5) requires the label of each home-baked product
+  on the vendor's website, with a fixed statement in at least 10 pt type.
+  `B.HBV_STATEMENT` in `booth.js` is the one copy of that sentence; the item
+  sheet, the admin and `brand/06-print/baked-goods-label-indiana.svg` all
+  use it, and `npm test` fails if the printed label drifts from it or drops
+  below 10 pt. The wording is from the 2023-2024 code text ("Indiana
+  Department of Health"); a 2026 bill touched this chapter, so confirm it
+  against the current code before printing.
 - **Today is Indiana's today.** `B.today()` reads America/Indiana/Indianapolis,
   so a phone set to another zone cannot move a show to tomorrow. (Jill's Diner.)
 - **Stay dependency-free and build-free.** Plain HTML, CSS and JS. Third-party
@@ -77,7 +86,7 @@ tools/outline_svg.py turns live text in brand/ SVGs into real outlines (-outline
 brand/               the full asset library (logos, icons, social, print, merch). Not served
 assets/img/          the few brand pieces the site itself shows. Outlined copies only
 test/run.mjs         zero-dependency checks (npm test)
-docs/                briefs for other AIs (asset library, market research). Not served
+docs/                briefs for other AIs, the research report's show leads. Not served
 ```
 
 ## Checking work

@@ -238,7 +238,7 @@
         <button type="button" class="arow__main" data-edit-item="${B.esc(i.id)}">
           ${pic ? `<img src="${B.esc(thumb(pic))}" alt="">` : `<span class="arow__pic"></span>`}
           <span class="arow__text"><b>${B.esc(i.title)}</b>
-            <small>${B.esc(B.money(i.price) || "Ask")}${st ? `<span class="pill ${st[1]}">${st[0]}</span>` : ""}${i.featured ? `<span class="pill">Home page</span>` : ""}${i.sample ? `<span class="pill">Sample</span>` : ""}</small>
+            <small>${B.esc(B.money(i.price) || "Ask")}${st ? `<span class="pill ${st[1]}">${st[0]}</span>` : ""}${i.featured ? `<span class="pill">Home page</span>` : ""}${i.sample ? `<span class="pill">Sample</span>` : ""}${B.labelGaps(i, A.site).length ? `<span class="pill warn" title="Missing: ${B.esc(B.labelGaps(i, A.site).join(", "))}">Label incomplete</span>` : ""}</small>
           </span>
         </button>
         <button type="button" class="btn btn--small" data-toggle-sold="${B.esc(i.id)}">${i.status === "sold" ? "Back in stock" : "Mark sold"}</button>
@@ -300,6 +300,9 @@
       itemForm.description.value = it.description || "";
       itemForm.querySelector(`[name=status][value="${it.status || "available"}"]`).checked = true;
       itemForm.featured.checked = !!it.featured;
+      itemForm.homeBaked.checked = !!it.homeBaked;
+      itemForm.ingredients.value = it.ingredients || "";
+      itemForm.netWt.value = it.netWt || "";
     } else {
       itemForm.featured.checked = true;
     }
@@ -356,6 +359,9 @@
       photos: paths,
       status: itemForm.querySelector("[name=status]:checked").value,
       featured: itemForm.featured.checked,
+      homeBaked: itemForm.homeBaked.checked,
+      ingredients: itemForm.ingredients.value.trim(),
+      netWt: itemForm.netWt.value.trim(),
       added: (existing && existing.added) || B.iso(B.today()),
     };
     const ok = await save((d) => {
@@ -604,6 +610,8 @@
     infoForm.adm_freeFor.value = a.freeFor || "";
     infoForm.adm_where.value = a.where || "";
     infoForm.adm_note.value = a.note || "";
+    infoForm.producer_name.value = (s.producer || {}).name || "";
+    infoForm.producer_address.value = (s.producer || {}).address || "";
   }
   infoForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -616,6 +624,7 @@
         payments: list(v("payments")), categories: list(v("categories")),
       });
       d.site.admission = { ...(d.site.admission || {}), price: parsePrice(v("adm_price")), freeFor: v("adm_freeFor"), where: v("adm_where"), note: v("adm_note") };
+      d.site.producer = { name: v("producer_name"), address: v("producer_address") };
       return ["site"];
     }, "Update business info");
   });

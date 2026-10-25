@@ -7,8 +7,16 @@
   "instagram": "",
   "facebook": "",
   "tiktok": "",
-  "payments": ["Cash", "Card"],
-  "categories": ["Coasters", "Baked goods", "Merch", "Gifts"],
+  "payments": [
+    "Cash",
+    "Card"
+  ],
+  "categories": [
+    "Coasters",
+    "Baked goods",
+    "Merch",
+    "Gifts"
+  ],
   "admission": {
     "price": 6,
     "freeFor": "Kids 12 and under get in free",
@@ -20,5 +28,9 @@
     "owner": "Legal-Leaf-Market",
     "name": "gun-show-booth",
     "branch": "main"
+  },
+  "producer": {
+    "name": "",
+    "address": ""
   }
 }

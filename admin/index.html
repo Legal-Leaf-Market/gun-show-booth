@@ -67,6 +67,10 @@
           <label>How paying works <textarea name="adm_where" rows="2"></textarea></label>
           <label>Extra note <textarea name="adm_note" rows="2"></textarea></label>
         </div>
+        <div class="box">
+          <label>Producer name <span class="help">Printed on home-baked labels. Required by Indiana law.</span><input name="producer_name" maxlength="80"></label>
+          <label>Producer address <input name="producer_address" maxlength="160"></label>
+        </div>
         <label>Not-a-dealer note <span class="help">Shows in the footer and on the home page.</span><textarea name="dealerNote" rows="3"></textarea></label>
         <button class="btn btn--go" type="submit">Save business info</button>
       </form>
@@ -123,6 +127,12 @@
         <label><input type="radio" name="status" value="hidden"><span>Hidden</span></label>
       </fieldset>
       <label class="check"><input type="checkbox" name="featured"> Show on the home page</label>
+      <div class="box">
+        <label class="check"><input type="checkbox" name="homeBaked"> Home-baked food (Indiana home-based vendor label)</label>
+        <p class="help">Indiana requires the label of each home-baked product on your website. Tick this and the item page shows the label with the required statement. Producer name and address come from the Business tab.</p>
+        <label>Ingredients <span class="help">Heaviest first, as on the package.</span><textarea name="ingredients" rows="2" maxlength="600"></textarea></label>
+        <label>Net weight or count <input name="netWt" maxlength="40" placeholder="6 oz (170 g), or 6 cookies"></label>
+      </div>
       <div class="form__actions">
         <button class="btn btn--go" type="submit">Save item</button>
         <button class="btn danger" type="button" id="item-delete" hidden>Delete item</button>

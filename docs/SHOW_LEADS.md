@@ -7,6 +7,13 @@ the table will be there. "Verified" and "Reported" are the report's own
 labels for how it sourced each row; neither was re-checked here, so call to
 confirm the date, the fee and that sealed home-baked goods are allowed.
 
+**Booked, per the owner (2026-10-25):** Nov 14–15, Nov 28–29, Dec 5–6,
+Dec 12–13 and Dec 19–20. Of the leads below, Stout Field (Nov 28–29) is on
+the calendar. Still to confirm with the owner: which show is Nov 14–15 and
+Dec 12–13 (no lead matches), Greensburg or Tipton for Dec 5–6, and whether
+Dec 19–20 is the 1-day Madison show or something else. Everything else
+below is not booked and is off the calendar.
+
 | Date | Show | Where | Table fee | Admission | Book with | Report says |
 |---|---|---|---|---|---|---|
 | Sat Oct 31 | Madison Arms & Blade (1 day) | National Guard Armory, Madison | $40 | $8, kids under 12 free | Straight Shooters, (812) 498-3833 | Reported |

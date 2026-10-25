@@ -68,6 +68,13 @@ ok(ld.every((e) => !("organizer" in e) && !("aggregateRating" in e) && !("review
 ok(ld.some((e) => /EventCancelled/.test(e.eventStatus)), "a skipped weekend is marked cancelled, not dropped silently");
 eq(ld[0].offers?.price, "6", "offer price matches the admission shown on the page");
 eq(B.orgLD(site).telephone, undefined, "a 555-01xx placeholder phone is not published as a contact");
+eq(B.phone({ phone: "(317) 555-0142" }), "", "the placeholder phone reads as no phone");
+eq(B.phone({ phone: "(317) 555-2368" }), "(317) 555-2368", "a real 555 exchange outside 01xx is kept");
+eq(B.email({ email: "hello@example.com" }), "", "an example.com address reads as no email");
+eq(B.email({ email: "hi@boothbandits.com" }), "hi@boothbandits.com", "a real address is kept");
+eq(B.contactButtons({ phone: "(317) 555-0142", email: "hello@example.com" }), "", "placeholders make no Call, Text or Email button");
+eq(B.smsAbout({ phone: "(317) 555-0142" }, "hi"), "", "the item sheet offers no text to a placeholder");
+ok(B.contactButtons({ phone: "(317) 555-2368" }).includes('href="tel:3175552368"'), "a real phone gets a Call button");
 
 /* ---------- Home-based vendor label (IC 16-42-5.3-5) ---------- */
 ok(/^This product is home produced and processed and the production area has not been inspected by the Indiana Department of Health\. NOT FOR RESALE\.$/.test(B.HBV_STATEMENT), "the statutory statement is word for word");

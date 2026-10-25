@@ -603,6 +603,9 @@
   function fillInfo() {
     const s = A.site;
     ["name", "tagline", "about", "phone", "email", "facebook", "instagram", "tiktok", "dealerNote"].forEach((k) => (infoForm[k].value = s[k] || ""));
+    const stand = [s.phone && !B.phone(s) ? "phone" : "", s.email && !B.email(s) ? "email" : ""].filter(Boolean);
+    $("#contact-hint").hidden = !stand.length;
+    $("#contact-hint").textContent = stand.length ? `The ${stand.join(" and ")} above ${stand.length > 1 ? "are placeholders" : "is a placeholder"}, so the site hides ${stand.length > 1 ? "them" : "it"}. Put in the real one${stand.length > 1 ? "s" : ""} and save.` : "";
     infoForm.payments.value = (s.payments || []).join(", ");
     infoForm.categories.value = (s.categories || []).join(", ");
     const a = s.admission || {};

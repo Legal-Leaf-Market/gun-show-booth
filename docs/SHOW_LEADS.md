@@ -8,11 +8,11 @@ labels for how it sourced each row; neither was re-checked here, so call to
 confirm the date, the fee and that sealed home-baked goods are allowed.
 
 **Booked, per the owner (2026-10-25):** Nov 14–15, Nov 28–29, Dec 5–6,
-Dec 12–13 and Dec 19–20. Of the leads below, Stout Field (Nov 28–29) is on
-the calendar. Still to confirm with the owner: which show is Nov 14–15 and
-Dec 12–13 (no lead matches), Greensburg or Tipton for Dec 5–6, and whether
-Dec 19–20 is the 1-day Madison show or something else. Everything else
-below is not booked and is off the calendar.
+Dec 12–13 and Dec 19–20. On the calendar: Stout Field (Nov 28–29),
+Greensburg (Dec 5–6) and Madison (Sat Dec 19). Still to confirm with the
+owner: which show is Nov 14–15 and Dec 12–13 (no lead matches), and
+whether anything is booked for Sun Dec 20. Everything else below is not
+booked and is off the calendar.
 
 | Date | Show | Where | Table fee | Admission | Book with | Report says |
 |---|---|---|---|---|---|---|

@@ -255,10 +255,22 @@
     if (site.tagline) o.description = site.tagline;
     const same = [site.facebook, site.instagram, site.tiktok].filter((u) => /^https?:/.test(u || ""));
     if (same.length) o.sameAs = same;
-    // A 555 number is a placeholder and is not published as a contact point.
-    const tel = String(site.phone || "");
-    if (tel && !/555-01\d\d/.test(tel)) o.telephone = tel;
+    const tel = B.phone(site);
+    if (tel) o.telephone = tel;
     return o;
+  };
+
+  // The phone and email as published, or "" while they are still the
+  // placeholders from setup: a 555-01xx number is fictional and an example.*
+  // address bounces. Every contact link, the sign and the markup go through
+  // these, so a placeholder can never be dialled, texted or printed.
+  B.phone = function (site) {
+    const tel = String((site && site.phone) || "").trim();
+    return tel && !/555[^\d]*01\d\d/.test(tel) ? tel : "";
+  };
+  B.email = function (site) {
+    const em = String((site && site.email) || "").trim();
+    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em) && !/@(.+\.)?example\.(com|org|net)$/i.test(em) ? em : "";
   };
 
   B.ld = function (data) {
@@ -297,10 +309,11 @@
   };
 
   B.contactButtons = function (site) {
-    const tel = String(site.phone || "").replace(/[^\d+]/g, "");
+    const tel = B.phone(site).replace(/[^\d+]/g, "");
+    const email = B.email(site);
     const out = [];
     if (tel) out.push(`<a class="btn btn--go" href="tel:${tel}">Call</a>`, `<a class="btn btn--go" href="sms:${tel}">Text</a>`);
-    if (site.email) out.push(`<a class="btn" href="mailto:${B.esc(site.email)}">Email</a>`);
+    if (email) out.push(`<a class="btn" href="mailto:${B.esc(email)}">Email</a>`);
     if (site.facebook) out.push(`<a class="btn" href="${B.esc(site.facebook)}" rel="noopener">Facebook</a>`);
     if (site.instagram) out.push(`<a class="btn" href="${B.esc(site.instagram)}" rel="noopener">Instagram</a>`);
     if (site.tiktok) out.push(`<a class="btn" href="${B.esc(site.tiktok)}" rel="noopener">TikTok</a>`);
@@ -308,7 +321,7 @@
   };
 
   B.smsAbout = function (site, text) {
-    const tel = String(site.phone || "").replace(/[^\d+]/g, "");
+    const tel = B.phone(site).replace(/[^\d+]/g, "");
     return tel ? `sms:${tel}?&body=${encodeURIComponent(text)}` : "";
   };
 

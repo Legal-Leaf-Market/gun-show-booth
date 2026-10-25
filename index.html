@@ -125,7 +125,10 @@
     if (site.dealerNote) { const d = document.getElementById("dealer"); d.hidden = false; d.querySelector("p").textContent = site.dealerNote; }
     if ((site.payments || []).length) { const p = document.getElementById("pay"); p.hidden = false; p.querySelector("ul").innerHTML = site.payments.map((x) => `<li>${B.esc(x)}</li>`).join(""); }
     if (site.about) { const a = document.getElementById("about"); a.hidden = false; a.querySelector("p").textContent = site.about; }
-    document.getElementById("contact-btns").innerHTML = B.contactButtons(site);
+    // No real phone, email or social yet: say so and point at the table,
+    // rather than leaving an empty row or a button to a placeholder.
+    document.getElementById("contact-btns").innerHTML = B.contactButtons(site)
+      || `<p class="empty" style="grid-column:1/-1;flex:1 1 100%;margin:0">Phone and email are coming soon. Until then, come say hi at the table: <a href="${B.base}events.html">see where we'll be next</a>.</p>`;
   })().catch((e) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<p class="wrap empty">The page didn't load: ${Booth.esc(e.message)}. Refresh to try again.</p>`); });
   </script>
 </body>

@@ -66,7 +66,7 @@
     qr.addData(home);
     qr.make();
     const up = B.upcoming(events).slice(0, 4);
-    const tel = String(site.phone || "");
+    const tel = B.phone(site);
     const pays = (site.payments || []).join(", ");
     document.getElementById("sheet").innerHTML = `
       <div>

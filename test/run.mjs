@@ -67,7 +67,8 @@ ok(Array.isArray(ld) && ld.length > 1, "a real event produces one Event per date
 ok(ld.every((e) => !("organizer" in e) && !("aggregateRating" in e) && !("review" in e)), "no organizer (the show runs it) and no ratings (there are none)");
 ok(ld.some((e) => /EventCancelled/.test(e.eventStatus)), "a skipped weekend is marked cancelled, not dropped silently");
 eq(ld[0].offers?.price, "6", "offer price matches the admission shown on the page");
-eq(B.orgLD(site).telephone, undefined, "a 555-01xx placeholder phone is not published as a contact");
+eq(B.orgLD({ ...site, phone: "(317) 555-0142" }).telephone, undefined, "a 555-01xx placeholder phone is not published as a contact");
+eq(B.orgLD({ ...site, phone: "(812) 561-0549" }).telephone, "(812) 561-0549", "a real phone is published as the contact");
 eq(B.phone({ phone: "(317) 555-0142" }), "", "the placeholder phone reads as no phone");
 eq(B.phone({ phone: "(317) 555-2368" }), "(317) 555-2368", "a real 555 exchange outside 01xx is kept");
 eq(B.email({ email: "hello@example.com" }), "", "an example.com address reads as no email");

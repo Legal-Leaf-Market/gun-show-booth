@@ -73,32 +73,5 @@
     "skip": [],
     "notes": "",
     "link": "https://www.centralindianagunshows.com"
-  },
-  {
-    "id": "tipton-gun-and-knife-show",
-    "title": "Tipton Gun & Knife Show",
-    "kind": "popup",
-    "venue": "Tipton County Fairgrounds",
-    "address": "1200 S Main St, Tipton, IN",
-    "lat": "",
-    "lng": "",
-    "hours": "Sat 9am to 5pm, Sun 9am to 3pm",
-    "booth": "",
-    "admission": {
-      "mode": "custom",
-      "price": 6,
-      "freeFor": "Kids get in free",
-      "note": ""
-    },
-    "repeat": null,
-    "dates": [
-      {
-        "start": "2026-12-05",
-        "end": "2026-12-06"
-      }
-    ],
-    "skip": [],
-    "notes": "",
-    "link": ""
   }
 ]

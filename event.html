@@ -45,6 +45,7 @@
       return;
     }
     document.title = `${ev.title}: ${site.name}`;
+    B.canonical(`event.html?e=${encodeURIComponent(ev.id)}`);
     const today = B.today();
     const occs = B.occurrences(ev, today, B.addDays(today, 400));
     const live = occs.filter((o) => !o.cancelled);
@@ -60,6 +61,7 @@
         ? B.ticket(next, site, { big: true, link: false, heading: "h1" })
         : `<h1 style="font-size:2.6rem">${B.esc(ev.title)}</h1><p class="empty">No upcoming dates for this one right now. <a href="events.html">See what else is coming up.</a></p>`}
 
+      ${next ? `<section class="note" style="margin-top:24px"><h2>What we’re bringing</h2><p>Browse our catalog and request a hold for this show. The catalog is not a guaranteed show menu; we confirm items, quantity and pickup day when we reply.</p><a class="btn btn--go" href="goods.html?show=${encodeURIComponent(ev.id)}">Browse goods for this show</a></section>` : ""}
       <div class="actions">
         ${where.length ? `<a class="btn btn--dark" href="${B.esc(dir.google)}" rel="noopener">Google Maps</a><a class="btn btn--dark" href="${B.esc(dir.apple)}" rel="noopener">Apple Maps</a>` : ""}
         ${live.length ? `<button class="btn" type="button" id="cal-add">Add to calendar</button>` : ""}

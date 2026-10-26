@@ -185,6 +185,7 @@ a.ticket:hover .ticket__title { text-decoration: underline; text-decoration-thic
 .good:focus-visible { outline: 3px solid var(--blaze-ink); outline-offset: 3px; border-radius: 4px; }
 .good__pic { position: relative; aspect-ratio: 1; border-radius: 4px; overflow: hidden; background: var(--concrete-2); }
 .good__pic img { width: 100%; height: 100%; object-fit: cover; }
+.good__nophoto { position: absolute; inset: 0 0 auto; padding: 14px 12px; text-align: center; font-size: .88rem; color: var(--ink-2); }
 .good__name { font-weight: 600; line-height: 1.25; }
 .good__cat { font-size: .88rem; color: var(--ink-2); }
 .tag {

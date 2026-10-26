@@ -8,7 +8,7 @@
     const price = B.money(item.price);
     return `<button type="button" class="good${sold ? " is-sold" : ""}" data-id="${B.esc(item.id)}" aria-label="${B.esc(item.title)}${price ? ", " + price : ""}${sold ? ", sold" : ""}">
       <span class="good__pic">
-        ${photo ? `<img src="${B.esc(B.img(photo))}" alt="" loading="lazy" decoding="async">` : ""}
+        ${photo ? `<img src="${B.esc(B.img(photo))}" alt="" loading="lazy" decoding="async">` : `<span class="good__nophoto">Photo coming soon</span>`}
         ${item.sample ? `<span class="sample-flag">Sample</span>` : ""}
         ${sold ? `<span class="sold-stamp">Sold</span>` : ""}
         <span class="tag">${price ? B.esc(price) : "Ask"}</span>

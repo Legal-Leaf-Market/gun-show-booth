@@ -67,6 +67,8 @@ ok(Array.isArray(ld) && ld.length > 1, "a real event produces one Event per date
 ok(ld.every((e) => !("organizer" in e) && !("aggregateRating" in e) && !("review" in e)), "no organizer (the show runs it) and no ratings (there are none)");
 ok(ld.some((e) => /EventCancelled/.test(e.eventStatus)), "a skipped weekend is marked cancelled, not dropped silently");
 eq(ld[0].offers?.price, "6", "offer price matches the admission shown on the page");
+eq(ld[0].offers?.url, undefined, "admission is sold by the show, so with no show link the offer names no url (never our page)");
+eq(B.eventLD({ ...real, link: "https://show.example.org" }, B.occurrences(real, d("2026-10-01"), d("2027-01-01")), site)[0].offers.url, "https://show.example.org", "with a show link, the offer points at the show");
 eq(B.orgLD({ ...site, phone: "(317) 555-0142" }).telephone, undefined, "a 555-01xx placeholder phone is not published as a contact");
 eq(B.orgLD({ ...site, phone: "(812) 561-0549" }).telephone, "(812) 561-0549", "a real phone is published as the contact");
 eq(B.phone({ phone: "(317) 555-0142" }), "", "the placeholder phone reads as no phone");

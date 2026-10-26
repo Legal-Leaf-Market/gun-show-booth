@@ -243,7 +243,12 @@
         description: [ev.hours, adm.headline + (adm.who ? ". " + adm.who : "")].filter(Boolean).join(". "),
       };
       if (adm.free) e.isAccessibleForFree = true;
-      else if (adm.price) e.offers = { "@type": "Offer", price: String(adm.price), priceCurrency: "USD", url: page, availability: "https://schema.org/InStock" };
+      else if (adm.price) {
+        // Admission is sold by the show at its door, so the offer never
+        // points at our page as if we sold it: the show's own site, or no url.
+        e.offers = { "@type": "Offer", price: String(adm.price), priceCurrency: "USD", availability: "https://schema.org/InStock" };
+        if (/^https?:\/\//.test(ev.link || "")) e.offers.url = ev.link;
+      }
       return e;
     });
     return list.length ? list : null;

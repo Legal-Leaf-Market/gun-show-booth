@@ -72,6 +72,14 @@ Coasters and merch remain unlisted until real photos, prices and specifications 
 
 Items with an `order` block in `data/items.json` (the custom cakes and cupcakes) get a **Start an order** button: size, date, flavor, icing, design, pickup or delivery. It writes a text message in the customer's own texting app, addressed to the site phone. Nothing is sent or stored by the site. `goods.html?item=<id>` redirects to the product page, and adding `&order=1` opens its order form, so a link can go in a Facebook post. The order options must match the item's own description; `npm test` checks the sizes and prices.
 
+## Cake designer
+
+`cake-builder.html` lets a customer try a round or sheet cake: size (read from the custom cake items), flavor, icing, colors, border and a message. They save a PNG preview and copy a summary to text or message us. Nothing is sent or stored by the site. It is linked from `cakes.html` as Design your cake.
+
+It can also put a customer's photo on top of the preview. That step is hidden until `photoToppers` in `data/site.json` is `true`, because nobody has confirmed CJ's makes edible-photo toppers. Turn it on only once the owner says yes, and then add the sizes, lead time and fee to the item descriptions. The photo never leaves the customer's browser either way.
+
+`assets/img/market/` is the decorative bakery art (24 motifs in color, cream and olive, plus borders and a pattern). `assets/img/market/index.html` shows them all. Decoration only: none of it is a product photo.
+
 ## Checks and brand files
 
 - `npm test` runs `test/run.mjs` (no install needed): recurring-date math, data sanity, no em dashes, nothing private served, share card present.

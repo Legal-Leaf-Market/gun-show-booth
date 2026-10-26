@@ -18,6 +18,7 @@ const window = {};
 const document = { documentElement: { dataset: {} } };
 const location = { origin: "https://booth-bandits.netlify.app", pathname: "/event.html" };
 new Function("window", "document", "location", read("assets/booth.js"))(window, document, location);
+new Function("window", "document", "location", read("assets/goods.js"))(window, document, location);
 const B = window.Booth;
 const d = B.parse;
 const starts = (ev, from, to) => B.occurrences(ev, d(from), d(to)).map((o) => B.iso(o.start));
@@ -93,6 +94,22 @@ const printed = [...read("brand/06-print/baked-goods-label-indiana.svg").matchAl
 ok(printed.includes(B.HBV_STATEMENT), "the printed label's statement matches B.HBV_STATEMENT");
 const stmtSize = [...read("brand/06-print/baked-goods-label-indiana.svg").matchAll(/font-size="([\d.]+)"[^>]*>(?:This product|processed|has not|Department|RESALE)/g)].map((m) => +m[1]);
 ok(stmtSize.length && stmtSize.every((v) => v >= 13.9), "printed statement is at least 10 pt (13.9 units at 100 per inch)");
+
+/* ---------- Made-to-order texts ---------- */
+const cakeItem = { title: "Custom round cake", order: { what: "a custom round cake", sizes: ["8 inch ($30)"], flavors: ["Chocolate"], icings: ["Buttercream"] } };
+const txt = B.orderText(cakeItem, { size: "8 inch ($30)", date: "2026-11-14", flavor: "Chocolate", icing: "Buttercream", design: "  Happy 40th  ", get: "Delivery", town: "Seymour", name: "Sam" });
+eq(txt, "Hi! I'd like to order a custom round cake.\nSize: 8 inch ($30)\nDate needed: Saturday, November 14\nFlavor: Chocolate, buttercream icing\nDesign: Happy 40th\nDelivery to Seymour\nName: Sam", "the order text reads like a person wrote it");
+ok(B.orderText(cakeItem, { size: "8 inch ($30)", date: "2026-11-14", get: "Delivery", town: "" }).includes("Delivery (town to follow)"), "delivery with no town says so instead of leaving it blank");
+ok(!/\u2014/.test(B.orderForm(cakeItem) + txt), "no em dashes in the order form or text");
+for (const it of JSON.parse(read("data/items.json")).filter((i) => i.order)) {
+  ok(Array.isArray(it.order.sizes) && it.order.sizes.length, `${it.id} order form has sizes`);
+  const desc = String(it.description || "").toLowerCase();
+  for (const sz of it.order.sizes) {
+    const [first] = sz.toLowerCase().split(" ");
+    const money = (sz.match(/\$\d+/g) || []);
+    ok(desc.includes(first) && money.every((m) => desc.includes(m)), `${it.id} size "${sz}" and its price are in the item's own description`);
+  }
+}
 
 /* ---------- Data files ---------- */
 const items = JSON.parse(read("data/items.json"));

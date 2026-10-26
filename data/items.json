@@ -115,7 +115,25 @@
     "homeBaked": true,
     "ingredients": "",
     "netWt": "6, 12 or 24 cupcakes",
-    "added": "2026-10-25"
+    "added": "2026-10-25",
+    "order": {
+      "what": "cupcakes",
+      "sizes": [
+        "6 for $8",
+        "12 for $15",
+        "24 for $30"
+      ],
+      "flavors": [
+        "Vanilla",
+        "Chocolate",
+        "Marble",
+        "Something else (say below)"
+      ],
+      "icings": [
+        "Buttercream",
+        "Whipped"
+      ]
+    }
   },
   {
     "id": "custom-round-cake",
@@ -132,7 +150,25 @@
     "homeBaked": true,
     "ingredients": "",
     "netWt": "One 6, 8 or 10 inch cake",
-    "added": "2026-10-25"
+    "added": "2026-10-25",
+    "order": {
+      "what": "a custom round cake",
+      "sizes": [
+        "6 inch ($25)",
+        "8 inch ($30)",
+        "10 inch ($35)"
+      ],
+      "flavors": [
+        "Vanilla",
+        "Chocolate",
+        "Marble",
+        "Something else (say below)"
+      ],
+      "icings": [
+        "Buttercream",
+        "Whipped"
+      ]
+    }
   },
   {
     "id": "custom-sheet-cake",
@@ -148,6 +184,25 @@
     "homeBaked": true,
     "ingredients": "",
     "netWt": "One 1/8, 1/4, 1/2 or full sheet cake",
-    "added": "2026-10-25"
+    "added": "2026-10-25",
+    "order": {
+      "what": "a custom sheet cake",
+      "sizes": [
+        "1/8 sheet ($20)",
+        "1/4 sheet ($40)",
+        "1/2 sheet ($60)",
+        "Full sheet ($80)"
+      ],
+      "flavors": [
+        "Vanilla",
+        "Chocolate",
+        "Marble",
+        "Something else (say below)"
+      ],
+      "icings": [
+        "Buttercream",
+        "Whipped"
+      ]
+    }
   }
 ]

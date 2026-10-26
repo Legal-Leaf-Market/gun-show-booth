@@ -127,7 +127,11 @@
     if (site.about) { const a = document.getElementById("about"); a.hidden = false; a.querySelector("p").textContent = site.about; }
     // No real phone, email or social yet: say so and point at the table,
     // rather than leaving an empty row or a button to a placeholder.
-    document.getElementById("contact-btns").innerHTML = B.contactButtons(site)
+    // Made-to-order items get a straight line to their order form.
+    const orderable = items.filter((i) => i.order && i.status === "available");
+    const orderBtn = B.phone(site) && orderable.length
+      ? `<a class="btn btn--dark" href="goods.html?item=${encodeURIComponent((orderable.find((i) => i.id === "custom-round-cake") || orderable[0]).id)}&order=1">Order a custom cake</a>` : "";
+    document.getElementById("contact-btns").innerHTML = (B.contactButtons(site) ? orderBtn : "") + B.contactButtons(site)
       || `<p class="empty" style="grid-column:1/-1;flex:1 1 100%;margin:0">Phone and email are coming soon. Until then, come say hi at the table: <a href="${B.base}events.html">see where we'll be next</a>.</p>`;
   })().catch((e) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<p class="wrap empty">The page didn't load: ${Booth.esc(e.message)}. Refresh to try again.</p>`); });
   </script>

@@ -62,6 +62,10 @@ Everything lives in three files:
 
 Event links use the event's `id`, which doesn't change when you rename the event, so shared links keep working.
 
+## Custom orders
+
+Items with an `order` block in `data/items.json` (the custom cakes and cupcakes) get a **Start an order** button: size, date, flavor, icing, design, pickup or delivery. It writes a text message in the customer's own texting app, addressed to the site phone. Nothing is sent or stored by the site. `goods.html?item=<id>` opens any item directly, and adding `&order=1` opens its order form, so a link can go in a Facebook post. The order options must match the item's own description; `npm test` checks the sizes and prices.
+
 ## Checks and brand files
 
 - `npm test` runs `test/run.mjs` (no install needed): recurring-date math, data sanity, no em dashes, nothing private served, share card present.

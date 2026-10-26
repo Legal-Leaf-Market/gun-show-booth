@@ -88,6 +88,26 @@ on every item still missing something.
    of the enrolled act on iga.in.gov (labels were Section 6 of the new chapter in the introduced bill). Then change `B.HBV_STATEMENT` and the
    printed label together (`npm test` keeps them matched).
 
+   More found the same day, still by search only (the PDFs are blocked
+   here):
+   - The Indiana Department of Health published "Farm and Homestead Food
+     Sales" guidance dated May 26, 2026 (copies at
+     ag.purdue.edu/department/foodsci/_docs/idoh-homestead-and-small-farm-guidance.pdf
+     and the Floyd County health department site). Its sample label uses:
+     "This product was produced by a homestead vendor or the owner of a
+     small farm that is exempt from government licensing and inspection."
+     This is the most trustworthy wording found. The "private residence"
+     version comes only from third-party guides.
+   - Every bill draft through January 21 repealed IC 16-42-5.3. The
+     February 20 engrossed version still cites it, so the final act may
+     have kept it. Unsettled.
+   - Third-party summaries say a homestead label also needs allergens,
+     possibly including allergens the food may have touched. The current
+     site label lists only "Contains:" allergens from the ingredients.
+   - Not found: whether the homestead law still requires posting each
+     label on the vendor's website. If it does not, the site's labels stay
+     anyway; they cost nothing and customers use them.
+
 ## Photos that were left off on purpose
 
 The Facebook page has 27 photos. 13 are on the site (home kitchen and market

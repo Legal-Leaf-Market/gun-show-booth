@@ -329,3 +329,33 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
 .order__get legend { font-weight: 600; margin-bottom: 4px; }
 .order__get label { display: flex; align-items: center; gap: 8px; font-weight: 400; }
 .order__get input { min-height: 0; width: 20px; height: 20px; }
+
+/* Storefront and request pages share the existing colors and type. */
+.hero-actions { margin-top: 18px; }
+.hero .btn { color: var(--ink); background: var(--paper); }
+.hero .btn--go { background: var(--blaze); }
+.hero-photo { margin: 24px 0 0; max-width: 760px; }
+.hero-photo img { width: 100%; height: auto; max-height: 340px; object-fit: cover; border-radius: 6px; }
+.hero-photo figcaption { font-size: .9rem; margin-top: 6px; }
+.product-layout { display: grid; gap: 24px; padding: 24px 0 48px; }
+.product-layout h1 { font-size: clamp(2rem, 5vw, 3.3rem); }
+.product-layout p { margin: 12px 0; }
+.product-photos { display: grid; gap: 12px; }
+.product-photos img { width: 100%; height: auto; border-radius: 6px; }
+.request-result { margin-top: 24px; padding: 18px; border: 2px solid var(--olive); border-radius: 6px; }
+.request-result label { display: block; font-weight: 700; }
+.request-result textarea { width: 100%; box-sizing: border-box; margin: 10px 0; padding: 12px; font: inherit; }
+.cake-gallery { display: grid; gap: 18px; margin-top: 18px; }
+.cake-gallery figure { margin: 0; }
+.cake-gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 6px; }
+.steps { padding-left: 24px; }
+.steps li { margin: 12px 0; }
+.order [hidden], .request-result[hidden] { display: none; }
+@media (min-width: 760px) {
+  .product-layout { grid-template-columns: 1fr 1fr; align-items: start; }
+  .cake-gallery { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+@media (max-width: 600px) {
+  .top .wrap { flex-wrap: wrap; gap: 8px; }
+  .nav { flex-wrap: wrap; }
+}

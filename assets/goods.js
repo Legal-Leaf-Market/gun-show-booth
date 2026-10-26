@@ -81,21 +81,22 @@
     return B.upcoming(events).filter((o) => !o.ev.sample).flatMap((o) => {
       const days = [];
       for (let day = o.start; day <= o.end; day = B.addDays(day, 1)) {
-        if (day >= today) days.push({ event: o.ev, date: B.iso(day) });
+        if (day >= today) days.push({ event: o.ev, date: B.iso(day), label: B.range(day, null, true) });
       }
       return days;
     });
   };
 
   B.reservationText = function (item, v, ev) {
-    return [`Hi! I'd like to request a hold.`, `Item: ${item.title}`, `Quantity: ${v.quantity}`, `Show: ${ev.title}`, `Pickup day: ${v.date}`, `Name: ${String(v.name).trim()}`, `Please confirm availability and pickup details.`].join("\n");
+    const day = B.parse(v.date);
+    return [`Hi! I'd like to request a hold.`, `Item: ${item.title}`, `Quantity: ${v.quantity}`, `Show: ${ev.title}`, `Pickup day: ${day ? B.range(day, null, true) : v.date}`, `Name: ${String(v.name).trim()}`, `Please confirm availability and pickup details.`].join("\n");
   };
 
   B.product = function (item, site, events) {
     const q = new URLSearchParams(location.search);
     const pickup = B.pickups(events);
     const sold = item.status === "sold";
-    const options = pickup.map((p,i) => `<option value="${i}"${p.event.id === q.get("show") ? " data-preferred" : ""}>${B.esc(p.event.title)}: ${p.date}</option>`).join("");
+    const options = pickup.map((p,i) => `<option value="${i}"${p.event.id === q.get("show") ? " data-preferred" : ""}>${B.esc(p.event.title)}: ${B.esc(p.label)}</option>`).join("");
     return `<div class="product-layout"><div><div class="product-photos">${(item.photos || []).map((p) => `<img src="${B.esc(B.img(p))}" alt="${B.esc(item.title)}" loading="lazy">`).join("")}</div><p class="small">Photos show our products. Show selection varies.</p></div>
       <div><h1>${B.esc(item.title)}</h1><p class="sheet__price">${sold ? "Sold" : B.esc(B.money(item.price) || "Ask for price")}</p><p>${B.esc(item.description || "")}</p>
       ${B.labelBox(item,site)}

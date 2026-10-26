@@ -62,9 +62,15 @@ Everything lives in three files:
 
 Event links use the event's `id`, which doesn't change when you rename the event, so shared links keep working.
 
+## Storefront and show requests
+
+`cakes.html` is the CJ's Cakes bakery page. Product cards link to `product.html?item=<id>`, with descriptions, photos, food labels and request forms. A `show=<event-id>` query preselects the next valid pickup day for that show. Finished, cancelled and sample dates cannot be selected. Preparing a request sends nothing: customers send it in their own texting app or copy it into a Facebook message. A reply confirms the hold or order. There is no inbox or payment backend.
+
+Coasters and merch remain unlisted until real photos, prices and specifications are supplied. Missing lead times and delivery charges are confirmed by inquiry. Do not invent them. Add individual cookie photos and a full booth photo when available. Keep the product URLs in `sitemap.xml` current when publishing new items.
+
 ## Custom orders
 
-Items with an `order` block in `data/items.json` (the custom cakes and cupcakes) get a **Start an order** button: size, date, flavor, icing, design, pickup or delivery. It writes a text message in the customer's own texting app, addressed to the site phone. Nothing is sent or stored by the site. `goods.html?item=<id>` opens any item directly, and adding `&order=1` opens its order form, so a link can go in a Facebook post. The order options must match the item's own description; `npm test` checks the sizes and prices.
+Items with an `order` block in `data/items.json` (the custom cakes and cupcakes) get a **Start an order** button: size, date, flavor, icing, design, pickup or delivery. It writes a text message in the customer's own texting app, addressed to the site phone. Nothing is sent or stored by the site. `goods.html?item=<id>` redirects to the product page, and adding `&order=1` opens its order form, so a link can go in a Facebook post. The order options must match the item's own description; `npm test` checks the sizes and prices.
 
 ## Checks and brand files
 

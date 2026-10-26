@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Events</title>
-  <meta name="description" content="Gun shows and markets where you can find our table, with dates, admission and a map.">
+  <title>Indiana shows and market pickup: Booth Bandits</title>
+  <meta name="description" content="Find upcoming Booth Bandits appearances, admission, hours and directions, then request goods for pickup.">
   <meta name="theme-color" content="#4B5235">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Booth Bandits">
-  <meta property="og:title" content="Events: Booth Bandits">
-  <meta property="og:description" content="Gun shows and markets where you can find our table, with dates, admission and a map.">
+  <meta property="og:title" content="Indiana shows and market pickup: Booth Bandits">
+  <meta property="og:description" content="Find upcoming Booth Bandits appearances, admission, hours and directions, then request goods for pickup.">
   <meta property="og:url" content="https://booth-bandits.netlify.app/events.html">
   <meta property="og:image" content="https://booth-bandits.netlify.app/assets/og.png">
   <meta property="og:image:width" content="1200">
@@ -20,6 +20,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="canonical" href="https://booth-bandits.netlify.app/events.html">
 </head>
 <body>
   <header id="top"></header>
@@ -43,7 +44,7 @@
       </section>
 
       <section class="section" aria-labelledby="list-h">
-        <h2 id="list-h">Shows we work</h2>
+        <h2 id="list-h">Upcoming shows</h2>
         <p class="lede">Each show with its next date. Regular shows list every date on their own page.</p>
         <div class="ticket-list" id="list"></div>
       </section>
@@ -140,6 +141,8 @@
     }));
     if (!B.map(document.getElementById("map"), points)) document.getElementById("map-section").hidden = true;
 
+    const past = events.flatMap((ev) => B.occurrences(ev, B.addDays(today, -365), B.addDays(today, -1))).filter((o) => o.end < today && !o.cancelled).sort((a,b) => b.end-a.end);
+    if (past.length) document.getElementById("list").insertAdjacentHTML("afterend", `<details class="section"><summary>Past appearances</summary><div class="ticket-list">${past.slice(0,20).map((o) => B.ticket(o,site)).join("")}</div></details>`);
     /* ----- List ----- */
     const once = new Set();
     const perEvent = up.filter((o) => !once.has(o.ev.id) && once.add(o.ev.id));

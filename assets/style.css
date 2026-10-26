@@ -320,11 +320,11 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
 .label__statement { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--line); font-weight: 600; font-size: max(1rem, 10pt); }
 
 /* ---------- Made-to-order form (item sheet) ---------- */
-.order { margin-top: 18px; padding-top: 14px; border-top: 2px dashed var(--line); display: grid; gap: 12px; }
+.order { margin-top: 18px; padding-top: 14px; border-top: 2px dashed var(--line); display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .order h3 { font-size: 1.4rem; }
 .order__note { color: var(--ink-2); font-size: .95rem; }
-.order label { display: grid; gap: 4px; font-weight: 600; }
-.order input, .order select, .order textarea { font: inherit; font-weight: 400; padding: 10px 12px; border: 2px solid var(--line); border-radius: 6px; background: #fff; min-height: 46px; }
+.order label { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; font-weight: 600; }
+.order input, .order select, .order textarea { font: inherit; font-weight: 400; padding: 10px 12px; border: 2px solid var(--line); border-radius: 6px; background: #fff; min-height: 46px; min-width: 0; max-width: 100%; }
 .order__get { border: 0; padding: 0; margin: 0; display: grid; gap: 6px; }
 .order__get legend { font-weight: 600; margin-bottom: 4px; }
 .order__get label { display: flex; align-items: center; gap: 8px; font-weight: 400; }
@@ -337,10 +337,10 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
 .hero-photo { margin: 24px 0 0; max-width: 760px; }
 .hero-photo img { width: 100%; height: auto; max-height: 340px; object-fit: cover; border-radius: 6px; }
 .hero-photo figcaption { font-size: .9rem; margin-top: 6px; }
-.product-layout { display: grid; gap: 24px; padding: 24px 0 48px; }
+.product-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 24px 0 48px; }
 .product-layout h1 { font-size: clamp(2rem, 5vw, 3.3rem); }
 .product-layout p { margin: 12px 0; }
-.product-photos { display: grid; gap: 12px; }
+.product-photos { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .product-photos img { width: 100%; height: auto; border-radius: 6px; }
 .request-result { margin-top: 24px; padding: 18px; border: 2px solid var(--olive); border-radius: 6px; }
 .request-result label { display: block; font-weight: 700; }
@@ -352,7 +352,7 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
 .steps li { margin: 12px 0; }
 .order [hidden], .request-result[hidden] { display: none; }
 @media (min-width: 760px) {
-  .product-layout { grid-template-columns: 1fr 1fr; align-items: start; }
+  .product-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .cake-gallery { grid-template-columns: repeat(3, minmax(0,1fr)); }
 }
 @media (max-width: 600px) {

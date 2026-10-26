@@ -58,8 +58,13 @@ missing.
   sheet, the admin and `brand/06-print/baked-goods-label-indiana.svg` all
   use it, and `npm test` fails if the printed label drifts from it or drops
   below 10 pt. The wording is from the 2023-2024 code text ("Indiana
-  Department of Health"); a 2026 bill touched this chapter, so confirm it
-  against the current code before printing.
+  Department of Health"). The 2026 bill is HEA 1424 (P.L. 163-2026, in
+  effect July 1, 2026). It adds a "homestead vendor" chapter, IC 16-42-5.4,
+  with its own label statement. Whether IC 16-42-5.3 was repealed or kept
+  alongside it, and the new statement's exact words, are open (see
+  `docs/CJS_CAKES_HANDOFF.md`). Do not change `B.HBV_STATEMENT` until the
+  owner hears back from the health department or someone reads the enrolled
+  act.
 - **Today is Indiana's today.** `B.today()` reads America/Indiana/Indianapolis,
   so a phone set to another zone cannot move a show to tomorrow. (Jill's Diner.)
 - **Stay dependency-free and build-free.** Plain HTML, CSS and JS. Third-party

@@ -71,6 +71,22 @@ on every item still missing something.
    sentence is `B.HBV_STATEMENT` in `assets/booth.js`, and the printable
    label is `brand/06-print/baked-goods-label-indiana.svg`. Point the owner
    to that label for packages at shows.
+8. **Which home-food law is CJ under now?** Found Oct 26, 2026, by web
+   search only, because this container cannot reach iga.in.gov. HEA 1424
+   (P.L. 163-2026, signed March 12, in effect July 1, 2026) created a
+   "homestead vendor" chapter, IC 16-42-5.4. An early draft repealed the
+   home-based vendor chapter (IC 16-42-5.3) that the site's label follows.
+   The February engrossed version still refers to IC 16-42-5.3, so it may
+   have been kept. Secondary sources disagree, and they quote two different
+   new statements ("produced in a private residence that is exempt from
+   government licensing and inspection" and "produced by a homestead vendor
+   or the owner of a small farm that is exempt from government licensing
+   and inspection"). Neither was checked against the enrolled text. The
+   site still uses the IC 16-42-5.3 sentence. To settle it: the owner calls
+   the Bartholomew County Health Department and asks which law their sales
+   fall under and the exact label statement, or someone reads the label section
+   of the enrolled act on iga.in.gov (labels were Section 6 of the new chapter in the introduced bill). Then change `B.HBV_STATEMENT` and the
+   printed label together (`npm test` keeps them matched).
 
 ## Photos that were left off on purpose
 

@@ -6,7 +6,7 @@
     const sold = item.status === "sold";
     const photo = (item.photos || [])[0];
     const price = B.money(item.price);
-    return `<button type="button" class="good${sold ? " is-sold" : ""}" data-id="${B.esc(item.id)}" aria-label="${B.esc(item.title)}${price ? ", " + price : ""}${sold ? ", sold" : ""}">
+    return `<a href="${B.esc(B.itemURL(item))}" class="good${sold ? " is-sold" : ""}" data-id="${B.esc(item.id)}" aria-label="${B.esc(item.title)}${price ? ", " + price : ""}${sold ? ", sold" : ""}">
       <span class="good__pic">
         ${photo ? `<img src="${B.esc(B.img(photo))}" alt="" loading="lazy" decoding="async">` : `<span class="good__nophoto">Photo coming soon</span>`}
         ${item.sample ? `<span class="sample-flag">Sample</span>` : ""}
@@ -15,7 +15,7 @@
       </span>
       <span class="good__name">${B.esc(item.title)}</span>
       ${item.category ? `<span class="good__cat">${B.esc(item.category)}</span>` : ""}
-    </button>`;
+    </a>`;
   };
 
   // Shown to customers: everything except hidden. Available first, newest first.
@@ -29,11 +29,11 @@
   B.orderForm = function (item) {
     const o = item.order || {};
     const opts = (list) => (list || []).map((x) => `<option>${B.esc(x)}</option>`).join("");
-    return `<form class="order" hidden novalidate>
+    return `<form class="order" hidden>
       <h3>Start your order</h3>
-      <p class="order__note">This writes a text for you to send us. We'll text back to confirm the price and the date.</p>
+      <p class="order__note">Prepare a request, then send it by text or copy it into a Facebook message. Your order is confirmed only when we reply with price, date and fulfillment details.</p>
       <label>Size <select name="size" required><option value="">Pick one</option>${opts(o.sizes)}</select></label>
-      <label>Date you need it <input type="date" name="date" required min="${B.iso(B.addDays(B.today(), 2))}"></label>
+      <label>Date you need it <input type="date" name="date" required min="${B.iso(B.today())}"></label>
       ${o.flavors ? `<label>Cake flavor <select name="flavor">${opts(o.flavors)}</select></label>` : ""}
       ${o.icings ? `<label>Icing <select name="icing">${opts(o.icings)}</select></label>` : ""}
       <label>Design, colors or writing <textarea name="design" rows="2" maxlength="300" placeholder="Blue and gold, Happy 40th Mike"></textarea></label>
@@ -43,7 +43,7 @@
       </fieldset>
       <label>Town for delivery <input name="town" maxlength="60" placeholder="Seymour"></label>
       <label>Your name <input name="name" maxlength="60" autocomplete="name"></label>
-      <button class="btn btn--go" type="submit">Write the text</button>
+      <button class="btn btn--go" type="submit">Prepare request</button>
     </form>`;
   };
 
@@ -62,72 +62,80 @@
     return lines.join("\n");
   };
 
-  B.bindGoods = function (container, items, site) {
-    let dlg = document.getElementById("item-sheet");
-    if (!dlg) {
-      dlg = document.createElement("dialog");
-      dlg.id = "item-sheet";
-      dlg.className = "sheet";
-      document.body.appendChild(dlg);
-      dlg.addEventListener("click", (e) => {
-        if (e.target === dlg || e.target.closest("[data-close]")) dlg.close();
+  B.itemURL = (item, show = "") => `${B.base}product.html?item=${encodeURIComponent(item.id)}${show ? "&show=" + encodeURIComponent(show) : ""}`;
+
+  // Real anchors support sharing, new tabs, keyboard navigation and crawlers.
+  B.bindGoods = function (container, items, site, events = []) {
+    const q = new URLSearchParams(location.search);
+    const show = events.find((e) => e.id === q.get("show"));
+    if (show) container.querySelectorAll(".good").forEach((a) => {
+      const item = items.find((i) => i.id === a.dataset.id);
+      if (item) a.href = B.itemURL(item, show.id);
+    });
+    const linked = items.find((i) => i.id === q.get("item") && i.status !== "hidden");
+    if (linked) location.replace(B.itemURL(linked, show?.id) + (q.get("order") === "1" ? "&order=1" : ""));
+  };
+
+  B.pickups = function (events) {
+    const today = B.today();
+    return B.upcoming(events).filter((o) => !o.ev.sample).flatMap((o) => {
+      const days = [];
+      for (let day = o.start; day <= o.end; day = B.addDays(day, 1)) {
+        if (day >= today) days.push({ event: o.ev, date: B.iso(day) });
+      }
+      return days;
+    });
+  };
+
+  B.reservationText = function (item, v, ev) {
+    return [`Hi! I'd like to request a hold.`, `Item: ${item.title}`, `Quantity: ${v.quantity}`, `Show: ${ev.title}`, `Pickup day: ${v.date}`, `Name: ${String(v.name).trim()}`, `Please confirm availability and pickup details.`].join("\n");
+  };
+
+  B.product = function (item, site, events) {
+    const q = new URLSearchParams(location.search);
+    const pickup = B.pickups(events);
+    const sold = item.status === "sold";
+    const options = pickup.map((p,i) => `<option value="${i}"${p.event.id === q.get("show") ? " data-preferred" : ""}>${B.esc(p.event.title)}: ${p.date}</option>`).join("");
+    return `<div class="product-layout"><div><div class="product-photos">${(item.photos || []).map((p) => `<img src="${B.esc(B.img(p))}" alt="${B.esc(item.title)}" loading="lazy">`).join("")}</div><p class="small">Photos show our products. Show selection varies.</p></div>
+      <div><h1>${B.esc(item.title)}</h1><p class="sheet__price">${sold ? "Sold" : B.esc(B.money(item.price) || "Ask for price")}</p><p>${B.esc(item.description || "")}</p>
+      ${B.labelBox(item,site)}
+      ${!sold && item.order ? B.orderForm(item) : !sold && pickup.length ? `<form class="order reservation"><h2>Reserve for a show</h2><p>Request a hold; availability and pickup are confirmed when we reply.</p><label>Show and pickup day<select name="pickup" required><option value="">Choose a show and day</option>${options}</select></label><label>Quantity<input type="number" name="quantity" min="1" max="99" step="1" value="1" required></label><label>Your name<input name="name" maxlength="60" autocomplete="name" required></label><button class="btn btn--go">Prepare hold request</button></form>` : `<p>${sold ? "This item is sold. Ask us about restocking." : "No upcoming show pickup dates are listed. Contact us to ask about availability."}</p>`}
+      <div class="request-result" hidden><label for="request-text">Your request</label><textarea id="request-text" rows="10" readonly></textarea><div class="row"><button class="btn" type="button" data-copy>Copy request</button>${B.phone(site) ? '<a class="btn btn--go" data-sms>Open text message</a>' : ""}${site.facebook ? `<a class="btn" href="${B.esc(site.facebook)}" rel="noopener" target="_blank">Message CJ's Cakes on Facebook</a>` : ""}</div><p role="status" data-status>Request prepared, not sent. Send it by text or paste it into a Facebook message. Your hold or order is confirmed only when we reply.</p></div>
+      <div class="row hero-actions">${B.contactButtons(site)}<a class="btn" href="events.html">Find our next show</a></div></div></div>`;
+  };
+
+  B.bindProduct = function (root, item, site, events) {
+    const form = root.querySelector("form");
+    if (form) {
+      form.hidden = false;
+      const preferred = form.querySelector("[data-preferred]");
+      if (preferred) preferred.selected = true;
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        const v = Object.fromEntries(new FormData(form));
+        let text;
+        if (item.order) {
+          if (!item.order.sizes.includes(v.size) || v.date < B.iso(B.today())) return;
+          text = B.orderText(item,v);
+        } else {
+          const pickup = B.pickups(events)[Number(v.pickup)];
+          if (!pickup || !Number.isInteger(+v.quantity) || +v.quantity < 1 || +v.quantity > 99) return;
+          text = B.reservationText(item,{...v,date:pickup.date},pickup.event);
+        }
+        const result = root.querySelector(".request-result");
+        result.hidden = false;
+        result.querySelector("textarea").value = text;
+        const sms = result.querySelector("[data-sms]");
+        if (sms) sms.href = B.smsAbout(site,text);
+        result.scrollIntoView({block:"nearest",behavior:"smooth"});
+      });
+      root.querySelector("[data-copy]").addEventListener("click", async () => {
+        const field = root.querySelector("#request-text");
+        const status = root.querySelector("[data-status]");
+        try { await navigator.clipboard.writeText(field.value); status.textContent = "Request copied. Paste it into a message and send it. We confirm when we reply."; }
+        catch (_) { field.focus(); field.select(); status.textContent = "Select and copy the request above, then paste it into a message."; }
       });
     }
-    // One sheet for every item, opened by tapping a card or by a shared link
-    // (goods.html?item=<id>, and &order=1 to land on the order form).
-    function openItem(item, { order = false } = {}) {
-      const sold = item.status === "sold";
-      const photos = item.photos || [];
-      const price = B.money(item.price);
-      const sms = B.smsAbout(site, sold ? `Hi! Will you have more of the ${item.title}?` : `Hi! Is the ${item.title} still available?`);
-      const canOrder = !!(item.order && !sold && B.phone(site));
-      dlg.innerHTML = `
-        <button class="sheet__close" type="button" data-close aria-label="Close">×</button>
-        ${photos.length ? `<div class="photos">${photos.map((p) => `<img src="${B.esc(B.img(p))}" alt="${B.esc(item.title)}">`).join("")}</div>` : ""}
-        ${photos.length > 1 ? `<p class="sheet__count">${photos.length} photos, swipe to see more</p>` : ""}
-        <div class="sheet__body">
-          <h2>${B.esc(item.title)}</h2>
-          <p class="sheet__price">${sold ? "Sold" : price || "Ask at the table"}</p>
-          ${item.description ? `<p>${B.esc(item.description)}</p>` : ""}
-          ${item.category ? `<p class="good__cat">${B.esc(item.category)}</p>` : ""}
-          ${B.labelBox(item, site)}
-          <div class="row" style="margin-top:8px">
-            ${canOrder ? `<button class="btn btn--go" type="button" data-start-order>Start an order</button>` : ""}
-            ${sms ? `<a class="btn${canOrder ? "" : " btn--go"}" href="${B.esc(sms)}">${sold ? "Ask about restock" : "Text us about this"}</a>` : ""}
-            <a class="btn" href="${B.base}events.html">Where to find us</a>
-          </div>
-          ${canOrder ? B.orderForm(item) : ""}
-        </div>`;
-      dlg.showModal();
-      const form = dlg.querySelector(".order");
-      if (form) {
-        dlg.querySelector("[data-start-order]").addEventListener("click", () => {
-          form.hidden = false;
-          form.scrollIntoView({ behavior: "smooth", block: "start" });
-          form.querySelector("select,input").focus({ preventScroll: true });
-        });
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const v = Object.fromEntries(new FormData(form));
-          if (!v.size || !v.date) { B.toast("Pick a size and the date you need it."); return; }
-          // Opens the customer's own texting app with the order written out.
-          // Nothing is sent or stored by this site.
-          location.href = B.smsAbout(site, B.orderText(item, v));
-        });
-        if (order) { form.hidden = false; setTimeout(() => form.scrollIntoView({ block: "start" }), 50); }
-      }
-      if (!order) dlg.querySelector(".sheet__close").focus();
-    }
-
-    container.addEventListener("click", (e) => {
-      const btn = e.target.closest(".good");
-      if (!btn) return;
-      const item = items.find((i) => i.id === btn.dataset.id);
-      if (item) openItem(item);
-    });
-
-    const q = new URLSearchParams(location.search);
-    const linked = q.get("item") && items.find((i) => i.id === q.get("item") && i.status !== "hidden");
-    if (linked && !B._openedFromLink) { B._openedFromLink = true; openItem(linked, { order: q.get("order") === "1" }); }
   };
 })();

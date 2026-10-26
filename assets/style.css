@@ -397,3 +397,30 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
 }
 @media (prefers-reduced-motion: reduce) { .hero-art { animation: none; } }
 @media print { .hero-art, .hero::after, .foot::after, .section::after { display: none; } }
+
+/* ---------- CJ's Cakes photo gallery (goods page) ---------- */
+.gallery { padding: 40px 0 56px; }
+.gallery h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
+.gallery-group { margin-top: 28px; }
+.gallery-group h3 { font-size: 1.4rem; }
+.gallery-group > p { margin: 6px 0 14px; max-width: 65ch; color: var(--ink-2); }
+.photo-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (min-width: 700px) { .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .photo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.photo-tile { display: block; width: 100%; padding: 0; border: 0; border-radius: 8px; overflow: hidden; background: var(--line); cursor: zoom-in; }
+.photo-tile img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; transition: transform .25s ease; }
+.photo-tile:hover img { transform: scale(1.03); }
+.photo-tile:focus-visible { outline: 3px solid var(--blaze); outline-offset: 3px; }
+.photo-caption { margin: 6px 0 0; font-size: .92rem; font-weight: 600; }
+dialog.lightbox { padding: 0; border: 0; background: transparent; max-width: min(96vw, 960px); max-height: 96vh; }
+dialog.lightbox::backdrop { background: rgba(20, 24, 18, .88); }
+.lightbox__frame { display: grid; gap: 10px; }
+.lightbox__fig { margin: 0; display: grid; gap: 6px; justify-items: center; }
+.lightbox__fig img { display: block; width: auto; max-width: 100%; height: auto; max-height: calc(96vh - 110px); border-radius: 6px; }
+.lightbox__fig figcaption { color: #fff; font-weight: 600; text-align: center; }
+.lightbox__bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+.lightbox__count { color: #fff; min-width: 8em; text-align: center; }
+.lightbox__bar .btn { background: #fffdf7; color: #1f241e; border-color: #fffdf7; }
+.lightbox__bar .btn--dark { background: transparent; color: #fff; border-color: #fff; }
+.lightbox__bar .btn:focus-visible { outline: 3px solid var(--blaze); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .photo-tile img { transition: none; } .photo-tile:hover img { transform: none; } }

@@ -139,4 +139,66 @@
       });
     }
   };
+
+  /* ---------- CJ's Cakes photo gallery (goods page) ----------
+     data/gallery.json is written by tools/cjs_photos.py from
+     docs/cjs-cakes-photos.json. Every photo is a local copy; nothing is
+     loaded from Facebook. A missing or broken file hides the section. */
+  B.gallerySrc = (p, w, ext) => `${B.base}assets/img/cjs-cakes/${p.slug}-${w}.${ext}`;
+  B.gallerySet = (p, ext) => p.widths.map((w) => `${B.gallerySrc(p, w, ext)} ${w}w`).join(", ");
+  B.galleryPicture = function (p, sizes, eager) {
+    const small = p.widths[0];
+    const h = Math.round(p.height * small / p.width);
+    return `<picture><source type="image/avif" srcset="${B.gallerySet(p, "avif")}" sizes="${sizes}"><source type="image/webp" srcset="${B.gallerySet(p, "webp")}" sizes="${sizes}"><img src="${B.gallerySrc(p, small, "jpg")}" srcset="${B.gallerySet(p, "jpg")}" sizes="${sizes}" width="${small}" height="${h}" alt="${B.esc(p.alt)}"${eager ? "" : ' loading="lazy"'} decoding="async"></picture>`;
+  };
+
+  B.renderGallery = async function (root) {
+    let data;
+    try {
+      const r = await fetch(B.base + "data/gallery.json", { cache: "no-cache" });
+      if (!r.ok) throw new Error(r.status);
+      data = await r.json();
+    } catch (_) { root.hidden = true; return; }
+    const photos = (data.photos || []).filter((p) => p.slug && p.alt && (p.widths || []).length);
+    if (!photos.length) { root.hidden = true; return; }
+    const sizes = "(min-width: 1100px) 260px, (min-width: 700px) 30vw, 46vw";
+    root.innerHTML = `<h2 id="gallery-title">Photos of our work</h2>` + (data.groups || []).map((g) => {
+      const list = photos.filter((p) => p.group === g.id);
+      if (!list.length) return "";
+      return `<section class="gallery-group" aria-labelledby="gallery-${B.esc(g.id)}"><h3 id="gallery-${B.esc(g.id)}">${B.esc(g.title)}</h3><p>${B.esc(g.note)}</p><ul class="photo-grid">${list.map((p) => `<li><button type="button" class="photo-tile" data-slug="${B.esc(p.slug)}" aria-label="Open photo: ${B.esc(p.caption)}">${B.galleryPicture(p, sizes)}</button><p class="photo-caption">${B.esc(p.caption)}</p></li>`).join("")}</ul></section>`;
+    }).join("");
+    root.hidden = false;
+
+    const order = [...root.querySelectorAll(".photo-tile")].map((b) => photos.find((p) => p.slug === b.dataset.slug));
+    const box = document.createElement("dialog");
+    box.className = "lightbox";
+    box.setAttribute("aria-label", "Photo viewer");
+    box.innerHTML = `<div class="lightbox__frame"><figure class="lightbox__fig"></figure><div class="lightbox__bar"><button type="button" class="btn" data-go="-1" aria-label="Previous photo">Prev</button><span class="lightbox__count" aria-live="polite"></span><button type="button" class="btn" data-go="1" aria-label="Next photo">Next</button><button type="button" class="btn btn--dark" data-close>Close</button></div></div>`;
+    document.body.append(box);
+    let at = 0, opener = null;
+    const show = (i) => {
+      at = (i + order.length) % order.length;
+      const p = order[at];
+      box.querySelector(".lightbox__fig").innerHTML = B.galleryPicture(p, "(min-width: 1000px) 900px, 96vw", true) + `<figcaption>${B.esc(p.caption)}</figcaption>`;
+      box.querySelector(".lightbox__count").textContent = `Photo ${at + 1} of ${order.length}`;
+    };
+    root.addEventListener("click", (e) => {
+      const b = e.target.closest(".photo-tile");
+      if (!b) return;
+      opener = b;
+      show(order.findIndex((p) => p.slug === b.dataset.slug));
+      box.showModal();
+      box.querySelector("[data-close]").focus();
+    });
+    box.addEventListener("click", (e) => {
+      if (e.target === box || e.target.closest("[data-close]")) return box.close();
+      const go = e.target.closest("[data-go]");
+      if (go) show(at + Number(go.dataset.go));
+    });
+    box.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); show(at + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show(at - 1); }
+    });
+    box.addEventListener("close", () => { if (opener) opener.focus(); });
+  };
 })();

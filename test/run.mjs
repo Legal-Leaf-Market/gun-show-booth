@@ -188,5 +188,45 @@ ok(read("product.html").includes('B.canonical(path)'), "product canonical keeps 
 ok(read("event.html").includes('B.canonical(`event.html?e='), "event canonical preserves event identity");
 ok(read("cakes.html").includes("confirmed only") || read("cakes.html").includes("confirmed with your request"), "bakery explains confirmation");
 
+/* ---------- CJ's Cakes photos ---------- */
+// docs/cjs-cakes-photos.json records all 27 Facebook photos; tools/cjs_photos.py
+// turns the "gallery" ones into the copies goods.html shows. These checks keep
+// the record, the files and the page in step.
+{
+  const { createHash } = await import("node:crypto");
+  const man = JSON.parse(read("docs/cjs-cakes-photos.json")).photos;
+  ok(man.length === 27, "the photo record lists all 27 Facebook photos");
+  for (const p of man) {
+    const there = existsSync(join(ROOT, p.original));
+    ok(there, `${p.original} is kept`);
+    if (there) ok(createHash("sha256").update(readFileSync(join(ROOT, p.original))).digest("hex") === p.sha256, `${p.original} is byte-for-byte what was collected`);
+    ok(covered(p.original), `${p.original} is blocked from the public site`);
+    ok(/^https:\/\/www\.facebook\.com\/photo\.php\?fbid=\d+/.test(p.source), `${p.original} records its Facebook photo page`);
+    ok(["gallery", "branding", "outdated"].includes(p.status), `${p.original} has a known status`);
+    if (p.status === "gallery") ok(["kitchen", "decorating"].includes(p.group) && p.slug && p.alt && p.caption, `${p.original} has a group, alt text and caption`);
+    else ok(p.note, `${p.original} says why it is off the site`);
+  }
+  const gal = JSON.parse(read("data/gallery.json"));
+  const want = man.filter((p) => p.status === "gallery").map((p) => p.slug).sort();
+  ok(JSON.stringify(gal.photos.map((p) => p.slug).sort()) === JSON.stringify(want), "data/gallery.json matches the record (run python3 tools/cjs_photos.py)");
+  ok(gal.groups.some((g) => g.id === "decorating" && /supermarket bakery/.test(g.note) && /not items on our menu/.test(g.note)), "decorating photos say they are supermarket work, not our menu");
+  const jpgSize = (b) => { for (let i = 2; i < b.length;) { const m = b[i + 1], len = b.readUInt16BE(i + 2); if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) return { h: b.readUInt16BE(i + 5), w: b.readUInt16BE(i + 7) }; i += 2 + len; } };
+  const made = new Set(readdirSync(join(ROOT, "assets/img/cjs-cakes")).filter((f) => f.includes(".")));
+  const used = new Set();
+  for (const p of gal.photos) {
+    ok(p.alt.length > 30 && !/^(image|photo|picture) of/i.test(p.alt), `${p.slug} has descriptive alt text`);
+    for (const w of p.widths) for (const ext of ["avif", "webp", "jpg"]) {
+      const f = `${p.slug}-${w}.${ext}`;
+      used.add(f);
+      ok(made.has(f), `assets/img/cjs-cakes/${f} exists`);
+    }
+    const big = `assets/img/cjs-cakes/${p.slug}-${p.width}.jpg`;
+    if (existsSync(join(ROOT, big))) { const s = jpgSize(readFileSync(join(ROOT, big))); ok(s && s.w === p.width && s.h === p.height, `${big} is ${p.width}x${p.height} as declared`); }
+  }
+  ok([...made].every((f) => used.has(f)), "assets/img/cjs-cakes holds no copy of a photo that is off the site");
+  ok(!/fbcdn|facebook\.com/.test(read("assets/goods.js") + read("goods.html")), "the gallery loads nothing from Facebook");
+  ok(read("goods.html").includes('B.renderGallery(document.getElementById("gallery"))'), "goods.html shows the photo gallery");
+}
+
 console.log(`${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);

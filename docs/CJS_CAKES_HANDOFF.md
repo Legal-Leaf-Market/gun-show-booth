@@ -108,6 +108,11 @@ on every item still missing something.
      label on the vendor's website. If it does not, the site's labels stay
      anyway; they cost nothing and customers use them.
 
+9. **Edible-photo toppers.** The cake designer (`cake-builder.html`) can
+   put a customer's photo on the preview, but that step is hidden until
+   `photoToppers` in `site.json` is `true`. Ask whether CJ's offers photo
+   toppers, which sizes, lead time, file requirements and the fee.
+
 ## Photos that were left off on purpose
 
 The Facebook page has 27 photos. 13 are on the site (home kitchen and market

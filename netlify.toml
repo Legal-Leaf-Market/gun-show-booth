@@ -72,3 +72,39 @@
   for = "/data/*"
   [headers.values]
     Cache-Control = "no-cache"
+
+[[redirects]]
+  from = "/goods"
+  to = "/goods.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/events"
+  to = "/events.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cakes"
+  to = "/cakes.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/product"
+  to = "/product.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/event"
+  to = "/event.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true

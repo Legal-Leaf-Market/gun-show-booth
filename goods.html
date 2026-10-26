@@ -31,6 +31,7 @@
       </div>
       <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
       <div class="goods" id="goods"></div>
+      <section class="gallery" id="gallery" aria-labelledby="gallery-title" hidden></section>
     </div>
   </main>
   <footer id="foot"></footer>
@@ -65,6 +66,7 @@
     });
     render();
     B.bindGoods(grid, items, site, events);
+    B.renderGallery(document.getElementById("gallery"));
   })().catch((e) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<p class="wrap empty">The page didn't load: ${Booth.esc(e.message)}. Refresh to try again.</p>`); });
   </script>
 </body>

@@ -1,0 +1,309 @@
+{
+  "groups": [
+    {
+      "id": "kitchen",
+      "title": "From our kitchen and table",
+      "note": "Cakes, cupcakes, mini cakes and cookies made by CJ's Cakes, at home and at our show table."
+    },
+    {
+      "id": "decorating",
+      "title": "CJ's cake decorating",
+      "note": "Cakes CJ decorated while working in a supermarket bakery. They show her decorating, not items on our menu. Ask us about your own design."
+    }
+  ],
+  "photos": [
+    {
+      "slug": "two-tier-blue-drip-cake",
+      "group": "kitchen",
+      "alt": "Two-tier round cake in bright blue frosting with a dark drip down the sides and piped swirls on top, sitting in an open cake box.",
+      "caption": "Two-tier blue drip cake",
+      "widths": [
+        480,
+        720
+      ],
+      "width": 720,
+      "height": 960,
+      "source": "https://www.facebook.com/photo.php?fbid=122140655450969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "oh-baby-bee-cake",
+      "group": "kitchen",
+      "alt": "Two-tier cake with a sky-blue top tier and white bottom tier, decorated with piped bees, flight trails, daisies and an Oh Baby cake topper.",
+      "caption": "Oh Baby bee cake",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1320,
+      "source": "https://www.facebook.com/photo.php?fbid=122101717976969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "race-track-sheet-cake",
+      "group": "kitchen",
+      "alt": "Sheet cake covered in green piped grass with a race track shaped like the number 2, a piped name and checkered flag borders.",
+      "caption": "Number 2 race track sheet cake",
+      "widths": [
+        480,
+        960,
+        1080
+      ],
+      "width": 1080,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122140655504969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "cupcakes-in-the-box",
+      "group": "kitchen",
+      "alt": "Two trays of cupcakes in an open box, frosted in teal, yellow and orange swirls.",
+      "caption": "Cupcakes, boxed for pickup",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122140655354969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "mini-cake-flavors",
+      "group": "kitchen",
+      "alt": "Rows of mini cakes in clear trays: sprinkle-topped vanilla, Oreo crumb chocolate and Butterfinger pieces.",
+      "caption": "Mini cakes: Vanilla Sprinkle, Chocolate Oreo and Butterfinger",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 755,
+      "source": "https://www.facebook.com/photo.php?fbid=122112879830969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "chocolate-oreo-mini-cakes",
+      "group": "kitchen",
+      "alt": "Chocolate Oreo mini cakes in clear trays, each topped with piped frosting, a whole Oreo cookie and cookie crumbs.",
+      "caption": "Chocolate Oreo mini cakes",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122140655426969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "mini-cakes-on-the-table",
+      "group": "kitchen",
+      "alt": "Stacks of packaged mini cakes on our blue-covered market table, with flavor name cards in front.",
+      "caption": "Mini cakes on our show table",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122129922206969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "mini-cake-menu-sign",
+      "group": "kitchen",
+      "alt": "Framed mini cake menu on our market table listing Vanilla Sprinkle, Chocolate Oreo and Butterfinger at $5 each or 3 for $10.",
+      "caption": "Our mini cake menu at the table",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122129922140969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "jumbo-cookies-on-the-table",
+      "group": "kitchen",
+      "alt": "Jumbo cookies in kraft paper bags on our market table beside a framed cookies menu and flavor cards.",
+      "caption": "Jumbo cookies at the table",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122129922152969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "cupcakes-in-the-pan",
+      "group": "kitchen",
+      "alt": "Freshly baked dark cupcakes in paper liners, still in the muffin pan before frosting.",
+      "caption": "Cupcakes out of the oven",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122125437734969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "cookies-on-the-rack",
+      "group": "kitchen",
+      "alt": "Cookies studded with white chips cooling on a wire rack.",
+      "caption": "Cookies cooling on the rack",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122140655378969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "sunshine-cupcake-cake",
+      "group": "decorating",
+      "alt": "Pull-apart cupcake cake shaped like a yellow sun wearing sunglasses, ringed by orange and yellow cupcakes with sun toppers.",
+      "caption": "Sunshine cupcake cake",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1374,
+      "source": "https://www.facebook.com/photo.php?fbid=122101718648969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "hello-summer-popsicle-cake",
+      "group": "decorating",
+      "alt": "Blue round cake spelling SUMMER on popsicle toppers, with Hello piped in chocolate and a ring of bright cupcakes.",
+      "caption": "Hello Summer popsicle cake",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1188,
+      "source": "https://www.facebook.com/photo.php?fbid=122101718162969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "indiana-birthday-cake",
+      "group": "decorating",
+      "alt": "Round cake with a red shell border, a red outline of Indiana and a green piped birthday message.",
+      "caption": "Indiana birthday cake",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122140655528969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "balloon-cake",
+      "group": "decorating",
+      "alt": "Round pink cake with a magenta shell border and three piped balloons in blue and yellow with white strings.",
+      "caption": "Balloon cake",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1278,
+      "source": "https://www.facebook.com/photo.php?fbid=122102289038969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "heart-ruffle-cake",
+      "group": "decorating",
+      "alt": "Heart-shaped cake covered in white ruffled piping, tied with red ribbon bows.",
+      "caption": "White ruffled heart cake",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1314,
+      "source": "https://www.facebook.com/photo.php?fbid=122102283860969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "hello-summer-sheet-cake",
+      "group": "decorating",
+      "alt": "Sheet cake with a yellow border, piped sunflowers, green grass and Hello Summer written in green script.",
+      "caption": "Hello Summer sheet cake",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1290,
+      "source": "https://www.facebook.com/photo.php?fbid=122101719092969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "soccer-birthday-cake",
+      "group": "decorating",
+      "alt": "Round cake frosted green like a soccer field with a soccer ball, a jersey number and a piped birthday message.",
+      "caption": "Soccer birthday cake",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1260,
+      "source": "https://www.facebook.com/photo.php?fbid=122101718306969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "popsicle-cupcake-ring-cake",
+      "group": "decorating",
+      "alt": "Round white cake with a colorful piped starburst, ringed by bright cupcakes with popsicle and ice cream toppers.",
+      "caption": "Popsicle cake with cupcakes",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1080,
+      "source": "https://www.facebook.com/photo.php?fbid=122101718234969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "berry-topped-cake",
+      "group": "decorating",
+      "alt": "White round cake with combed frosting, topped with strawberries and blueberries along one edge.",
+      "caption": "Berry-topped cake",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1278,
+      "source": "https://www.facebook.com/photo.php?fbid=122101717922969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "flower-cakes",
+      "group": "decorating",
+      "alt": "Several small cakes with piped roses and flowers in pink, yellow and purple, lined up on a bakery table.",
+      "caption": "Flower cakes",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1920,
+      "source": "https://www.facebook.com/photo.php?fbid=122101665992969948&set=pb.61579098458408.-2207520000&type=3"
+    }
+  ]
+}

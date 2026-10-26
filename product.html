@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Product details: Booth Bandits</title>
+  <meta name="description" content="Browse mini cakes, jumbo cookies, cupcakes and custom cakes from CJ's Cakes. Request availability and pickup at an Indiana show.">
+  <meta name="theme-color" content="#4B5235">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Booth Bandits">
+  <meta property="og:title" content="Baked goods and cake orders: Booth Bandits, Columbus IN">
+  <meta property="og:description" content="Browse mini cakes, jumbo cookies, cupcakes and custom cakes from CJ's Cakes. Request availability and pickup at an Indiana show.">
+  <meta property="og:url" content="https://booth-bandits.netlify.app/goods.html">
+  <meta property="og:image" content="https://booth-bandits.netlify.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body><header id="top"></header><main><div class="wrap"><p class="hero-actions"><a href="goods.html">All goods</a> / <a href="cakes.html">CJ's Cakes</a></p><div id="product"><p class="empty">Loading product details...</p></div></div></main><footer id="foot"></footer>
+<script src="assets/booth.js"></script><script src="assets/goods.js"></script><script>
+(async () => {
+ const B = Booth, {site,items,events} = await B.load(); B.chrome(site,"goods");
+ const q = new URLSearchParams(location.search), item = items.find(i => i.id === q.get("item") && i.status !== "hidden");
+ const root = document.getElementById("product");
+ if (!item) { document.title = "Product not found: " + site.name; root.innerHTML = '<h1>Product not found</h1><p>This item is no longer listed. <a href="goods.html">Browse current goods</a>.</p>'; const r = document.createElement("meta"); r.name="robots"; r.content="noindex"; document.head.appendChild(r); return; }
+ document.title = item.title + ": CJ's Cakes, Columbus IN | " + site.name;
+ document.querySelector('meta[name="description"]').content = item.description || item.title;
+ document.querySelector('meta[property="og:title"]').content = document.title;
+ document.querySelector('meta[property="og:description"]').content = item.description || item.title;
+ const path = "product.html?item=" + encodeURIComponent(item.id); B.canonical(path);
+ document.querySelector('meta[property="og:url"]').content = "https://booth-bandits.netlify.app/" + path;
+ root.innerHTML = B.product(item,site,events); B.bindProduct(root,item,site,events);
+ if (!item.sample) B.ld({"@type":"Product",name:item.title,description:item.description,image:(item.photos||[]).map(p => new URL(B.img(p),location.href).href),url:"https://booth-bandits.netlify.app/"+path,brand:{"@type":"Brand",name:item.homeBaked ? "CJ's Cakes" : site.name}});
+})().catch(e => { document.getElementById("product").textContent = "Product details could not load. Refresh to try again."; });
+</script></body></html>

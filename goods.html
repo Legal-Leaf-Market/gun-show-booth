@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Goods</title>
-  <meta name="description" content="Everything we bring to the shows, with prices.">
+  <title>Baked goods and cake orders: Booth Bandits, Columbus IN</title>
+  <meta name="description" content="Browse mini cakes, jumbo cookies, cupcakes and custom cakes from CJ's Cakes. Request availability and pickup at an Indiana show.">
   <meta name="theme-color" content="#4B5235">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Booth Bandits">
-  <meta property="og:title" content="Goods: Booth Bandits">
-  <meta property="og:description" content="Everything we bring to the shows, with prices.">
+  <meta property="og:title" content="Baked goods and cake orders: Booth Bandits, Columbus IN">
+  <meta property="og:description" content="Browse mini cakes, jumbo cookies, cupcakes and custom cakes from CJ's Cakes. Request availability and pickup at an Indiana show.">
   <meta property="og:url" content="https://booth-bandits.netlify.app/goods.html">
   <meta property="og:image" content="https://booth-bandits.netlify.app/assets/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="canonical" href="https://booth-bandits.netlify.app/goods.html">
 </head>
 <body>
   <header id="top"></header>
@@ -26,7 +27,7 @@
     <div class="wrap">
       <div class="page-head">
         <h1>Goods</h1>
-        <p>What we bring to the shows. Tap anything for photos and details. Stock moves fast at shows, so text us if you want something held.</p>
+        <p>Browse baked goods, prices and product details. Request a hold for a specific show; stock and pickup are confirmed when we reply. Coasters and merch are not listed online yet.</p>
       </div>
       <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
       <div class="goods" id="goods"></div>
@@ -39,8 +40,8 @@
   <script>
   (async () => {
     const B = Booth;
-    const { site, items } = await B.load();
-    document.title = `Goods: ${site.name}`;
+    const { site, items, events } = await B.load();
+    document.title = `Baked goods and cake orders: ${site.name}, Columbus IN`;
     B.chrome(site, "goods");
     const vis = B.visibleGoods(items);
     const cats = [...new Set([...(site.categories || []), ...vis.map((i) => i.category)].filter((c) => c && vis.some((i) => i.category === c)))];
@@ -63,7 +64,7 @@
       render();
     });
     render();
-    B.bindGoods(grid, items, site);
+    B.bindGoods(grid, items, site, events);
   })().catch((e) => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<p class="wrap empty">The page didn't load: ${Booth.esc(e.message)}. Refresh to try again.</p>`); });
   </script>
 </body>

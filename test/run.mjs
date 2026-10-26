@@ -169,5 +169,23 @@ for (const f of ["index.html", "goods.html", "events.html", "event.html"]) {
 ok(read("robots.txt").includes(SITE) && read("sitemap.xml").includes(SITE), "robots.txt and sitemap.xml name the same host as og:url");
 ok(!read("event.html").includes('property="og:url"'), "event.html has no fixed og:url (it would make every shared show canonical to one page)");
 
+/* ---------- Storefront requests and crawlable destinations ---------- */
+const oldToday = B.today;
+B.today = () => d("2026-11-29");
+const weekend = { id: "weekend", title: "Weekend show", dates: [{ start: "2026-11-28", end: "2026-11-29" }] };
+const pickupDays = B.pickups([weekend, {...weekend,id:"sample",sample:true}, {...weekend,id:"cancelled",skip:["2026-11-28"]}]);
+eq(pickupDays.length, 1, "pickup excludes past days, samples and cancelled shows");
+eq(pickupDays[0].date, "2026-11-29", "Sunday pickup stays available during a weekend show");
+const req = B.reservationText({title:"Mini cake"},{quantity:"3",date:"2026-11-29",name:" Sam "},weekend);
+ok(req.includes("Quantity: 3") && req.includes("Pickup day: 2026-11-29") && req.includes("Show: Weekend show") && req.includes("Name: Sam"), "a hold request identifies product, quantity, event, day and customer");
+ok(req.includes("Please confirm availability"), "a prepared hold does not promise stock");
+B.today = oldToday;
+ok(B.goodCard(items[0]).startsWith('<a href="product.html?item='), "product cards are crawlable anchors");
+ok(B.itemURL({id:"a&b"},"show one").includes("item=a%26b&show=show%20one"), "product links safely preserve event context");
+for (const page of ["index.html","goods.html","events.html","cakes.html"]) ok(read(page).includes('rel="canonical"'), `${page} has a preferred URL`);
+ok(read("product.html").includes('B.canonical(path)'), "product canonical keeps the item and removes show tracking");
+ok(read("event.html").includes('B.canonical(`event.html?e='), "event canonical preserves event identity");
+ok(read("cakes.html").includes("confirmed only") || read("cakes.html").includes("confirmed with your request"), "bakery explains confirmation");
+
 console.log(`${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);

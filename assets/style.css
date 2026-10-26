@@ -318,3 +318,14 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
 .label__gap { color: var(--ink-2); font-style: italic; }
 /* At least 10 pt where it is printed; on screen it stays body size. */
 .label__statement { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--line); font-weight: 600; font-size: max(1rem, 10pt); }
+
+/* ---------- Made-to-order form (item sheet) ---------- */
+.order { margin-top: 18px; padding-top: 14px; border-top: 2px dashed var(--line); display: grid; gap: 12px; }
+.order h3 { font-size: 1.4rem; }
+.order__note { color: var(--ink-2); font-size: .95rem; }
+.order label { display: grid; gap: 4px; font-weight: 600; }
+.order input, .order select, .order textarea { font: inherit; font-weight: 400; padding: 10px 12px; border: 2px solid var(--line); border-radius: 6px; background: #fff; min-height: 46px; }
+.order__get { border: 0; padding: 0; margin: 0; display: grid; gap: 6px; }
+.order__get legend { font-weight: 600; margin-bottom: 4px; }
+.order__get label { display: flex; align-items: center; gap: 8px; font-weight: 400; }
+.order__get input { min-height: 0; width: 20px; height: 20px; }

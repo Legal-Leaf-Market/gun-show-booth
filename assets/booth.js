@@ -286,6 +286,12 @@
     document.head.appendChild(s);
   };
 
+  B.canonical = function (path) {
+    let tag = document.querySelector('link[rel="canonical"]');
+    if (!tag) { tag = document.createElement("link"); tag.rel = "canonical"; document.head.appendChild(tag); }
+    tag.href = "https://booth-bandits.netlify.app/" + path;
+  };
+
   /* ---------------- Page chrome ---------------- */
   B.chrome = function (site, active) {
     const top = document.getElementById("top");
@@ -293,10 +299,11 @@
       const nav = [
         ["goods", "goods.html", "Goods"],
         ["events", "events.html", "Events"],
-        ["contact", "index.html#contact", "Contact"],
+        ["bakery", "cakes.html", "CJ's Cakes"],
+        ["contact", "./#contact", "Contact"],
       ];
       top.className = "top";
-      top.innerHTML = `<div class="wrap"><a class="mark" href="${B.base}index.html">${B.esc(site.name)}</a>
+      top.innerHTML = `<div class="wrap"><a class="mark" href="${B.base || "./"}">${B.esc(site.name)}</a>
         <nav class="nav" aria-label="Main">${nav
           .map(([k, h, t]) => `<a href="${B.base}${h}"${k === active ? ' aria-current="page"' : ""}>${t}</a>`)
           .join("")}</nav></div>`;

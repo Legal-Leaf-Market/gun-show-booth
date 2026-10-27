@@ -1,5 +1,5 @@
 {
-  "_about": "Every photo from the CJ's Cakes Facebook Photos tab (profile 61579098458408), collected Oct 26, 2026: 27 entries, Facebook-served JPEGs, not camera originals. status: gallery = published on goods.html; group kitchen = made by CJ's Cakes, group decorating = cakes CJ decorated in a supermarket bakery job; branding/outdated = graphics, not product photos. servedFrom is the fbcdn path without its expiring token; source is the Facebook photo page. Rebuild the web copies with python3 tools/cjs_photos.py.",
+  "_about": "Every photo from the CJ's Cakes Facebook Photos tab (profile 61579098458408), collected Oct 26, 2026: 27 entries, Facebook-served JPEGs, not camera originals. All 27 are on goods.html (status gallery). group kitchen = made by CJ's Cakes, group decorating = cakes CJ decorated in a supermarket bakery job; group graphics = logos, posts and menus from the page. servedFrom is the fbcdn path without its expiring token; source is the Facebook photo page. Rebuild the web copies with python3 tools/cjs_photos.py.",
   "photos": [
     {
       "original": "assets/img/cjs-cakes/originals/cjs-01.jpg",
@@ -9,8 +9,13 @@
       "bytes": 141511,
       "width": 2048,
       "height": 1170,
-      "status": "branding",
-      "note": "CJ's Cakes promo banner: logo, phone and 'DM to order'. Branding, not product photography."
+      "status": "gallery",
+      "note": "Graphic from the CJ's Cakes page, published on the owner's request (Oct 27, 2026). Shown uncropped.",
+      "group": "graphics",
+      "slug": "custom-cakes-banner",
+      "alt": "CJ's Cakes, Columbus, Indiana banner: Custom Cakes and Sweet Treats, Like, Share and Follow on Facebook, phone (812) 561-0549, DM to order your next sweet creation.",
+      "caption": "Custom cakes and sweet treats",
+      "order": 2
     },
     {
       "original": "assets/img/cjs-cakes/originals/cjs-02.jpg",
@@ -179,8 +184,13 @@
       "bytes": 69729,
       "width": 1080,
       "height": 1080,
-      "status": "branding",
-      "note": "'Best Seller Chocolate Oreo cupcakes' advertising graphic. An ad, not a photo of an order."
+      "status": "gallery",
+      "note": "Graphic from the CJ's Cakes page, published on the owner's request (Oct 27, 2026). Shown uncropped.",
+      "group": "graphics",
+      "slug": "chocolate-oreo-cupcakes-graphic",
+      "alt": "Graphic reading Best Seller: Chocolate Oreo Cupcakes, with three chocolate cupcakes topped with cream frosting and cookie crumbs on a pink background.",
+      "caption": "Chocolate Oreo cupcakes post",
+      "order": 3
     },
     {
       "original": "assets/img/cjs-cakes/originals/cjs-13.jpg",
@@ -206,8 +216,13 @@
       "bytes": 146444,
       "width": 1546,
       "height": 2000,
-      "status": "outdated",
-      "note": "Older mini cake menu graphic priced $6 each or 4 for $20. The current sign is $5 or 3 for $10, so publishing it would show a wrong price."
+      "status": "gallery",
+      "note": "Older menu graphic. Published on the owner's request (Oct 27, 2026) with a caption saying prices have changed, since the current price is $5 or 3 for $10.",
+      "group": "graphics",
+      "slug": "earlier-mini-cake-menu",
+      "alt": "An earlier mini cake menu: Vanilla Sprinkle, Chocolate Oreo and Butterfinger, $6 each or 4 for $20. Prices have changed since.",
+      "caption": "Earlier mini cake menu (prices have changed; see our current prices)",
+      "order": 4
     },
     {
       "original": "assets/img/cjs-cakes/originals/cjs-15.jpg",
@@ -249,8 +264,13 @@
       "bytes": 77665,
       "width": 1320,
       "height": 1872,
-      "status": "branding",
-      "note": "Price list graphic. Its prices are already on the product pages as text."
+      "status": "gallery",
+      "note": "Graphic from the CJ's Cakes page, published on the owner's request (Oct 27, 2026). Shown uncropped.",
+      "group": "graphics",
+      "slug": "price-list",
+      "alt": "CJ's Cakes price list. Flavors: vanilla, chocolate, marble, other options on request. Icing: buttercreme or whipped. Cupcakes: 6 for $8, 12 for $15, 24 for $30. Round cakes: 6 inch $25, 8 inch $30, 10 inch $35. Sheet cakes: 1/8 $20, 1/4 $40, 1/2 $60, full $80. Direct message to place your order.",
+      "caption": "Our price list",
+      "order": 1
     },
     {
       "original": "assets/img/cjs-cakes/originals/cjs-18.jpg",
@@ -388,8 +408,13 @@
       "bytes": 9592,
       "width": 850,
       "height": 315,
-      "status": "branding",
-      "note": "Facebook cover banner with the CJ's Cakes wordmark."
+      "status": "gallery",
+      "note": "Graphic from the CJ's Cakes page, published on the owner's request (Oct 27, 2026). Shown uncropped.",
+      "group": "graphics",
+      "slug": "cjs-cakes-cover",
+      "alt": "CJ's Cakes wordmark with a cupcake icon on a soft pink and cream background.",
+      "caption": "CJ's Cakes cover banner",
+      "order": 5
     },
     {
       "original": "assets/img/cjs-cakes/originals/cjs-27.jpg",
@@ -399,8 +424,13 @@
       "bytes": 15609,
       "width": 1290,
       "height": 1290,
-      "status": "branding",
-      "note": "Facebook profile icon: a letter C on blue."
+      "status": "gallery",
+      "note": "Graphic from the CJ's Cakes page, published on the owner's request (Oct 27, 2026). Shown uncropped.",
+      "group": "graphics",
+      "slug": "cjs-cakes-icon",
+      "alt": "CJ's Cakes profile icon: a dark blue letter C on a lighter blue square.",
+      "caption": "CJ's Cakes icon",
+      "order": 6
     }
   ]
 }

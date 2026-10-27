@@ -203,12 +203,14 @@ ok(read("cakes.html").includes("confirmed only") || read("cakes.html").includes(
     ok(covered(p.original), `${p.original} is blocked from the public site`);
     ok(/^https:\/\/www\.facebook\.com\/photo\.php\?fbid=\d+/.test(p.source), `${p.original} records its Facebook photo page`);
     ok(["gallery", "branding", "outdated"].includes(p.status), `${p.original} has a known status`);
-    if (p.status === "gallery") ok(["kitchen", "decorating"].includes(p.group) && p.slug && p.alt && p.caption, `${p.original} has a group, alt text and caption`);
+    if (p.status === "gallery") ok(["kitchen", "decorating", "graphics"].includes(p.group) && p.slug && p.alt && p.caption, `${p.original} has a group, alt text and caption`);
     else ok(p.note, `${p.original} says why it is off the site`);
   }
   const gal = JSON.parse(read("data/gallery.json"));
   const want = man.filter((p) => p.status === "gallery").map((p) => p.slug).sort();
   ok(JSON.stringify(gal.photos.map((p) => p.slug).sort()) === JSON.stringify(want), "data/gallery.json matches the record (run python3 tools/cjs_photos.py)");
+  ok(man.every((p) => p.status === "gallery"), "every photo in the record is on the site");
+  ok(gal.photos.some((p) => p.slug === "earlier-mini-cake-menu" && /prices have changed/.test(p.caption) && /prices have changed/i.test(p.alt)), "the old $6 menu says its prices have changed");
   ok(gal.groups.some((g) => g.id === "decorating" && /supermarket bakery/.test(g.note) && /not items on our menu/.test(g.note)), "decorating photos say they are supermarket work, not our menu");
   const jpgSize = (b) => { for (let i = 2; i < b.length;) { const m = b[i + 1], len = b.readUInt16BE(i + 2); if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) return { h: b.readUInt16BE(i + 5), w: b.readUInt16BE(i + 7) }; i += 2 + len; } };
   const made = new Set(readdirSync(join(ROOT, "assets/img/cjs-cakes")).filter((f) => f.includes(".")));

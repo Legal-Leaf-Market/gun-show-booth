@@ -181,6 +181,10 @@ a.ticket:hover .ticket__title { text-decoration: underline; text-decoration-thic
 .goods { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; margin-top: 18px; }
 @media (min-width: 640px) { .goods { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 960px) { .goods { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* Home page "On the table": whole rows only. It gets up to 8 products: 8 fill
+   two rows of 4 on desktop; below that the 7th and 8th are hidden, so 3 columns
+   show two full rows of 3 and phones three full rows of 2. */
+@media (max-width: 959px) { .goods--rows > .good:nth-child(n+7) { display: none; } }
 .good { all: unset; display: grid; gap: 8px; cursor: pointer; min-width: 0; }
 .good:focus-visible { outline: 3px solid var(--blaze-ink); outline-offset: 3px; border-radius: 4px; }
 .good__pic { position: relative; aspect-ratio: 1; border-radius: 4px; overflow: hidden; background: var(--concrete-2); }
@@ -411,6 +415,7 @@ dialog.sheet::backdrop { background: rgba(31,36,30,.65); }
 .photo-tile img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; transition: transform .25s ease; }
 .photo-tile:hover img { transform: scale(1.03); }
 .photo-tile:focus-visible { outline: 3px solid var(--blaze); outline-offset: 3px; }
+.photo-grid--graphics .photo-tile img { object-fit: contain; background: #fffdf7; }
 .photo-caption { margin: 6px 0 0; font-size: .92rem; font-weight: 600; }
 dialog.lightbox { padding: 0; border: 0; background: transparent; max-width: min(96vw, 960px); max-height: 96vh; }
 dialog.lightbox::backdrop { background: rgba(20, 24, 18, .88); }

@@ -165,7 +165,7 @@
     root.innerHTML = `<h2 id="gallery-title">Photos of our work</h2>` + (data.groups || []).map((g) => {
       const list = photos.filter((p) => p.group === g.id);
       if (!list.length) return "";
-      return `<section class="gallery-group" aria-labelledby="gallery-${B.esc(g.id)}"><h3 id="gallery-${B.esc(g.id)}">${B.esc(g.title)}</h3><p>${B.esc(g.note)}</p><ul class="photo-grid">${list.map((p) => `<li><button type="button" class="photo-tile" data-slug="${B.esc(p.slug)}" aria-label="Open photo: ${B.esc(p.caption)}">${B.galleryPicture(p, sizes)}</button><p class="photo-caption">${B.esc(p.caption)}</p></li>`).join("")}</ul></section>`;
+      return `<section class="gallery-group" aria-labelledby="gallery-${B.esc(g.id)}"><h3 id="gallery-${B.esc(g.id)}">${B.esc(g.title)}</h3><p>${B.esc(g.note)}</p><ul class="photo-grid photo-grid--${B.esc(g.id)}">${list.map((p) => `<li><button type="button" class="photo-tile" data-slug="${B.esc(p.slug)}" aria-label="Open photo: ${B.esc(p.caption)}">${B.galleryPicture(p, sizes)}</button><p class="photo-caption">${B.esc(p.caption)}</p></li>`).join("")}</ul></section>`;
     }).join("");
     root.hidden = false;
 

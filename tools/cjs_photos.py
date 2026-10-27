@@ -27,6 +27,7 @@ FORMATS = (("avif", {"quality": 55}), ("webp", {"quality": 78, "method": 6}), ("
 GROUPS = [
     {"id": "kitchen", "title": "From our kitchen and table", "note": "Cakes, cupcakes, mini cakes and cookies made by CJ's Cakes, at home and at our show table."},
     {"id": "decorating", "title": "CJ's cake decorating", "note": "Cakes CJ decorated while working in a supermarket bakery. They show her decorating, not items on our menu. Ask us about your own design."},
+    {"id": "graphics", "title": "From our Facebook page", "note": "Our logo, posts and menus. The earlier mini cake menu shows old prices; the product pages have today's."},
 ]
 
 

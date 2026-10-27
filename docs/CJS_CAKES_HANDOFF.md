@@ -116,13 +116,13 @@ on every item still missing something.
 ## Photos (updated Oct 26, 2026)
 
 All 27 Facebook photos are now in the repo; see `docs/cjs-cakes-photos.json`.
-21 are in the gallery on `goods.html`. The steel-table cakes were confirmed by
-the owner as CJ's own decorating from her supermarket bakery job, so they are
-in their own "CJ's cake decorating" group, labelled as not on our menu. Off
-the site: five logo and ad graphics, and the old mini cake menu ($6 each or 4
-for $20), which would show a wrong price. The white chip cookie photo is in the
-gallery as a kitchen photo without a flavor name; it is still not on the menu.
-A photo per cookie flavor would still help the product pages.
+All 27 are in the gallery on `goods.html` (owner, Oct 26 and 27, 2026).
+The steel-table cakes are CJ's own decorating from her supermarket bakery job,
+in their own "CJ's cake decorating" group, labelled as not on our menu. The
+logo, posts and menus are in a "From our Facebook page" group, uncropped; the
+old mini cake menu ($6 each or 4 for $20) is captioned as old prices. The
+white chip cookie photo is captioned without a flavor; it is still not on the
+menu. A photo per cookie flavor would still help the product pages.
 
 ## Posts that must stay off the site
 

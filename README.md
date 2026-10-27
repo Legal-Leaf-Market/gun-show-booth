@@ -82,9 +82,9 @@ It can also put a customer's photo on top of the preview. That step is hidden un
 
 ## Photo gallery
 
-The bottom of `goods.html` shows CJ's photos in two groups: **From our kitchen and table** (made by CJ's Cakes) and **CJ's cake decorating** (cakes she decorated while working in a supermarket bakery, labelled as not on our menu).
+The bottom of `goods.html` shows all 27 photos from CJ's Facebook page in three groups: **From our kitchen and table** (made by CJ's Cakes), **CJ's cake decorating** (cakes she decorated while working in a supermarket bakery, labelled as not on our menu) and **From our Facebook page** (logo, posts and menus, shown uncropped; the earlier $6 mini cake menu is captioned as old prices).
 
-- `docs/cjs-cakes-photos.json` is the record of all 27 photos from the CJ's Cakes Facebook Photos tab: source page, hash, what each shows, and whether it is in the gallery or why not (logos, ads, and an old menu with old prices stay off).
+- `docs/cjs-cakes-photos.json` is the record of all 27 photos from the CJ's Cakes Facebook Photos tab: source page, hash, what each shows, its gallery group, alt text and caption.
 - `assets/img/cjs-cakes/originals/` keeps the Facebook files byte for byte. They are not served.
 - `python3 tools/cjs_photos.py` turns the gallery photos into AVIF, WebP and JPEG copies (480, 960 and 1440 px) in `assets/img/cjs-cakes/` and writes `data/gallery.json`. To add, remove or recaption a photo, edit the record and run it. `npm test` checks the record, the files and the page agree.
 

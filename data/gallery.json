@@ -9,6 +9,11 @@
       "id": "decorating",
       "title": "CJ's cake decorating",
       "note": "Cakes CJ decorated while working in a supermarket bakery. They show her decorating, not items on our menu. Ask us about your own design."
+    },
+    {
+      "id": "graphics",
+      "title": "From our Facebook page",
+      "note": "Our logo, posts and menus. The earlier mini cake menu shows old prices; the product pages have today's."
     }
   ],
   "photos": [
@@ -304,6 +309,89 @@
       "width": 1440,
       "height": 1920,
       "source": "https://www.facebook.com/photo.php?fbid=122101665992969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "price-list",
+      "group": "graphics",
+      "alt": "CJ's Cakes price list. Flavors: vanilla, chocolate, marble, other options on request. Icing: buttercreme or whipped. Cupcakes: 6 for $8, 12 for $15, 24 for $30. Round cakes: 6 inch $25, 8 inch $30, 10 inch $35. Sheet cakes: 1/8 $20, 1/4 $40, 1/2 $60, full $80. Direct message to place your order.",
+      "caption": "Our price list",
+      "widths": [
+        480,
+        960,
+        1320
+      ],
+      "width": 1320,
+      "height": 1872,
+      "source": "https://www.facebook.com/photo.php?fbid=122101747586969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "custom-cakes-banner",
+      "group": "graphics",
+      "alt": "CJ's Cakes, Columbus, Indiana banner: Custom Cakes and Sweet Treats, Like, Share and Follow on Facebook, phone (812) 561-0549, DM to order your next sweet creation.",
+      "caption": "Custom cakes and sweet treats",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 823,
+      "source": "https://www.facebook.com/photo.php?fbid=122149363142969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "chocolate-oreo-cupcakes-graphic",
+      "group": "graphics",
+      "alt": "Graphic reading Best Seller: Chocolate Oreo Cupcakes, with three chocolate cupcakes topped with cream frosting and cookie crumbs on a pink background.",
+      "caption": "Chocolate Oreo cupcakes post",
+      "widths": [
+        480,
+        960,
+        1080
+      ],
+      "width": 1080,
+      "height": 1080,
+      "source": "https://www.facebook.com/photo.php?fbid=122125437704969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "earlier-mini-cake-menu",
+      "group": "graphics",
+      "alt": "An earlier mini cake menu: Vanilla Sprinkle, Chocolate Oreo and Butterfinger, $6 each or 4 for $20. Prices have changed since.",
+      "caption": "Earlier mini cake menu (prices have changed; see our current prices)",
+      "widths": [
+        480,
+        960,
+        1440
+      ],
+      "width": 1440,
+      "height": 1863,
+      "source": "https://www.facebook.com/photo.php?fbid=122112879806969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "cjs-cakes-cover",
+      "group": "graphics",
+      "alt": "CJ's Cakes wordmark with a cupcake icon on a soft pink and cream background.",
+      "caption": "CJ's Cakes cover banner",
+      "widths": [
+        480,
+        850
+      ],
+      "width": 850,
+      "height": 315,
+      "source": "https://www.facebook.com/photo.php?fbid=122101665986969948&set=pb.61579098458408.-2207520000&type=3"
+    },
+    {
+      "slug": "cjs-cakes-icon",
+      "group": "graphics",
+      "alt": "CJ's Cakes profile icon: a dark blue letter C on a lighter blue square.",
+      "caption": "CJ's Cakes icon",
+      "widths": [
+        480,
+        960,
+        1290
+      ],
+      "width": 1290,
+      "height": 1290,
+      "source": "https://www.facebook.com/photo.php?fbid=122101663538969948&set=pb.61579098458408.-2207520000&type=3"
     }
   ]
 }
